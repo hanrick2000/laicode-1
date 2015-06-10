@@ -1,17 +1,18 @@
 package small_yan;
 
-import java.awt.image.RescaleOp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
 
 public class Class19_Intervals {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 //		test();
-		test1_2();
+//		test1_2();
+		test2();
 	}
 	
 	public static class Interval{
@@ -153,9 +154,11 @@ public class Class19_Intervals {
 	
 	/*
 	 * task1.2.1
+	 * 1 element is convered by intervals ? 
 	 * intervals could be with intersects
 	 * [0,2]  [4,12]  [8,10]
 	 * is 11 covered by the list of intervals
+	 * 
 	 * 1 merge intervals-> list of intervals without intersect -> check covered during the merge process
 	 * 2 tree-->interval tree, segment tree O(log n)
 	 * 
@@ -198,6 +201,110 @@ public class Class19_Intervals {
 	/*
 	 * task2
 	 * insert intervals
+	 * [0,2][3,5][6,7] + [1,4] --> [0,5][6,7]
+	 * 1 list of intervals: without intersect --> insert [1,4], 
+	 *   find the largest smaller interval.start than target interval[1,4]
+	 *   e.g 
+	 * 2 from that position, merge
+	 * 
+	 */
+	
+	public static void test2() {
+		ArrayList<Interval> list = new ArrayList<Class19_Intervals.Interval>();
+		list.add(new Interval(0, 2));
+		list.add(new Interval(3, 5));
+		list.add(new Interval(6, 7));
+		
+		System.out.println(list);
+		
+		Interval interval = new Interval(9, 10);
+		
+		ArrayList<Interval> result = task2_insert_interval(list, interval);
+		System.out.println(result);
+		
+	}
+	
+	public static ArrayList<Interval> task2_insert_interval(ArrayList<Interval> list, Interval interval) {
+		// sort the list
+		Collections.sort(list, myComp);
+		//do binary search
+		int start = 0, end = list.size() - 1;
+		int position = -1;
+		while(start + 1 < end) {
+			int mid = start + (end - start)/2;
+			if (list.get(mid).start == interval.start) {
+				mid = end;
+			} else if (list.get(mid).start < interval.start) {
+				start = mid;
+			} else {
+				end = mid;
+			}
+		}
+		
+		if (list.get(end).start <= interval.start) {
+			position = end;
+		} else if (list.get(start).start <= interval.start) {
+			position = start;
+		} else {
+			position = -1;
+		}
+		
+		// merge
+		ArrayList<Interval> result = new ArrayList<Interval>();
+		if (position == -1) {
+			Interval last = interval;
+			for(int i = 0; i < list.size(); i ++) {
+				Interval cur = list.get(i);
+				if (cur.start <= last.end) { //intersect
+					last.end = Math.max(cur.end, last.end);
+				} else { // cur.start > last.end
+					// add the last into result;
+					result.add(last);
+					last = cur;
+				}
+			}
+			result.add(last);
+		} else {
+			// first add all interval before position into result
+			for(int i = 0; i< position; i ++) {
+				result.add(list.get(i));
+			}
+			System.out.println(result);
+			Interval last = list.get(position);
+			
+			
+			for(int i = position; i < list.size(); i ++) {
+				Interval cur = null;
+				if (i == position) {
+					 cur = interval;
+				} else {
+					cur = list.get(i);
+				}
+				if (cur.start <= last.end) { //intersect
+					last.end = Math.max(cur.end, last.end);
+				} else { // cur.start > last.end
+					// add the last into result;
+					result.add(last);
+					last = cur;
+				}
+			}
+			result.add(last);
+		}
+		
+		return result;
+	}
+	
+	/*
+	 * task2.1 merge two interval list
+	 * [0,2][3,5][6,7]
+	 * [1,4][6,9]
+	 * 
+	 * merge to one list, --> sorted by start ---> merge
+	 */
+	
+	/*
+	 * task3 interval subtraction
+	 * 
 	 */
 	
 	
