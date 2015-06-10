@@ -6,6 +6,10 @@ public class Class20_IntervalTree {
 		// TODO Auto-generated method stub
 
 	}
+	
+	/*
+	 * See IntervalTree.java in the same package.
+	 */
 
 	/*
 	 * task0.1 

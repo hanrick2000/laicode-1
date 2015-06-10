@@ -19,9 +19,7 @@ public class  Class5_Arrays2 {
 	 * 
 	 * See task1.1
 	 * 
-	 */
-
-	
+	 */	
 	/*
 	 * task1.1 
 	 * Sort an array in wave form
