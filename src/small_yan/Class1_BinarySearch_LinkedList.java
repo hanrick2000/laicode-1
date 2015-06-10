@@ -1,11 +1,13 @@
 package small_yan;
 
-public class Class1 {
+public class Class1_BinarySearch_LinkedList {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
 	}
+	
+	
 	/*
 	 * Binary search and linked list
 	 * 
@@ -46,14 +48,6 @@ public class Class1 {
 	 * (c) iterative
 	 * (d) recursive 
 	 */
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 

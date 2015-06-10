@@ -6,7 +6,7 @@ import java.util.List;
 import ds.Tree;
 import ds.TreeNode;
 
-public class Class3 {
+public class Class3_BT_BST2  {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -389,3 +389,4 @@ public class Class3 {
 	
 
 }
+
