@@ -283,11 +283,6 @@ public class Class1_BinarySearch_LinkedList {
 	
 	
 	
-	
-	
-	
-	
-	
 	/*
 	 * (1) Classic binary search
 	 */
