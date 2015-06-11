@@ -46,6 +46,7 @@ public class BFS_PutChair_NoOb {
 		for(int i = 0; i < rLen; i ++ ) {
 			for(int j = 0; j < cLen; j ++) {
 				if (gym[i][j] == 'E') {
+					// get the  costSum 
 					BFS(gym, costSum, i, j);
 				}
 			}
@@ -102,6 +103,7 @@ public class BFS_PutChair_NoOb {
 		}
 	}
 	
+	// this functions return neighbors of cur
 	public static ArrayList<Pair> getNeighbors(char[][] gym, boolean[][] visited, Pair cur) {
 		ArrayList<Pair> neighbors = new ArrayList<Pair>();
 		int rLen = gym.length;
