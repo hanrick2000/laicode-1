@@ -158,7 +158,4 @@ public class Class1_BinarySearch_RelatedMath {
 		return left;
 	}
 
-	/*
-	 * 
-	 */
 }

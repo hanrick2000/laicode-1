@@ -9,10 +9,10 @@ import ds.TreeNode;
 public class Lec23 {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-//		Q1_1test();
+		Q1_1test();
 //		Q1_3test();
 //		Q1_2test();
-		Q1_2_1test();
+//		Q1_2_1test();
 //		Q3_4test();
 //		Q3_6test();
 //		Q2_1test();
@@ -31,7 +31,20 @@ public class Lec23 {
 	 * 
 	 */
 	public static ListNode Q1_1ReverseIterative(ListNode head) {
-		return null;
+		if (head == null || head.next == null) {
+			return head;
+		}
+		
+		ListNode prev = null;
+		ListNode cur = head;
+		while(cur != null) {
+			ListNode next = cur.next;
+			cur.next = prev;
+			prev = cur;
+			cur = next;
+		}
+		
+		return prev;
 	}
 	
 	
@@ -68,7 +81,8 @@ public class Lec23 {
 		
 		Debug.printLinkedList(n1);
 		
-		ListNode newHead = Q1_1ReverseRec(n1);
+//		ListNode newHead = Q1_1ReverseRec(n1);
+		ListNode newHead = Q1_1ReverseIterative(n1);
 		Debug.printLinkedList(newHead);	
 	}
 	
