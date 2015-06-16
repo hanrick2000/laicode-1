@@ -3,7 +3,6 @@ package small_yan;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.PriorityQueue;
-import java.util.concurrent.PriorityBlockingQueue;
 
 import debug.Debug;
 import ds.DListNode;
@@ -503,6 +502,7 @@ public class Class1_LinkedList {
 			minHeap.add(head);
 		}
 		
+		// use a flag to indicate,so far, whether there is a same element with cur
 		boolean duplicate = false;
 		
 		while(!minHeap.isEmpty()) {
