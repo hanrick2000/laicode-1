@@ -112,12 +112,33 @@ public class BinarySearchTree {
 			} else if (root.right == null) {
 				return root.left;
 			} else if (root.right.left == null) {
+				// 4.1
+				// root.right doesn't have left child, meaning itself(root.right) is the smallest node in
+				// this case. we just move root.right up
+				root.right.left = root.left;
+				return root.right;
+			} else {
+				// 4.2
+				// root.right.left != null
+				// find the smallest in the right subtree, remove from the right subtree
+				TreeNode smallest = deleteSmallest(root.right);
+				// link the smallest node to root.left and root.right
+				smallest.left = root.left;
+				smallest.right = root.right;
 				
+				return smallest;
 			}
 		}
-		return null;
 	}
 	
-	
+	private static TreeNode deleteSmallest(TreeNode cur) {
+		// cur != null && cur.left != null
+		while(cur.left.left != null) {
+			cur = cur.left;
+		}
+		TreeNode smallest = cur.left;
+		cur.left = smallest.right;
+		return smallest;
+	}
 
 }
