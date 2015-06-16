@@ -79,6 +79,7 @@ public class Lec18 {
 	
 	/*
 	 * task 1.2
+	 * keep at most two same elements.
 	 * index: 0 1 2 3 4 5
 	 * input  1 1 1 2 2 3
 	 * output 1 1 2 2 3
