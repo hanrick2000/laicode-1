@@ -19,6 +19,35 @@ public class Class4_Arrays1 {
 	 * <2> HashMap<Integer, Integer>  (elements, counter), Time: O(n) Space: O(n)
 	 * <3> maintain current and counter 
 	 */
+	 public static void majority1(int[] input) {
+		int candidate = Integer.MIN_VALUE;
+		int count = 0;
+		for(int i = 0; i < input.length; i ++) {
+			int cur = input[i];
+			if (candidate == cur) {
+				count ++;
+			} else {
+				if (count == 0) {
+					candidate = cur;
+					count ++;
+				} else {
+					count --;
+				}
+			}
+		}
+//		System.out.println(candidate);
+		count = 0;
+		for(Integer i: input) {
+			if (i == candidate) {
+				count ++;
+			}
+		}
+		
+		if (count > input.length/2) {
+			System.out.println(candidate);
+		}
+	}
+	 
 	
 	/*
 	 * task1.2 Majority Number -Enhanced
