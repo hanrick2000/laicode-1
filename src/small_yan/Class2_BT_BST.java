@@ -98,6 +98,37 @@ public class Class2_BT_BST {
 		return current.parent;
 	}
 	
+	/*
+	 * search from root. 
+	 * (1) if target.right != null, use firstNode()
+	 * (2) if target.right == null, we need to search from root. 
+	 *     every time, if target.val < root.val, successor = root;  root go left
+	 *                 if target.val > root.val, root.go right
+	 *                 if target.val == root.val, we find target node, break the while loop. 
+	 */ 
+	public static TreeNode inOrderSuccessor(TreeNode root, TreeNode target) {
+		if (target.right != null) {
+			return firstNode(target.right);
+		}
+		TreeNode successor = null;
+		while(root != null) {
+			if(target.val < root.val) {
+				// root might be the inorder successor
+				successor = root;
+				// go left
+				root = root.left;
+			} else if (target.val > root.val) {
+				// go right 
+				root = root.right;
+			} else {
+				// target.val == root.val
+				// we find the target
+				break;
+			}
+		}
+		return successor;
+	}
+	
 	// 2 Binary Search Tree, second largest node in this tree
 	// root.right == null, ==> return findLargest(root.left)
 	// we find largest node's parent    largestParent.right = largestNode
