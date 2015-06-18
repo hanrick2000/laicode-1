@@ -244,6 +244,9 @@ public class Class3_BT_BST2  {
 		
 		
 	}
+	
+	// this is also like to find the inOrder successor of target
+	// the only difference is that the target might NOT be in the binary search tree
 	public static TreeNode task5_1_smallestLargerThanTarget(TreeNode root,
 			int target) {
 		if (root == null) {
@@ -252,6 +255,7 @@ public class Class3_BT_BST2  {
 		if (root.val <= target) {
 			return task5_1_smallestLargerThanTarget(root.right, target);
 		} else {
+			// target < root.val, root might be the result, we also need to check in the root.left subtree
 			TreeNode left = task5_1_smallestLargerThanTarget(root.left, target);
 			if (left == null) {
 				return root;
