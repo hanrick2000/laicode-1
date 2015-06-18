@@ -1,6 +1,8 @@
 package lab;
 
+import java.util.LinkedList;
 import java.util.Stack;
+
 import ds.TreeNode;
 
 public class TreeTraversal {
@@ -9,6 +11,30 @@ public class TreeTraversal {
 		// TODO Auto-generated method stub
 
 	}
+	
+	
+	/*
+	 * Pre Order Traversal
+	 * 
+	 * 1 We always print root first, then root can be eliminated from stack.
+	 * 2 We traverse left sub first, so the right sub should be retained in the stack before the left sub is done.
+	 */
+	public static void preOrderIter(TreeNode root) {
+		if (root == null) {
+			return;
+		}
+		LinkedList<TreeNode> stack = new LinkedList<TreeNode>();
+		stack.offer(root);
+		while(!stack.isEmpty()) {
+			// visit the node
+			TreeNode cur = stack.poll();
+			System.out.print(cur.val + " ");
+			if () {
+				
+			}
+		}
+	}
+	
 	
 	
 	
