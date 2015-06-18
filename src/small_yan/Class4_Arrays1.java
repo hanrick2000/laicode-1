@@ -54,6 +54,64 @@ public class Class4_Arrays1 {
 	 *     }
 	 */
 	
+	
+	public static void majority3(int[] input, int k) {
+		HashMap<Integer, Integer> map = new HashMap<>();
+		for(int i = 0; i < input.length; i ++) {
+			int key = input[i];
+			if (map.containsKey(key)) {
+				map.put(key, map.get(key) + 1);
+			} else {
+				// map doesn't contain key
+				if (map.size() < k - 1) {
+					// insert the key into map
+					map.put(key, 1);
+				} else {
+					// decrease every element's value by 1
+					ArrayList<Integer> elemList = new ArrayList<>();
+					for(Entry<Integer, Integer> entry: map.entrySet()) {
+						int curKey = entry.getKey();
+						int curVal = entry.getValue();
+						map.put(curKey, curVal  - 1);
+						elemList.add(curKey);
+					}
+					
+					for(Integer elem : elemList) {
+						if (map.get(elem) == 0) {
+							map.remove(elem);
+						}
+					}
+				}
+			}
+		}
+		
+		// after the above loop, all the candidates are in the hashMap
+		// to make sure that all candidate has strictly larger than n/k
+		
+		// set all values in HashMap to 0
+		for(Entry<Integer, Integer> entry: map.entrySet()) {
+			map.put(entry.getKey(), 0);
+		}
+		// traverse the input array. count each candidate's appear time
+		for(Integer elem: input) {
+			if (map.containsKey(elem)) {
+				int val = map.get(elem);
+				map.put(elem, val + 1);
+			}
+		}
+		
+		// traverse the map again, print out the result
+		for(Entry<Integer, Integer> entry: map.entrySet()) {
+			if (entry.getValue() > input.length/k) {
+				System.out.println(entry.getKey());
+			}
+		}
+		
+	
+		
+	}
+	
+	
 	/*
 	 * task2
 	 * Partition Array
