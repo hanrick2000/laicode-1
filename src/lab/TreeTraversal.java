@@ -111,7 +111,38 @@ public class TreeTraversal {
 		if (root == null) {
 			return ;
 		}
-		ListNode prev = null;
+		TreeNode prev = null;
+		LinkedList<TreeNode> st = new LinkedList<TreeNode>();
+		st.offerFirst(root);
+		while(!st.isEmpty()) {
+			TreeNode cur = st.peekFirst();
+			if (prev ==  null || cur == prev.left || cur== prev.right) {
+				// prev == null or prev = cur.parent
+				// go down, left subtree first
+				if (cur.left != null) {
+					st.offerFirst(cur.left);
+				} else if (cur.right != null) {
+					st.offerFirst(cur.right);
+				} else {
+					// cur is leaf node
+					// print out cur
+					System.out.print(cur.val + " ");
+					// pop the cur node
+					st.pollFirst();
+				}
+			} else if (prev == cur.left && cur.right != null) {
+				// the left subtree has been finished, go right subtree
+				st.offerFirst(cur.right);
+			} else {
+				// prev == cur.right, the right subtree has been finished. 
+				// go up
+				// visit the current node and pop it from stack
+				System.out.print(cur.val + " ");
+				st.pollFirst();
+			}
+			// update prev
+			prev = cur;
+		}
 	}
 	
 	
