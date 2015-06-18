@@ -32,6 +32,54 @@ public class Class4_Arrays1 {
 	 * 
 	 * 
 	 */
+	 
+	 public static void majority2(int[] input) {
+		int cand1 = Integer.MIN_VALUE;
+		int cand2 = Integer.MIN_VALUE;
+		int count1 = 0;
+		int count2 = 0;
+		
+		for(int i = 0; i < input.length; i ++) {
+			int cur = input[i];
+			if (cand1 == cur) {
+				count1 ++;
+			} else if (cand2 == cur) {
+				count2 ++;
+			} else {
+				if (count1 == 0) {
+					cand1 = cur;
+					count1 ++;
+				} else if (count2 == 0) {
+					cand2 = cur;
+					count2 ++;
+				} else {
+					// count1 and count2 both != 0
+					count1--;
+					count2 --;
+				}
+			}
+		}
+		
+		
+		// after that, candidate 1 and candidate2 might be the result
+		count1 = 0;
+		count2 = 0;
+		for(Integer i: input) {
+			if (cand1 == i) {
+				count1++;
+			}
+			if (cand2 == i) {
+				count2 ++;
+			}
+		}
+		if (count1 > input.length/3) {
+			System.out.println(cand1);
+		}
+		if (count2 > input.length/3) {
+			System.out.println(cand2);
+		}
+	}
+	
 	
 	/*
 	 * task1.3 
