@@ -8,17 +8,18 @@ public class Class24 {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 //		test2();
-//		test3();
+		test3();
 //		test5();
 //		test5_1();
 //		test6();
 //		test7();
-		test9();
+//		test9();
 	}
 	
 	/*
 	 * task1
-	 * 2 Sum Easy Data Structure
+	 * 2 Sum 
+	 * Easy Data Structure
 	 * Determine if there exist two elements in a given array, the sum of which is the given target number.
 	 * Assumptions
 	 * The given array is not null and has length of at least 2
@@ -47,8 +48,10 @@ public class Class24 {
 	
 	/*
 	 * task2
-	 * 2 Sum All Pair I
-	 * Fair Data Structure
+	 * 2 Sum All Pair I with duplicates, return index pair
+	 * Fair 
+	 * Data Structure
+	 * 
 	 * Find all pairs of elements in a given array that sum to the given target number. 
 	 * Return all the pairs of indices.
 	 * Assumptions
@@ -57,8 +60,7 @@ public class Class24 {
 	 * A = {1, 3, 2, 4}, target = 5, return [[0, 3], [1, 2]]
 	 * A = {1, 2, 2, 4}, target = 6, return [[1, 3], [2, 3]]
 	 * 
-	 * Pair(val, index). Then sort the pairs according to val
-	 * two pointers. leftBound, rightBount. 
+	 * Pair(val, index). Then sort the pairs according to val two pointers. leftBound, rightBount. 
 	 */
 	public static class Item {
 		public int val;
@@ -129,9 +131,14 @@ public class Class24 {
 		if (array == null || array.length == 0) {
 			return result;
 		}
+		// <value, list of index> 
+		// e.g {3, 5, 3, 2, 4, 4} => 4, {4,5}
+		
 		HashMap<Integer, ArrayList<Integer>> map = new HashMap<Integer, ArrayList<Integer>>();
+		
 		ArrayList<Integer> arrayNoDup = new ArrayList<Integer>();
-		// put every element into map
+		
+		// put every elements and their index into map 
 		for(int i = 0; i < array.length; i ++) {
 			ArrayList<Integer> curElemIndexList =null;
 			int curElem = array[i];
@@ -143,11 +150,15 @@ public class Class24 {
 			}
 			curElemIndexList.add(i);
 		}
+		
+		// put content in HashMap into ArrayList in order to sort the value
 		for(Map.Entry<Integer, ArrayList<Integer>> entry: map.entrySet()) {
 			arrayNoDup.add((Integer) entry.getKey());
 		}
+		// sort
 		Collections.sort(arrayNoDup);
 		
+		// for debug
 //		System.out.println("print out hash Map");
 //		for(Map.Entry<Integer, ArrayList<Integer>> entry: map.entrySet()) {
 //			System.out.print(entry.getKey() +"  ");
@@ -176,10 +187,13 @@ public class Class24 {
 							result.add(curResult);
 						}
 					}
+					// for debug
+					
 //					System.out.println("~~~~~~~");
 //					System.out.println(result);
 //					System.out.println("^^^^^^^");
 					
+					// remove the curKey from hashMap
 					map.remove(curKey);
 				} else {
 					// curKey == targetKey

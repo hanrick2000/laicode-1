@@ -13,7 +13,7 @@ public class TreeTraversal {
 
 	}
 	
-	
+
 	/*
 	 * Pre Order Traversal
 	 * 
@@ -40,7 +40,7 @@ public class TreeTraversal {
 	}
 	
 	
-	// inorder
+	// InOrder
 	/*
 	 * The problem is, we can not throw away the root in the stack before we traversed 
 	 * all the nodes in left subtree. 
@@ -74,8 +74,6 @@ public class TreeTraversal {
 			}
 		}
 	}
-	
-	
 	
 	
 	// post Order Traversal

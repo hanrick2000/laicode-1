@@ -1,13 +1,15 @@
 package small_yan;
 
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.*;
+import java.util.Map.Entry;
+
+import debug.Debug;
 
 public class Class4_Arrays1 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
+		test3();
 	}
 	
 	/*
@@ -133,7 +135,7 @@ public class Class4_Arrays1 {
 	
 	
 	public static void majority3(int[] input, int k) {
-		HashMap<Integer, Integer> map = new HashMap<>();
+		HashMap<Integer, Integer> map = new HashMap<Integer,Integer>();
 		for(int i = 0; i < input.length; i ++) {
 			int key = input[i];
 			if (map.containsKey(key)) {
@@ -145,7 +147,7 @@ public class Class4_Arrays1 {
 					map.put(key, 1);
 				} else {
 					// decrease every element's value by 1
-					ArrayList<Integer> elemList = new ArrayList<>();
+					ArrayList<Integer> elemList = new ArrayList<Integer>();
 					for(Entry<Integer, Integer> entry: map.entrySet()) {
 						int curKey = entry.getKey();
 						int curVal = entry.getValue();
@@ -192,8 +194,6 @@ public class Class4_Arrays1 {
 	/*
 	 * task2
 	 * Partition Array
-	 * 
-	 * 
 	 */
 	public static void task2_partition(int[] a, int left, int right) {
 		int start = left, end = right;
@@ -274,8 +274,60 @@ public class Class4_Arrays1 {
 	 * task3
 	 * Interleaving Positive and Negative Numbers
 	 * 
-	 *
+	 * {1,-3, 2,-2,4,-1,3} -> {1,-2, 2, -3, 3, -1,4}
+	 * 
+	 * {-3, -2, -1, 1,2,3,4} 
+	 * while(neg < pos && pos < n && a[neg] < 0) {
+	 * 	swap(&neg, &pos)
+	 * 	neg += 2;
+	 *  pos ++;
+	 * }
+	 * 
+	 * refer to geeksforgeeks P5_Array
+	 * 
 	 */
+	
+	
+	public static int task3_partition(int[] a, int pivot) {
+		int left = 0, right = a.length - 1;
+		while(left <= right) {
+			while(left < right && a[left] < pivot) {
+				left ++;
+			}
+			while(left < right && a[right] > pivot) {
+				right --;
+			}
+			if (left == right) {
+				break;
+			}
+			swap(a, left, right);
+		}
+		System.out.println("left = " + left + ": " + a[left]);
+		System.out.println("right = " + right + ": " + a[right]);
+		// left is the first element > pivot
+		return left;
+	}
+	
+	public static void task3_interleaving_positive_negative(int[] a) {
+		if (a == null || a.length <=1) {
+			return ;
+		}
+		int neg = 0;
+		int pos = task3_partition(a, 0);
+	
+		while(neg < pos && pos < a.length && a[neg] < 0) {
+			swap(a, neg, pos);
+			neg += 2;
+			pos ++;
+		}
+	}
+	
+	public static void test3() {
+		int[] a = {1,-3,2,-2,4, -1, 3};
+		task3_interleaving_positive_negative(a);;
+		Debug.printArray(a);
+	}
+	
 	
 	
 	
@@ -289,12 +341,12 @@ public class Class4_Arrays1 {
 	 * { N1, N2, N3, …, N2k+1 } → { N1, Nk+1, N2, Nk+2, N3, Nk+3, … , Nk, N2k, N2k+1 }
 	 */
 	
-	public static void task3_reorder(int[] array) {
+	public static void task3_2_reorder(int[] array) {
 		if (array == null || array.length == 0) {
 			return ;
 		}	
 	}
-	public static void task3_reorderHelper(int[] array, int left, int right) {
+	public static void task3_2_reorderHelper(int[] array, int left, int right) {
 		if (left + 1 >= right) {
 			return ;
 		}
@@ -305,17 +357,17 @@ public class Class4_Arrays1 {
 		
 		// shift the middle part
 		// reverse array[leftMid, mid - 1]
-		task3_reverse(array, leftMid, mid - 1);
+		task3_2_reverse(array, leftMid, mid - 1);
 		// reverse array[mid, rightMid - 1]
-		task3_reverse(array, mid, rightMid - 1);
+		task3_2_reverse(array, mid, rightMid - 1);
 		// reverse array[leftMid, rightMid - 1]
-		task3_reverse(array, leftMid, rightMid - 1);
+		task3_2_reverse(array, leftMid, rightMid - 1);
 		
-		task3_reorderHelper(array, left, 2*(leftMid - left) - 1);
-		task3_reorderHelper(array, 2*(leftMid - left), right);
+		task3_2_reorderHelper(array, left, 2*(leftMid - left) - 1);
+		task3_2_reorderHelper(array, 2*(leftMid - left), right);
 	}
 	
-	public static void task3_reverse(int[] array, int left, int right) {
+	public static void task3_2_reverse(int[] array, int left, int right) {
 		while(left < right) {
 			swap(array, left ++, right --);
 		}
@@ -362,6 +414,8 @@ public class Class4_Arrays1 {
 	 * task5
 	 * 2­sum, 3­sum, 4­sum, 3­sum closest
 	 * 
+	 * refer to lai_online.Class24.java
+	 * 
 	 * (1) Sort the array first, and use left and right pointer to getting close target. O(n log n) + O(n) = O(n log n)
 	 * (2) Use hashmap/hashSet, O(n), extra space O(n)
 	 * 
@@ -369,7 +423,10 @@ public class Class4_Arrays1 {
 	/*
 	 * task5.1 
 	 * 2­sum, how many pairs sum to target, with/without duplicates?
+	 * 
 	 */
+	
+	
 	/*
 	 * task5.2
 	 * Given an int array, find if(all) there are 4 elements in the array such that A + B + C = D.
@@ -405,8 +462,9 @@ public class Class4_Arrays1 {
 	 * <b> a[i] == 0
 	 * <c> b[i] == 0
 	 * 
-	 * we nee do to take into some consideration to the above cases
+	 * we need to take into some consideration to the above cases
 	 */
+	
 	
 	/*
 	 * task6.1
@@ -470,10 +528,5 @@ public class Class4_Arrays1 {
 		}
 		return new int[0];
 	}
-	
-	
-	
-	
-	
 
 }
