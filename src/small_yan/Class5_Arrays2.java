@@ -229,6 +229,10 @@ public class  Class5_Arrays2 {
 	 * leftMin[]
 	 * rightMax[]
 	 * traverse the leftMin[i] and rightMax[i]. if leftMin[i] < array[i] < rightMax[i]
+	 * 
+	 * follow up
+	 * find the k sorted sequence in array
+	 * refer geeks4geeks  arrays.P7_array.task4
 	 */
 	
 	
