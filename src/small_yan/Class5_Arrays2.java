@@ -245,6 +245,8 @@ public class  Class5_Arrays2 {
 	 * array of integers. how many (i, j, k) triples? such that i < j < k && array[i] < array[j] < array[k]
 	 * we need to know, for each a[j], how many elements on the left of a[j] which a[i] < a[j]
 	 * and how many elements on the right side of a[j] which a[k] > a[j]
+	 * find candidates, then, swip candidate's left and right, update counter ???
+	 * is there a better way? 
 	 */
 	
 	/*
