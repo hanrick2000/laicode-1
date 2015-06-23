@@ -47,7 +47,7 @@ public class Class6_Arrays3 {
 				}
 			}
 			if (array[i] == b) {
-				bIndex = 9;
+				bIndex = i;
 				if (aIndex != -1) {
 					minDistance = Math.min(minDistance, Math.abs(bIndex - aIndex));
 				}
