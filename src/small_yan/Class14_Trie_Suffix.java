@@ -593,7 +593,34 @@ public class Class14_Trie_Suffix {
 	}
 	
 	
-	
+	// Suffix Tree
+	// it is still a trie, but all the strings are the given string's suffix substrings.
+	// construct a trie, the dictionary is all the suffix substrings. 
+	// banana's substrings
+	// banana
+	// anana
+	// nana
+	// ana
+	// na
+	// a
+	// ""
+	// related problem
+	// Anything related to "substring" of string, we can consider use suffix tree
+	// why, 
+	// because in the suffix tree, actually, any prefix is one of the substrings of the original string. 
+	// we still want to solve problem with "prefix" related.
+	// all the paths from root == all the substrings of the given string
+	// e.g
+	// 1 longest substring with repeated in a string, example banana, return ana (ana repeated twice)
+	// this is the same problem as "in the trie, what is the longest prefix that shared by multiple strings"
+	// use visited as other information. 
+	// 2 longest common substring with two different strings. DP
+	// S, T
+	// carete suffix tree for S
+	// for each suffix of T, search suffix in suffix Tree of S
+	// S = "banana"
+	// T = "nancy"
+	// return "nan"
 	
 	
 	
