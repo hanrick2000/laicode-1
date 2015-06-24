@@ -359,14 +359,16 @@ public class Class14_Trie_Suffix {
 				"1101"
 		};
 		String T = "1011";
-		System.out.println(task8_larget_value(dict, T));
+		System.out.println(task8_largest_value(dict, T));
 		System.out.println(Integer.toBinaryString(globalMax));
 		
 		
 	}
 	
-	public static int task8_larget_value(String[] dict, String T) {
-		int maxLen = Integer.MIN_VALUE;
+	public static int task8_largest_value(String[] dict, String T) {
+		//int maxLen = Integer.MIN_VALUE;
+		int maxLen = T.length(); // change maxLength to T.length();
+		// after the following loop, maxLen will return the maxLength for dict's strings and T
 		for(int i = 0; i < dict.length; i ++) {
 			maxLen = Math.max(maxLen, dict[i].length());
 		}
