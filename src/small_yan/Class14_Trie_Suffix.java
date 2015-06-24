@@ -22,7 +22,7 @@ public class Class14_Trie_Suffix {
 		// other information
 		int visited;
 		public TrieNode() {
-			children = new HashMap<Character, Class14_Trie_Suffix.TrieNode>();
+			children = new HashMap<Character, TrieNode>();
 			isEnd = false;
 			visited = 0;
 		}
