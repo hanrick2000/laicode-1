@@ -335,6 +335,171 @@ public class Class14_Trie_Suffix {
 	 * J K L M
 	 * Can we search for all the words at once instead of search for each of them one by one? Record the current visiting Trie node when doing the DFS.
 	 */
+	 
+	 	public static void test2() {
+		char[][] matrix = {
+				"ABCD".toCharArray(),
+				"DEEG".toCharArray(),
+				"FIHI".toCharArray(),
+				"JKLM".toCharArray()
+		};
+		String[] dict = {
+				"AB","ABEE", "ABCD", "ADF", "EEHL", "GEHLKIEBC"
+		};
+		
+		ArrayList<String> result = BoggleGame2(matrix, dict);
+		ArrayList<String> result2 = wordSearchII(matrix, dict);
+		System.out.println(result);
+		System.out.println(result2);
+	}
+	
+	public static ArrayList<String> BoggleGame2(char[][] matrix, String[] dict) {
+		// create the Trie
+		TrieNode root = new TrieNode();
+		for(String s: dict) {
+			insert2(root, s);
+		}
+		
+//		levelOrderTraversal(root);
+//		System.out.println("------------------------------------");
+		int rLen = matrix.length;
+		int cLen = matrix[0].length;
+		
+		
+		
+		boolean[][] visited = new boolean[rLen][cLen];
+	
+		ArrayList<String> result = new ArrayList<String>();
+		for(int i = 0; i < rLen; i ++) {
+			for(int j = 0; j < cLen; j ++) {
+				BoggleGameHelper(matrix, visited, new StringBuilder(), root, i, j, result);
+			}
+		}
+		
+		System.out.println(result);
+		return result;
+	}
+	
+	public static void BoggleGameHelper(char[][] matrix, boolean[][] visited, StringBuilder stb, TrieNode node, 
+			int rIndex, int cIndex, ArrayList<String> result) {
+		//!!!! Not check here. will leat to wrong answer
+//		System.out.println("stb.tostring = " + stb.toString());
+//		if (node.isEnd == true) {
+//			// we find a reasonable solution. 
+//			String solution = stb.toString();
+////			System.out.println("solution = " + solution);
+//			if (!result.contains(solution)) {
+//				result.add(solution);
+//			}
+//			return ;
+//		}
+		// check if rIndex or cIndex out of bound, or rIndex and cIndex has been visited or node in Trie is null
+		if (rIndex < 0 || rIndex >= matrix.length || cIndex < 0 || cIndex >= matrix[0].length ||visited[rIndex][cIndex] || node == null) {
+			return ;
+		}
+		
+		// visited this node
+		char nextChar = matrix[rIndex][cIndex];
+		if (node.children.containsKey(nextChar)) {
+			// we can go next
+			TrieNode nextNode = node.children.get(nextChar);
+			visited[rIndex][cIndex] = true; // set the visited[rowIndex][cIndex] = true;
+			// append the nextChar to stb
+			stb.append(nextChar);
+			
+			// we need to check whether the nextNode.isEnd == true, if Yes, here we find a solution, and add it into the result
+			if (node.children.get(nextChar).isEnd) {
+				if (!result.contains(stb.toString())) {
+					result.add(stb.toString());
+				}
+			}
+			// for debug
+//			System.out.println("stb.tostring2 = " + stb.toString());
+			
+			BoggleGameHelper(matrix, visited, stb, nextNode , rIndex+ 1, cIndex, result);
+			BoggleGameHelper(matrix, visited, stb, nextNode , rIndex - 1, cIndex, result);
+			BoggleGameHelper(matrix, visited, stb, nextNode , rIndex, cIndex + 1, result);
+			BoggleGameHelper(matrix, visited, stb, nextNode , rIndex, cIndex - 1, result);
+			
+			visited[rIndex][cIndex] = false;
+			stb.deleteCharAt(stb.length() - 1);
+		}
+		
+	}
+	
+	
+	
+	public static ArrayList<String> wordSearchII(char[][] board,
+			String[]  words) {
+		// write your code here
+		ArrayList<String> result = new ArrayList<String>();
+		if (words == null || words.length == 0) {
+			return result;
+		}
+
+		TrieNode trie = new TrieNode();
+		for (String s : words) {
+			insert2(trie, s);
+		}
+
+		int rowLen = board.length;
+		int colLen = board[0].length;
+		boolean[][] visited = new boolean[rowLen][colLen];
+
+		HashSet<String> set = new HashSet<String>();
+
+		for (int i = 0; i < rowLen; i++) {
+			for (int j = 0; j < colLen; j++) {
+				helper(board, visited, trie, i, j, new StringBuilder(), set);
+			}
+		}
+
+		for (String s : set) {
+			result.add(s);
+		}
+		return result;
+	}
+
+	public static void helper(char[][] board, boolean[][] visited,
+			TrieNode trie, int rowIndex, int colIndex, StringBuilder stb,
+			HashSet<String> set) {
+		// !!! NOT check here
+//		if (trie.isEnd) {
+//			set.add(stb.toString());
+//			return ;
+//		}
+		if (trie == null || rowIndex < 0 || rowIndex >= board.length
+				|| colIndex < 0 || colIndex >= board[0].length) {
+			return;
+		}
+		if (trie.children.get(board[rowIndex][colIndex]) == null
+				|| visited[rowIndex][colIndex]) {
+			return;
+		}
+
+		TrieNode next = trie.children.get(board[rowIndex][colIndex]);
+		
+		stb.append(board[rowIndex][colIndex]);
+		if (next.isEnd == true) {
+			set.add(stb.toString());
+		}
+		
+		visited[rowIndex][colIndex] = true;
+		// up
+		helper(board, visited, next, rowIndex - 1, colIndex, stb, set);
+		// down
+		helper(board, visited, next, rowIndex + 1, colIndex, stb, set);
+		// left
+		helper(board, visited, next, rowIndex, colIndex - 1, stb, set);
+		// right
+		helper(board, visited, next, rowIndex, colIndex + 1, stb, set);
+
+		visited[rowIndex][colIndex] = false;
+		stb.deleteCharAt(stb.length() - 1);
+	}
+	
+	 
+	 
 	
 	/*
 	 * task8
