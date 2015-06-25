@@ -95,6 +95,7 @@ public class  Class5_Arrays2 {
 	 *     Space: O(2* n)  = O(n) avoid to use divide, avoid for overflow
 	 */
 	
+	
 	/*
 	 * task3
 	 * trapping water 1d array
@@ -173,6 +174,8 @@ public class  Class5_Arrays2 {
 	 * min heap maintain the current minimum height. get the min from the heap, DFS/BFS.
 	 * insert 4 to the heap.
 	 * }
+	 * 
+	 * 
 	 */
 	
 	
@@ -229,9 +232,46 @@ public class  Class5_Arrays2 {
 	 * leftMin[]
 	 * rightMax[]
 	 * traverse the leftMin[i] and rightMax[i]. if leftMin[i] < array[i] < rightMax[i]
+	 * 
+	 * 
+	 * geeksforgeeks array/P7
+	 * Find a sorted subsequence of size 3 in linear time
 	 */
-	
-	
+	public static void task5_find3Sorted(int[] a) {
+		int n = a.length;
+		int[] leftMinIndex = new int[n];
+		int[] rightMaxIndex = new int[n];
+		
+		int minIndex = 0;
+		leftMinIndex[0] = -1;
+		for(int i = 1; i < n; i ++) {
+			if (a[i] > a[minIndex]) {
+				leftMinIndex[i] = minIndex;
+			} else {
+				// a[i] <= a[minIndex]
+				minIndex = i;
+				leftMinIndex[i] = -1;
+			}
+		}
+		
+		int maxIndex = n - 1;
+		rightMaxIndex[n - 1] = -1;
+		for(int i = n - 2; i >= 0; i --) {
+			if (a[i] < a[maxIndex]) {
+				rightMaxIndex[i] = maxIndex;
+			} else {
+				// a[i] >= a[maxIndex]
+				maxIndex = i;
+				rightMaxIndex[i] = -1;
+			}
+		}
+		
+		for(int i = 0; i < n; i ++) {
+			if (leftMinIndex[i] != -1 && rightMaxIndex[i] != -1) {
+				System.out.println(a[leftMinIndex[i]] + " " + a[i] + " " + a[rightMaxIndex[i]]) ;
+			}
+		}
+	} 
 	
 	
 	
@@ -239,14 +279,46 @@ public class  Class5_Arrays2 {
 	/*
 	 * task5.1
 	 * array of integers. how many (i, j, k) triples? such that i < j < k && array[i] < array[j] < array[k]
+	 * 
 	 * we need to know, for each a[j], how many elements on the left of a[j] which a[i] < a[j]
 	 * and how many elements on the right side of a[j] which a[k] > a[j]
 	 */
+	public static class Item{
+		int index;
+		int counter;
+		public Item(int i, int c) {
+			this.index = i;
+			this.counter = c;
+		}
+	}
+	public static int task5_1_number_triples(int[] array) {
+		if (array == null || array.length == 0) {
+			return 0;
+		}
+		int n = array.length;
+		Item[] leftMinIndex = new Item[n];
+		Item[] rightMaxIndex = new Item[n];
+		
+		leftMinIndex[0] = new Item(-1, 0);
+		rightMaxIndex[n - 1] = new Item(n, 0);
+		
+		Item minIndexWrapper = new Item(0, 0);
+		for(int i = 1; i < n; i ++) {
+			if (array[i] > array[minIndexWrapper.index]) {
+				
+			}
+		}
+		return -1;
+	}
+	
 	
 	/*
-	 * task5.2 triples, ==> four elemnets, i < j < k < m, a[i] < a[j] < a[k] < a[m]
+	 * task5.2 triples, ==> four elements, i < j < k < m, a[i] < a[j] < a[k] < a[m]
 	 * ==> k elements how to handle. see geeks for geeks.
 	 */
+	
+	
+	
 	
 	
 	/*
