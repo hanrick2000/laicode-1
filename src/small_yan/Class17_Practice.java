@@ -1,23 +1,25 @@
 package small_yan;
 
+import ds.TreeNode;
+
 public class Class17_Practice {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 //		test1();
-		test2();
+		test2_2();
 	}
 	
 	/*
-	 * task1
-	 * largest subarray sum. Given an integer array, what is the largest sum of any of the subarrays?
+	 * task2.1
+	 * largest subArray sum. Given an integer array, what is the largest sum of any of the subarrays?
 	 */
 	public static void test1() {
 		int[] a = {1,2,-1,2,3,-1};
-		int res = task1_sum(a);
+		int res = task2_1_sum(a);
 		System.out.println(res);
 	}
-	public static int task1_sum(int[] a) {
+	public static int task2_1_sum(int[] a) {
 		int lastMax = 0;
 		int result = Integer.MIN_VALUE;
 		for(int i = 0; i < a.length; i ++) {
@@ -26,17 +28,18 @@ public class Class17_Practice {
 		}
 		return result;
 	}
+	
 	/*
-	 * task2
+	 * task2.2
 	 *  I​f we can make the array into a circle, what is the largest sum of subarray?
 	 *  {1,2,-4,2,3,-1}  largest is 2 + 3 + -1 + 1 + 2 = 7
 	 */
-	public static void test2() {
+	public static void test2_2() {
 		int[] a = {1,2,-4,2,3,-1};
-		int res = task2_sum(a);
+		int res = task2_2_sum(a);
 		System.out.println(res);
 	}
-	public static int task2_sum(int[] a) {
+	public static int task2_2_sum(int[] a) {
 		int lastMax = 0;
 		int lastMin = 0;
 		int sum = 0;
@@ -53,12 +56,41 @@ public class Class17_Practice {
 	}
 	
 	/*
-	 * task3
+	 * task2.3
+	 * refer to practice Lec22 task2.3
+	 * Maximum Path Sum Binary Tree III
+	 * Given a binary tree in which each node contains an integer number. 
+	 * Find the maximum possible path sum
+	 * (both the starting and ending node should be on the same path from root to one of the leaf nodes, 
+	 * and the path is allowed to contain only one node).
+	 * 
+	 * Examples
+	 *   -5
+	 *  /    \
+	 *2      11	
+	 *     /    \
+	 *
+	 *    6     14
+	 * The maximum path sum is 11 + 14 = 25
+	 * 
+	 * 
+	 * traverse the tree. when we met the leaf node, we calculate the max sum from root to this leaf node. 
 	 * 
 	 */
+	public static int maxPathSum = Integer.MIN_VALUE;
+	public static int task2_3_maxPathSum(TreeNode root) {
+		return -1;
+	}
+	
+	public static void helper() {
+		
+	}
+	
+	
+	
 	
 	/*
-	 * task4
+	 * task2.4
 	 * 
 	 */
 	

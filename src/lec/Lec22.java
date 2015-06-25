@@ -114,7 +114,7 @@ public class Lec22 {
 	 * Laicode.com Class 20 
 	 * 
 	 * Given a binary tree in which each node element contains a number. 
-	 * Get Maxim sum of the path cost from a​ny node to any node​(not necessarily the leaf to leaf)
+	 * Get Maximum sum of the path cost from a​ny node to any node​(not necessarily the leaf to leaf)
 	 */
 	public static int Q1_4MaxPath(TreeNode root) {
 		if (root == null) {
@@ -162,7 +162,6 @@ public class Lec22 {
 	/*
 	 * Q2.1 
 	 * Find the maximum path cost​ f​or all paths from leaf to root i​n a Binary Tree
-	 * 
 	 */
 	public static int Q2_1MaxPath(TreeNode root) {
 		if (root == null) {
@@ -232,9 +231,9 @@ public class Lec22 {
 	/*
 	 * Q2.3
 	 * Q2.3​(laicode.com Class 20) 
-	 * M​aximum Path Sum Binary Tree III
+	 * Maximum Path Sum Binary Tree III
 	 * Given a binary tree in which each node contains an integer number. 
-	 * Find the maximum possible sum f​rom any node to any node 
+	 * Find the maximum possible sum from any node to any node 
 	 * (the two nodes can be the same node and 
 	 * they can only be on the path from root to one of the leaf nodes).
 	 * 

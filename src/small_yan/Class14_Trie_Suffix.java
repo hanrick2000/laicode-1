@@ -499,8 +499,6 @@ public class Class14_Trie_Suffix {
 		stb.deleteCharAt(stb.length() - 1);
 	}
 	
-	 
-	 
 	
 	/*
 	 * task8
@@ -622,11 +620,6 @@ public class Class14_Trie_Suffix {
 	// S = "banana"
 	// T = "nancy"
 	// return "nan"
-	
-	
-	
-	
-	
 	
 	
 	
