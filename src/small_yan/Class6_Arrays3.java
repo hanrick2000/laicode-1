@@ -47,7 +47,7 @@ public class Class6_Arrays3 {
 				}
 			}
 			if (array[i] == b) {
-				bIndex = 9;
+				bIndex = i;
 				if (aIndex != -1) {
 					minDistance = Math.min(minDistance, Math.abs(bIndex - aIndex));
 				}
@@ -279,6 +279,7 @@ public class Class6_Arrays3 {
 	 * merge
 	 * find the consecutive element. if all the three elements are in different, calculate the  |x­-y|+ |y­-z| + |z­-x|.
 	 * 
+	 *!!!!! this doesn't work well. Wrong idea
 	 */
 	public static class Item8 {
 		public int val;

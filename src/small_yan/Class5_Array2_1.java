@@ -233,9 +233,15 @@ public class  Class5_Arrays2 {
 	 * rightMax[]
 	 * traverse the leftMin[i] and rightMax[i]. if leftMin[i] < array[i] < rightMax[i]
 	 * 
+<<<<<<< HEAD
 	 * 
 	 * geeksforgeeks array/P7
 	 * Find a sorted subsequence of size 3 in linear time
+=======
+	 * follow up
+	 * find the k sorted sequence in array
+	 * refer geeks4geeks  arrays.P7_array.task4
+>>>>>>> cfb8c5017abdf98a7d17ff2589a3c3ebf7d902f6
 	 */
 	public static void task5_find3Sorted(int[] a) {
 		int n = a.length;
@@ -282,6 +288,8 @@ public class  Class5_Arrays2 {
 	 * 
 	 * we need to know, for each a[j], how many elements on the left of a[j] which a[i] < a[j]
 	 * and how many elements on the right side of a[j] which a[k] > a[j]
+	 * find candidates, then, swip candidate's left and right, update counter ???
+	 * is there a better way? 
 	 */
 	public static class Item{
 		int index;
