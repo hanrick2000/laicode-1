@@ -9,8 +9,8 @@ public class Class6 {
 //		test7();
 //		test7_1();
 //		test8();
-//		test9();
-		test10();
+		test9();
+//		test10();
 	}
 	
 	
@@ -158,6 +158,7 @@ public class Class6 {
 	}
 	
 	public static void task9_helper(char[] set, int index, List<String> result) {
+		System.out.println(new String(set));
 		if (index == set.length) {
 			String str = new String(set);
 			result.add(str);
