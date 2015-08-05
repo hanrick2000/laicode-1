@@ -180,8 +180,9 @@ public class Class1_BinarySearch_LinkedList {
 	} 
 	
 	/*
-	 * task3. Missing Number, n sized array contains number from [1, n + 1] except one. 
-	 * array containing only 0 and 1, {0,0,0,1,1,1} → left most 1.
+	 * task3. 
+	 * Missing Number, n sized array contains number from [1, n + 1] except one. 
+	 * 
 	 * {3,2,4} 1,2,3,4
 	 * 1). sum → overflow O(n)
 	 * 2). swap to its index. O(n)
@@ -191,7 +192,13 @@ public class Class1_BinarySearch_LinkedList {
 	 * 
 	 */
 	
+	// using swap to its index
 	// the input array is unsorted
+	/* index: 0 1 2
+	 * input: 3 2 4
+	 * 
+	 *  
+	 */
 	public static int task3_missing(int[] array) {
 		if (array == null || array.length == 0) {
 			return 1;
@@ -199,6 +206,7 @@ public class Class1_BinarySearch_LinkedList {
 		// swap with its index
 		for(int i = 0;i < array.length;) {
 			if (array[i] != i + 1 && array[i] <= array.length) {
+				// 
 				swap(array, i, array[i] - 1);
 			} else {
 				i ++;
@@ -231,7 +239,28 @@ public class Class1_BinarySearch_LinkedList {
 	 * return array.length + 1;
 	 */
 	public static int task3_1_missing(int[] array) {
-		return -1;
+		if (array == null || array.length == 0) {
+			return 1;
+		}
+		int left = 0, right = array.length - 1;
+		while(left + 1 < right) {
+			int mid = left + (right - left)/2;
+			if (array[mid] == mid  + 2) {
+				// the missing number is in the left side
+				right = mid;
+			} else {
+				// the missing number is in the right side
+				left = mid;
+			}
+		}
+		if (array[left] == left + 2) {
+			return left + 1; 
+		}
+		if (array[right] == right + 2) {
+			return right + 1;
+		}
+		return array.length + 1;
+	
 	}
 	
 	

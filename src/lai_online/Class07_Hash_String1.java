@@ -8,7 +8,9 @@ public class Class07_Hash_String1 {
 		// TODO Auto-generated method stub
 //		test3();
 //		test1();
-		test();
+//		test();
+//		test6_1();
+		test3_2();
 	}
 	
 	
@@ -27,6 +29,7 @@ public class Class07_Hash_String1 {
 	 * Composition = ["a", "a", "b", "b", "b", "b", "c", "c", "c", "d"], top 5 frequent words are [“b”, “c”, "a", "d"]
 	 * 
 	 * 
+	 * Hash + Priority Queue
 	 * 1 use hashMap<String, Integer>() to count the Strings
 	 * 2 traverse the map and put every string into a k sized minHeap.
 	 * 3 pop all elements in minHeap
@@ -93,11 +96,17 @@ public class Class07_Hash_String1 {
 	}
 	
 	
-	
-	
-
 	/*
 	 * task3
+	 * Remove Adjacent Repeated Characters I
+	 * Remove adjacent, repeated characters in a given string, 
+	 * leaving only one character for each group of such characters.
+	 * Assumptions
+	 * Try to do it in place.
+	 * Examples
+	 * “aaaabbbc” is transferred to “abc”
+	 * Corner Cases
+	 * If the given string is null, we do not need to do anything.
 	 */
 	public static void test3() {
 		String input = "abc";
@@ -110,7 +119,6 @@ public class Class07_Hash_String1 {
 		if (input == null || input.length() <= 0) {
 			return input;
 		}
-
 		char[] str = input.toCharArray();
 		int s = 0, f = 1;
 		while (f < str.length) {
@@ -120,17 +128,121 @@ public class Class07_Hash_String1 {
 			}
 			f++;
 		}
-
 		String output = new String(str, 0, s + 1);
 		System.out.println(output);
 		return output;
 	}
+	
+	
+	/*
+	 * task3.1
+	 * Remove Adjacent Repeated Characters II
+	 * Remove adjacent, repeated characters in a given string, leaving only two characters for each group of such characters. 
+	 * The characters in the string are sorted in ascending order.
+	 * “aaaabbbc” is transferred to “aabbc”
+	 * 
+	 * two pointers
+	 * [0, s) processed
+	 * [s, f) useless
+	 * [f, n) to explore
+	 * s, f 
+	 * init: s = 2, f = 2;
+	 * array[f] == array[s - 2]  f ++
+	 * else  array[s++] = array[f ++]
+	 */
+	public static String task3_1_deDup(String input) {
+		if (input == null || input.length() <=2) {
+			return input;
+		}
+		char[] strArr = input.toCharArray();
+		int s = 2, f = 2;
+		while(f < strArr.length) {
+			if (strArr[f] == strArr[s - 2]) {
+				f ++;
+			} else {
+				strArr[s ++] = strArr[f ++];
+			}
+		}
+		return new String(strArr, 0, s);
+	}
+	
+	/*
+	 * task3_2
+	 * Remove Adjacent Repeated Characters III
+	 * Remove adjacent, repeated characters in a given string, 
+	 * leaving no character for each group of such characters. 
+	 * The characters in the string are sorted in ascending order.
+	 * “aaaabbbc” is transferred to “c”
+	 * 
+	 * two pointers
+	 * 
+	 * s points an candidate
+	 * f use to explore 
+	 * 
+	 * we use a flag to check whether the candidate has duplicate
+	 * init:
+	 * 
+	 * s = 0, f = 1, flag = false
+	 * 
+	 * [0, s) processed
+	 * [s, f) useless
+	 * [f, n) to explore
+	 * 
+	 */
+	
+	public static void test3_2() {
+		String input = "abbccde";
+		String output = task3_2_deDup(input);
+		System.out.println(output);
+	}
+	public static String task3_2_deDup(String input) {
+		if (input == null || input.length() == 0) {
+			return input;
+		}
+		boolean flag = false;
+		char[] strArr = input.toCharArray();
+		int s = 0, f = 1;
+		while(f < strArr.length) {
+			if (strArr[f] == strArr[s]) {
+				flag = true;
+				f ++;
+			} else {
+				// strArr[f] != strArr[s]
+				if (flag) {
+					// flag is true
+					// we need a new candidate
+					strArr[s] = strArr[f];
+					flag = false;
+				} else {
+					// flag is false
+					// its safe to to move forward s, and put a new candicates
+					s ++;
+					strArr[s] = strArr[f];
+				}
+				f ++;
+			}
+		}
+		// check the last element
+		if (!flag) {
+			s ++;
+		}
+		
+		return new String(strArr, 0, s);
+	}
+	
 
 	/*
+	 * task4
 	 * remove spaces
+	 * Given a string, remove all leading/trailing/duplicated empty spaces.
+	 * Assumptions:
+	 * The given string is not null.
+	 * Examples:
+	 * “  a” --> “a”
+	 * “   I     love MTV ” --> “I love MTV”
 	 */
 
-	public String removeSpaces(String input) {
+	public static String task4_removeSpaces(String input) {
 		// Write your solution here.
 		if (input == null || input.length() == 0) {
 			return input;
@@ -151,16 +263,25 @@ public class Class07_Hash_String1 {
 			if (count > 0) {
 				arr[s++] = ' ';
 			}
+			// copy the word char by char
 			while (s < arr.length && f < arr.length && arr[f] != ' ') {
 				arr[s++] = arr[f++];
 			}
 			count++;
 		}
-
 		return new String(arr, 0, s);
-
 	}
 
+	/*
+	 * task5
+	 * Remove Certain Characters
+	 * Remove given characters in input string, the relative order of other characters should be remained. Return the new string after deletion.
+	 * Assumptions
+	 * The given input string is not null.
+	 * The characters to be removed is given by another string, it is guranteed to be not null.
+	 * Examples
+	 * input = "abcd", t = "ab", delete all instances of 'a' and 'b', the result is "cd".
+	 */
 	public String remove(String input, String t) {
 		// Write your solution here.
 		if (input == null || input.length() == 0)
@@ -181,13 +302,37 @@ public class Class07_Hash_String1 {
 	
 	
 	
-	// missing number
+	/* task6
+	 * 
+	 * missing number I 
+	 * Given an integer array of size N - 1, containing all the numbers from 1 to N except one, 
+	 * find the missing number.
+	 * Assumptions
+	 * The given array is not null, and N >= 1
+	 * Examples
+	 * A = {2, 1, 4}, the missing number is 3
+	 * A = {1, 2, 3}, the missing number is 4
+	 * A = {}, the missing number is 1
+	 * 
+	 * !!! Unsorted
+	 * method1: 
+	 * using hashset. put array elements into hashset. 
+	 * traverse 1..N, the one doesn't in hashset in the missing number.
+	 * method2:
+	 * using XOR. XOR all elemtns in array and 1..N. The result would be the missing number
+	 * 
+	 * method3:
+	 * using sum. get the sum of 1..N
+	 * traverse the array, substract every element from the sum, the remaining is the missing number. 
+	 * 
+	 * 
+	 */
 	public static void test() {
 		int[] array = {1};
-		int miss = missing(array);
+		int miss = task6_missing(array);
 		System.out.println("miss = " + miss);
 	}
-	public static int missing(int[] array) {
+	public static int task6_missing(int[] array) {
 	    // write your solution here
 	    int result = array[0];
 	    for(int i = 1; i < array.length; i ++) {
@@ -198,4 +343,53 @@ public class Class07_Hash_String1 {
 	    }
 	    return result;
 	  }
+	
+	/*
+	 * task6.1
+	 * 
+	 * if Sorted, we can use binary search.
+	 * index: 0 1 2
+	 * input: 1 2 4  
+	 * output: 3
+	 * 
+	 *   
+	 */
+	
+	public static void test6_1() {
+		int[] array = {1,2,3};
+		int result = task6_1_missing(array);
+		System.out.println("result = " + result);
+		
+	}
+	public static int task6_1_missing(int[] array) {
+		if (array == null || array.length == 0) {
+			return 1;
+		}
+	
+		int left = 0, right = array.length - 1;
+		// edge case: array[right] == right + 1, 
+		if (array[right] == right + 1) {
+			return right + 2;
+		}
+		
+		while(left + 1 < right) {
+			int mid = left + (right - left)/2;
+			if (array[mid] > mid + 1) {
+				right = mid;
+			} else {
+				left = mid;
+			}
+		}
+		
+		System.out.println("left = " + left);
+		System.out.println("right = " + right);
+		if (array[left] > left + 1) {
+			return left + 1;
+		} else {
+			return right + 1;
+		}
+	}
+	
+	
+	
 }
