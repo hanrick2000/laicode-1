@@ -10,7 +10,8 @@ public class Class07_Hash_String1 {
 //		test1();
 //		test();
 //		test6_1();
-		test3_2();
+//		test3_2();
+		test3_4();
 	}
 	
 	
@@ -230,6 +231,54 @@ public class Class07_Hash_String1 {
 		return new String(strArr, 0, s);
 	}
 	
+	
+	/*
+	 * task3_4
+	 * Remove Adjacent Repeated Characters IV
+	 * Repeatedly remove all adjacent, repeated characters in a given string from left to right.
+	 * No adjacent characters should be identified in the final string.
+	 * Examples
+	 * "abbbaaccz" → "aaaccz" → "ccz" → "z"
+	 * "aabccdc" → "bccdc" → "bdc"
+	 * 
+	 * data structure: stack
+	 * we need to access the previous element. so, stack is a choice
+	 */
+	public static void test3_4() {
+		String input = "abbbaac";
+		String output = task3_4_deDup(input);
+		System.out.println(output);
+	}
+	
+	public static String task3_4_deDup(String input) {
+		if (input == null || input.length() <= 1) {
+			return input;
+		}
+		LinkedList<Character> stack = new LinkedList<Character>();
+	
+		stack.offerFirst(input.charAt(0));
+		int n = 1;
+		while(!stack.isEmpty() && n < input.length()) {
+			char cur = stack.peekFirst();
+			if (n < input.length() && input.charAt(n) == cur) {
+				while(n < input.length() && input.charAt(n) == cur) {
+					n ++;
+				}
+				stack.pollFirst();
+			} else {
+				stack.offerFirst(input.charAt(n));
+				n ++;
+			}
+		}
+		
+		
+		char[] str = new char[stack.size()];
+		for(int i = str.length - 1; i >=0; i --) {
+			str[i] = stack.pollFirst();
+		}
+		
+		return new String(str);
+	}
 
 	/*
 	 * task4
