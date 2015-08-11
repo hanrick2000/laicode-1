@@ -1,11 +1,13 @@
 
 package lai_online;
 
+import debug.Debug;
+
 public class Class01 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
+		test_quickSort();
 	}
 
 	/*
@@ -112,8 +114,70 @@ public class Class01 {
 	 * anything. What if the given array is of length zero? In this case, we do
 	 * not need to do anything.
 	 */
-	public static int[] quicksort(int[] array) {
-		return null;
+	
+	public static void test_quickSort() {
+		int[] array = {5,3,8,10,1,8,2};
+		quickSort(array);
+		
+		Debug.printArray(array);
+	}
+	
+	public static void quickSort(int[] array) {
+		if (array == null) {
+			return ;
+		}
+		quickSort(array, 0, array.length - 1);
+	}
+	
+	public static void quickSort(int[] array, int left, int right) {
+		if (left >= right) {
+			return ;
+		}
+		int pivotPos = partition(array, left, right);
+		quickSort(array, left, pivotPos - 1);
+		quickSort(array, pivotPos + 1,  right);
+	}
+	
+	public static int partition(int[] array, int left, int right) {
+		int pivotIndex = pivotIndex(left, right);
+		int pivot = array[pivotIndex];
+		
+		// swap the pivot with the rightmost position first
+		swap(array, pivotIndex, right);
+		
+		int leftBound = left, rightBound = right - 1;
+		while(leftBound <= rightBound) {
+			if (array[leftBound] < pivot) {
+				leftBound ++;
+			} else if (array[rightBound] >= pivot) {
+				rightBound --;
+			} else {
+				swap(array, leftBound, rightBound);
+			}
+		}
+		
+		// swap right with leftBound, i.e, put the pivot to its position. 
+		swap(array, leftBound, right);
+		
+		return leftBound;
+		
+		
+	}
+	
+	public static int pivotIndex(int left, int right) {
+		// Math.random() greater than or equal to 0.0 and less than 1.0
+		// left = 5, right = 10   5 6 7 8 9 10  => 5 + random(10 - 5) 
+		// [0.0, 1.0)* 9 => [0,9)   1    [0.0, 1.0) * 5 
+		int random = left + (int)Math.random()* (right - left + 1);
+		return random;
+		
+	}
+	
+	public static void swap(int[] array, int i , int j) {
+		int temp = array[i];
+		array[i] = array[j];
+		array[j] = temp;
+		
 	}
 	
 }

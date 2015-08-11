@@ -234,6 +234,8 @@ public class Class07_Hash_String1 {
 	
 	/*
 	 * task3_4
+	 * 
+	 * !! unfinished
 	 * Remove Adjacent Repeated Characters IV
 	 * Repeatedly remove all adjacent, repeated characters in a given string from left to right.
 	 * No adjacent characters should be identified in the final string.
@@ -438,6 +440,161 @@ public class Class07_Hash_String1 {
 			return right + 1;
 		}
 	}
+	
+	
+	/*
+	 * task7
+	 * Common Numbers Of Two Sorted Arrays
+	 * Find all numbers that appear in both of two sorted arrays 
+	 * (the two arrays are all sorted in ascending order).
+	 * 
+	 * Assumptions
+	 * In each of the two sorted arrays, there could be duplicate numbers.
+	 * Both two arrays are not null
+	 * Examples
+	 * A = {1, 1, 2, 2, 3}, B = {1, 1, 2, 5, 6}, common numbers are [1, 1, 2]
+	 */
+	public static List<Integer> common(List<Integer> A, List<Integer> B) {
+		// write your solution here
+		ArrayList<Integer> result = new ArrayList<Integer>();
+		if (A == null || A.size() == 0 || B == null || B.size() == 0) {
+			return result;
+		}
+		int i = 0, j = 0;
+
+		while (i < A.size() && j < B.size()) {
+			if (A.get(i) == B.get(j)) {
+				result.add(A.get(i));
+				i++;
+				j++;
+			} else if (A.get(i) > B.get(j)) {
+				j++;
+			} else {
+				i++;
+			}
+		}
+		return result;
+
+	}
+	
+	
+	/*
+	 * task7.1
+	 * Common Numbers Of Two Arrays I
+	 * Find all numbers that appear in both of the two unsorted arrays.
+	 * 
+	 * No duplicates
+	 * Assumptions
+	 * Both arrays are not null.
+	 * There are no duplicate numbers in each of the two arrays respectively.
+	 * Exmaples
+	 * A = {1, 2, 3}, B = {3, 1, 4}, return [1, 3]
+	 * A = {}, B = {3, 1, 4}, return []
+	 */
+	public static List<Integer> task7_1common(List<Integer> a, List<Integer> b) {
+	    // write your solution here
+		List<Integer> result = new ArrayList<Integer>();
+		if (a == null || a.size() == 0 || b == null || b.size() == 0) {
+			return result;
+		}
+		// suppose that a.size > b.size
+		if (a.size() < b.size()) {
+			return task7_1common(b, a);
+		}
+		
+		HashSet<Integer> set = new HashSet<Integer>();
+		for(int i = 0; i < b.size();i ++) {
+			set.add(b.get(i));
+		}
+		
+		for(int i = 0; i < a.size(); i ++) {
+			if (set.contains(a.get(i))) {
+				result.add(a.get(i));
+			}
+		}
+		
+		Collections.sort(result);
+	    return result;
+	}
+	
+	
+	/*
+	 * task7.2
+	 * In any of the two arrays, there could be duplicate numbers.
+	 */
+	
+	public static List<Integer> common2(List<Integer> A, List<Integer> B) {
+	    //write your solution here
+		List<Integer> result = new ArrayList<Integer>();
+		if (A == null ||A.size() == 0 || B == null || B.size() == 0) {
+			return result;
+		}
+		if (A.size() < B.size()) {
+			return common2(B, A);
+		}
+		HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+	    for(Integer i: B) {
+	    	if (!map.containsKey(i)) {
+				map.put(i, 1);
+			} else {
+				map.put(i, map.get(i) + 1);
+			}
+	    }
+	    
+	    for(Integer i : A) {
+	    	if (map.containsKey(i)) {
+				if (map.get(i) != 0) {
+					result.add(i);
+					map.put(i, map.get(i) - 1);
+				}
+			}
+	    }
+	    
+	    Collections.sort(result);
+		return result;
+	}
+	
+	
+	/*
+	 * task7.3
+	 * Common Elements In Three Sorted Array
+	 * Find all common elements in 3 sorted arrays.
+	 * 
+	 * 
+	 * Assumptions
+	 * The 3 given sorted arrays are not null
+	 * There could be duplicate elements in each of the arrays
+	 * Examples
+	 * A = {1, 2, 2, 3}, B = {2, 2, 3, 5}, C = {2, 2, 4}, the common elements are [2, 2]
+	 * 
+	 * if three unsorted, we can reduce common elemnts in two unsorted array.
+	 */
+	
+	public static List<Integer> task7_3common(int[] array1, int[] array2,
+			int[] array3) {
+		// write your solution here
+		int i = 0, j = 0, k = 0;
+		ArrayList<Integer> result = new ArrayList<Integer>();
+		while (i < array1.length && j < array2.length && k < array3.length) {
+			if (array1[i] == array2[j] && array2[j] == array3[k]) {
+				result.add(array1[i]);
+				i++;
+				j++;
+				k++;
+			} else if (array1[i] <= array2[j] && array1[i] <= array3[k]) {
+				// array1[i] is the smallest.
+				i++;
+			} else if (array2[j] <= array1[i] && array2[j] <= array3[k]) {
+				// array2[j] is the smallest.
+				j++;
+			} else {
+				k++;
+			}
+		}
+		return result;
+	}
+	
+	
 	
 	
 	
