@@ -1,7 +1,11 @@
 package lai_online;
 
 import java.util.ArrayList;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
+
+import javax.crypto.spec.PSource;
 
 
 public class Class10_Recursion2 {
@@ -138,6 +142,124 @@ public class Class10_Recursion2 {
 		return ch >= '0' && ch <= '9';
 	}
 	
+	
+	/*
+	 * task3
+	 * All Valid Permutations Of Parentheses I
+	 * Given N pairs of parentheses “()”, return a list with all the valid permutations.
+	 * Assumptions
+	 * N >= 0
+	 * Examples
+	 * N = 1, all valid permutations are ["()"]
+	 * N = 3, all valid permutations are ["((()))", "(()())", "(())()", "()(())", "()()()"]
+	 * N = 0, all valid permutations are [""]
+	 */
+	public static List<String> validParentheses(int n) {
+		// write your solution here
+		List<String> result = new ArrayList<String>();
+
+		char[] cur = new char[n * 2];
+		helper(cur, n, n, 0, result);
+
+		return result;
+	}
+
+	public static void helper(char[] cur, int left, int right, int index,
+			List<String> result) {
+		if (left == 0 && right == 0) {
+			// find a solution
+			result.add(new String(cur));
+			return;
+		}
+
+		if (left > 0) {
+			cur[index] = '(';
+			helper(cur, left - 1, right, index + 1, result);
+		}
+
+		if (right > left) {
+			cur[index] = ')';
+			helper(cur, left, right - 1, index + 1, result);
+		}
+	}
+	
+	
+	/*
+	 * task4
+	 * All Valid Permutations Of Parentheses II
+	 * 
+	 * 
+	 * Get all valid permutations of l pairs of (), m pairs of [] and n pairs of {}.
+	 * Assumptions
+	 * l, m, n >= 0
+	 * Examples
+	 * l = 1, m = 1, n = 0, all the valid permutations are ["()[]", "([])", "[()]", "[]()"]
+	 * 
+	 * 
+	 * like task3
+	 * in addition, when we plan to add an right parentheses,  
+	 * we need to use a stack to make sure the parentheses and st.peek() are same type
+	 * 
+	 *  
+	 */
+	public static void test4() {
+		
+	}
+	
+	public static List<String> validParentheses(int l, int m, int n) {
+		// write your solution here
+		final char[] PS = {'(',')', '[', ']', '{', '}'};
+		int[] remaining = {l, l, m, m, n, n};
+		
+		// when we add right parentheses, we need to use the stack to make sure they are in the same type
+		Deque<Character> stack = new LinkedList<Character>();
+		
+		StringBuilder cur = new StringBuilder();
+		
+		List<String> result = new ArrayList<String>();
+		
+		int targetLen = 2 * l + 2 * m + 2 * n;
+		
+		task4_helper(remaining, PS, stack, cur, targetLen, result);
+		return result;
+	}
+	
+	
+	public static void task4_helper(int[] remaining, char[] PS, Deque<Character> stack,StringBuilder cur, int targetLen,List<String> result) {
+		if (cur.length() == targetLen) {
+			// get a solution
+			result.add(cur.toString());
+			return ;
+		}
+		
+		for(int i = 0; i < remaining.length; i ++) {
+			if (i % 2 == 0) {
+				// add left parentheses
+				if (remaining[i] > 0) {
+					cur.append(PS[i]);
+					remaining[i] --;
+					stack.offerFirst(PS[i]);
+					task4_helper(remaining, PS, stack ,cur, targetLen, result);
+					
+					remaining[i] ++;
+					cur.deleteCharAt(cur.length() - 1);
+					stack.pollFirst();
+				}
+			} else {
+				// add right parentheses
+				if (!stack.isEmpty() && stack.peekFirst().equals(PS[i - 1])) {
+					cur.append(PS[i]);
+					remaining[i] --;
+					stack.pollFirst();
+					task4_helper(remaining, PS, stack, cur, targetLen, result);
+					
+					stack.offerFirst(PS[i - 1]); // add the previous left parentheses back
+					remaining[i] ++;
+					cur.deleteCharAt(cur.length() - 1);
+				}
+			}
+		}
+	}
 	
 	
 	

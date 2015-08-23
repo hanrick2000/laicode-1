@@ -7,7 +7,8 @@ public class Class01 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		test_quickSort();
+//		test_quickSort();
+		test5();
 	}
 
 	/*
@@ -177,7 +178,38 @@ public class Class01 {
 		int temp = array[i];
 		array[i] = array[j];
 		array[j] = temp;
-		
 	}
+	
+	
+	public static void test5() {
+		int[] array = {0, 0, 0, 0, 1};
+		
+		int[] output = moveZero(array);
+		Debug.printArray(output);
+	}
+	
+	
+	// [0, s)  processed. >0
+	// [s, f)  useless
+	// [f, n)  to explore
+	public static int[] moveZero(int[] array) {
+		// Write your solution here.
+		if (array == null || array.length == 0) {
+			return array;
+		}
+		int s = 0, f = 0;
+		for(; f < array.length; f ++) {
+			if (array[f] != 0) {
+				array[s ++] = array[f];
+			}
+		}
+		for(int i = s; i < array.length; i ++) {
+			array[i] = 0;
+		}
+		
+		return array;
+	}
+	  
+	 
 	
 }

@@ -237,7 +237,7 @@ public class Class19_Intervals {
 		while(start + 1 < end) {
 			int mid = start + (end - start)/2;
 			if (list.get(mid).start == interval.start) {
-				mid = end;
+				end = mid;
 			} else if (list.get(mid).start < interval.start) {
 				start = mid;
 			} else {
