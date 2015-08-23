@@ -1,16 +1,20 @@
-package lai_online;
+package lai_online2;
 
-public class Class15_DP3 {
-
+public class Class15 {
 	/*
-	 * 
-	 * task1 Longest 1s Easy DP 
-	 * Given an array containing only 0s and 1s, find
-	 * the length of the longest subarray of consecutive 1s. Assumptions The
-	 * given array is not null Examples {0, 1, 0, 1, 1, 1, 0}, the longest
-	 * consecutive 1s is 3.
-	 */
+	 * task1
+	Longest 1s
+	Easy
+	DP
+	Given an array containing only 0s and 1s, find the length of the longest subarray of consecutive 1s.
 
+	Assumptions
+
+	The given array is not null
+	Examples
+
+	{0, 1, 0, 1, 1, 1, 0}, the longest consecutive 1s is 3.
+	*/
 	public int task1_longest(int[] array) {
 		// write your solution here
 		if (array == null || array.length == 0) {
@@ -31,14 +35,23 @@ public class Class15_DP3 {
 		}
 		return maxLen;
 	}
-
+	
 	/*
-	 * task2 Largest SubArray Sum Fair DP Given an unsorted integer array, find
-	 * the subarray that has the greatest sum. Return the sum. Assumptions The
-	 * given array is not null and has length of at least 1. Examples {2, -1, 4,
-	 * -2, 1}, the largest subarray sum is 2 + (-1) + 4 = 5 {-2, -1, -3}, the
-	 * largest subarray sum is -1
-	 */
+	 * task2
+	Largest SubArray Sum
+	Fair
+	DP
+	Given an unsorted integer array, find the subarray that has the greatest sum. Return the sum.
+
+	Assumptions
+
+	The given array is not null and has length of at least 1.
+	Examples
+
+	{2, -1, 4, -2, 1}, the largest subarray sum is 2 + (-1) + 4 = 5
+
+	{-2, -1, -3}, the largest subarray sum is -1
+	*/
 	public int task2_largestSum(int[] array) {
 		// write your solution here
 		if (array == null || array.length == 0) {
@@ -55,16 +68,33 @@ public class Class15_DP3 {
 		}
 		return maxSum;
 	}
-
+	
 	/*
-	 * task3 Longest Cross Of 1s Hard DP Given a matrix that contains only 1s
-	 * and 0s, find the largest cross which contains only 1s, with the same arm
-	 * lengths and the four arms joining at the central point. Return the arm
-	 * length of the largest cross. Assumptions The given matrix is not null
-	 * Examples { {0, 0, 0, 0}, {1, 1, 1, 1}, {0, 1, 1, 1}, {1, 0, 1, 1} } the
-	 * largest cross of 1s has arm length 2
-	 */
+	 * task3
+	Longest Cross Of 1s
+	Hard
+	DP
+	Given a matrix that contains only 1s and 0s, find the largest cross which contains only 1s, with the same arm lengths and the four arms joining at the central point.
 
+	Return the arm length of the largest cross.
+
+	Assumptions
+
+	The given matrix is not null
+	Examples
+
+	{ {0, 0, 0, 0},
+
+	  {1, 1, 1, 1},
+
+	  {0, 1, 1, 1},
+
+	  {1, 0, 1, 1} }
+
+	the largest cross of 1s has arm length 2.
+
+
+	*/
 	public int task3_largest(int[][] matrix) {
 		// write your solution here
 
@@ -164,27 +194,39 @@ public class Class15_DP3 {
 
 	}
 
+	public int minOf4(int a, int b, int c, int d) {
+		int mina_b = Math.min(a, b);
+		int minc_d = Math.min(c, d);
+		return Math.min(mina_b, minc_d);
+	}
+	
 	/*
-	 * task4 Largest X Of 1s Hard DP Given a matrix that contains only 1s and
-	 * 0s, find the largest X shape which contains only 1s, with the same arm
-	 * lengths and the four arms joining at the central point. Return the arm
-	 * length of the largest X shape.
-	 * 
-	 * Assumptions
-	 * 
-	 * The given matrix is not null Examples
-	 * 
-	 * { {0, 0, 0, 0},
-	 * 
-	 * {1, 1, 1, 1},
-	 * 
-	 * {0, 1, 1, 1},
-	 * 
-	 * {1, 0, 1, 1} }
-	 * 
-	 * the largest X of 1s has arm length 2.
-	 */
-	public static int task4_largest(int[][] matrix) {
+	 * task4
+	Largest X Of 1s
+	Hard
+	DP
+	Given a matrix that contains only 1s and 0s, find the largest X shape which contains only 1s, with the same arm lengths and the four arms joining at the central point.
+
+	Return the arm length of the largest X shape.
+
+	Assumptions
+
+	The given matrix is not null
+	Examples
+
+	{ {0, 0, 0, 0},
+
+	  {1, 1, 1, 1},
+
+	  {0, 1, 1, 1},
+
+	  {1, 0, 1, 1} }
+
+	the largest X of 1s has arm length 2.
+
+	*/
+	
+	public int task4_largest(int[][] matrix) {
 		// write your solution here
 		if (matrix == null || matrix.length == 0 || matrix[0] == null
 				|| matrix[0].length == 0) {
@@ -206,13 +248,7 @@ public class Class15_DP3 {
 		return largestX;
 	}
 
-	public static int minOf4(int a, int b, int c, int d) {
-		int mina_b = Math.min(a, b);
-		int minc_d = Math.min(c, d);
-		return Math.min(mina_b, minc_d);
-	}
-
-	public static int[][] getLeftTop2RigthBottom(int[][] matrix) {
+	public int[][] getLeftTop2RigthBottom(int[][] matrix) {
 		int rLen = matrix.length;
 		int cLen = matrix[0].length;
 		int[][] M = new int[rLen][cLen];
@@ -264,7 +300,7 @@ public class Class15_DP3 {
 	}
 
 	// get right-bottom to left-top
-	public static int[][] getRigthBottom2LeftTop(int[][] matrix) {
+	public int[][] getRigthBottom2LeftTop(int[][] matrix) {
 		int rLen = matrix.length;
 		int cLen = matrix[0].length;
 		int[][] M = new int[rLen][cLen];
@@ -313,7 +349,7 @@ public class Class15_DP3 {
 		return M;
 	}
 
-	public static int[][] getLeftBottom2RightTop(int[][] matrix) {
+	public int[][] getLeftBottom2RightTop(int[][] matrix) {
 		int rLen = matrix.length;
 		int cLen = matrix[0].length;
 		int[][] M = new int[rLen][cLen];
@@ -367,7 +403,7 @@ public class Class15_DP3 {
 		return M;
 	}
 
-	public static int[][] getRightTop2LeftBottom(int[][] matrix) {
+	public int[][] getRightTop2LeftBottom(int[][] matrix) {
 		int rLen = matrix.length;
 		int cLen = matrix[0].length;
 		int[][] M = new int[rLen][cLen];
@@ -417,36 +453,36 @@ public class Class15_DP3 {
 		// Debug.printMatrix(M);
 		return M;
 	}
-
+	
 	/*
 	 * task5
-	 * Largest SubMatrix Sum Hard DP 
-	 * Given a matrix that contains integers, find
-	 * the submatrix with the largest sum.
-	 * 
-	 * Return the sum of the submatrix.
-	 * 
-	 * Assumptions
-	 * 
-	 * The given matrix is not null and has size of M * N, where M >= 1 and N >=
-	 * 1 Examples
-	 * 
-	 * { 
-	 * {1, -2, -1, 4},
-	 * 
-	 * {1, -1, 1, 1},
-	 * 
-	 * {0, -1, -1, 1},
-	 * 
-	 * {0, 0, 1, 1} }
-	 * 
-	 * the largest submatrix sum is (-1) + 4 + 1 + 1 + (-1) + 1 + 1 + 1 = 7.
-	 */
+	Largest SubMatrix Sum
+	Hard
+	DP
+	Given a matrix that contains integers, find the submatrix with the largest sum.
 
+	Return the sum of the submatrix.
+
+	Assumptions
+
+	The given matrix is not null and has size of M * N, where M >= 1 and N >= 1
+	Examples
+
+	{ {1, -2, -1, 4},
+
+	  {1, -1,  1, 1},
+
+	  {0, -1, -1, 1},
+
+	  {0,  0,  1, 1} }
+
+	the largest submatrix sum is (-1) + 4 + 1 + 1 + (-1) + 1 + 1 + 1 = 7.
+
+	 */
+	
 	public int task5_largest(int[][] matrix) {
 		// write your solution here
 		return 0;
 
 	}
-
 }
