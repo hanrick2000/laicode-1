@@ -47,5 +47,5 @@ public class Class16_1_Median_Tracker {
 	public int getSize() {
 		return maxHeap.size() + minHeap.size();
 	}
-	
+
 }

@@ -481,31 +481,32 @@ public class Class21 {
 	*/
 	
 	public List<GraphNode> task9_copy(List<GraphNode> graph) {
-	    // write your solution here
-	    if (graph == null) {
-				return null;
+		// write your solution here
+		if (graph == null) {
+			return null;
+		}
+		// map: map from original node to copyNode. also used to avoid
+		// duplicate.
+		HashMap<GraphNode, GraphNode> map = new HashMap<GraphNode, GraphNode>();
+		List<GraphNode> copyGraph = new ArrayList<GraphNode>();
+
+		// copy the node
+		for (GraphNode node : graph) {
+			GraphNode copyNode = new GraphNode(node.key);
+			copyGraph.add(copyNode);
+			map.put(node, copyNode);
+		}
+
+		// clone the graph.
+		for (GraphNode node : graph) {
+			GraphNode copyNode = map.get(node);
+			// traverse the neighbor list of node, then add corresponding node
+			// into copyNode's neighbor list.
+			for (GraphNode neiNode : node.neighbors) {
+				copyNode.neighbors.add(map.get(neiNode));
 			}
-			// map: map from original node to copyNode. also used to avoid duplicate. 
-			HashMap<GraphNode, GraphNode> map = new HashMap<GraphNode, GraphNode>();
-			List<GraphNode> copyGraph = new ArrayList<GraphNode>();
-		
-			// copy the node
-			for(GraphNode node: graph) {
-				GraphNode copyNode = new GraphNode(node.key);
-				copyGraph.add(copyNode);
-				map.put(node, copyNode);
-			}
-			
-			// clone the graph. 
-			for(GraphNode node: graph) {
-				GraphNode copyNode = map.get(node);
-				// traverse the neighbor list of node, then add corresponding node into copyNode's neighbor list. 
-				for(GraphNode neiNode : node.neighbors) {
-					copyNode.neighbors.add(map.get(neiNode));
-				}
-			}
-			return copyGraph;
-	    
-	    
-	  }
+		}
+		return copyGraph;
+
+	}
 }

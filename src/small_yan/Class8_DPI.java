@@ -7,8 +7,10 @@ public class Class8_DPI {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 //		test2();
+		test4();
+		test4_1();
 //		test6_2();
-		test8();
+//		test8();
 	}
 	
 	/*
@@ -19,6 +21,7 @@ public class Class8_DPI {
 	 * 
 	 * 
 	 */
+	
 	
 	/*
 	 * task1.3 Set of points in 2-d space, how to find the largest subset of points such that
@@ -52,15 +55,19 @@ public class Class8_DPI {
 	 *  
 	 *  Look at the following 
 	 *  http://www.geeksforgeeks.org/maximum-sum-such-that-no-two-elements-are-adjacent/
+	 *  
+	 *  
+	 *  incl : include this element
+	 *  excl:  
 	 */
 	public static void test2() {
 		int[] a = {5,  5, 10, 40, 50, 35};
 		
-		System.out.println(maxSumNoAdjacent(a));
+		System.out.println(task2_maxSumNoAdjacent(a));
 	}
 	
 	
-	public static int maxSumNoAdjacent(int[] array) {
+	public static int task2_maxSumNoAdjacent(int[] array) {
 		if (array == null || array.length == 0) {
 			return 0;
 		}
@@ -88,6 +95,7 @@ public class Class8_DPI {
 	 * make the rooms a cycle, what is the max amount we can have? the rule is not changed.
 	 * !!!!
 	 */
+
 	
 	/*
 	 * task3
@@ -96,11 +104,128 @@ public class Class8_DPI {
 	 * finish later
 	 */
 	
+	
 	/*
 	 * task4
 	 * Paint House
+	 *
+	 * state[i][X] paint the hoiuse from 1 to i, the ith house is painted with color X, 
+	 * which is the minimum cost. 
 	 * 
+	 * state[i][X] = R: min(state[i - 1][G], state[i - 1][B]) + cost[i][R]
+	 *               G: min(state[i - 1][R], state[i - 1][B]) + cost[i][G]
+	 *               B: min(state[i - 1][R], state[i - 1][G]) + cost[i][B]
+	 * return min(state[n][X])  S = R, G, B
 	 */
+	public static final int R = 0;
+	public static final int G = 1;
+	public static final int B = 2;
+	
+	public static void test4() {
+		int[][] cost = {
+				{10, 15, 20},
+				{30, 10, 15},
+				{15, 5,  50},
+				{5,  30, 20}
+		};
+		int rev = task4_paitHouse(cost);
+		System.out.println("rev = " + rev);
+	}
+	public static int task4_paitHouse(int[][] cost) {
+		int numHouse = cost.length;
+		int[][] state = new int[numHouse][3];
+		
+		System.out.println(state.length);
+		System.out.println(state[0].length);
+		// init
+		state[0][R] = cost[0][R];
+		state[0][G] = cost[0][G];
+		state[0][B] = cost[0][B];
+		
+		for(int i = 1; i < numHouse; i ++) {
+			state[i][R] = Math.min(state[i - 1][G], state[i - 1][B]) + cost[i][R];
+			state[i][G] = Math.min(state[i - 1][R], state[i - 1][B]) + cost[i][G];
+			state[i][B] = Math.min(state[i - 1][R], state[i - 1][G]) + cost[i][B];
+		}
+		
+		for(int i = 0; i < numHouse; i ++) {
+			for(int j = 0; j < 3; j ++) {
+				System.out.print(state[i][j] +" ");
+			}
+			System.out.println();
+		}
+		
+		return Math.min(Math.min(state[numHouse - 1][R], state[numHouse - 1][G]), state[numHouse - 1][B]);
+		
+	}
+	
+	/*
+	 * task4.1 follow up
+	 * if the number of colors is k
+	 * cost[n][k] nxk matrix. For example, cost[0][0] is the cost of paiting house 0 with color 0
+	 * cost[1][2] is the cost of paiting house 1 with ciolor 2
+	 * 
+	 * Find the minimum cost to pait all houses
+	 */
+	public static void test4_1() {
+		int[][] cost = {
+				{10, 15, 20},
+				{30, 10, 15},
+				{15, 5,  50},
+				{5,  30, 20}
+		};
+		int rev = task4_1_paitHouse(cost);
+		System.out.println("rev = " + rev);
+	}
+	
+	public static int task4_1_paitHouse(int[][] cost) {
+		if (cost == null || cost.length == 0 || cost[0] == null || cost[0].length == 0) {
+			return 0;
+		}
+		int numHouses = cost.length;
+		int numColors = cost[0].length;
+		int[][] state = new int[numHouses][numColors];
+		
+		// init
+		for(int i = 0; i < numHouses; i ++) {
+			for(int j = 0; j < numColors; j ++) {
+				if (i == 0) {
+					state[i][j] = cost[i][j];
+				} else {
+					int prevMin = Integer.MAX_VALUE;
+					for(int k = 0; k < numColors; k ++) {
+						if (k != j) {
+							prevMin = Math.min(prevMin, state[i - 1][k]);
+						}
+					}
+					
+					state[i][j] = prevMin + cost[i][j];
+				}
+			}
+		}
+		
+		// for debug
+		System.out.println("print out the matrix");
+		
+		for(int i = 0; i < numHouses; i ++) {
+			for(int j = 0; j < numColors; j ++) {
+				System.out.print(state[i][j] + " ");
+			}
+			System.out.println();
+		}
+		
+		int result = Integer.MAX_VALUE;
+		for(int j = 0; j < numColors; j ++ ) {
+			result = Math.min(result, state[numHouses - 1][j]);
+		}
+		
+		return result;
+	}
+	
+	// follow up: time:O(nk) 
+	// http://www.meetqun.com/thread-10660-1-1.html
+	
+	
 	
 	/*
 	 * task5
@@ -113,7 +238,44 @@ public class Class8_DPI {
 	 * result:max( state[i][30])
 	 *                   
 	 * 1st column -> 2nd column -> ...-> etc
+	 * 
+	 * profit[numCasinos][numDays]
+	 * stand for 每个赌场每天盈利钱数
+	 * 
 	 */
+	public static int task5_NCasino_Max_Profit(int[][] profit) {
+		if (profit == null || profit.length == 0 || profit[0] == null ||profit[0].length == 0) {
+			return 0;
+		}
+		int numCasinos = profit.length;
+		int numDays = profit[0].length;
+		
+		int[][] state = new int[numCasinos][numDays];
+		
+		for(int j = 0; j < numDays; j ++) {
+			for(int i = 0; i < numCasinos; i ++) {
+				if (j == 0) {
+					state[i][j] = profit[i][j];
+				} else {
+					if (i == 0) {
+						state[i][j] = state[i + 1][j - 1] + profit[i][j];
+					} else if (i == numCasinos - 1) {
+						state[i][j] = state[i - 1][j - 1] + profit[i][j];
+					} else {
+						state[i][j] = Math.min(state[i + 1][j - 1], state[i -1][j - 1]) + profit[i][j];
+					}
+				}
+			}
+		}
+		
+		int result = 0;
+		for(int i = 0; i < numCasinos; i ++) {
+			result = Math.min(result, state[i][numDays - 1]);
+		}
+		
+		return result;
+	}
+	
 	
 	/*
 	 * task6
@@ -121,6 +283,7 @@ public class Class8_DPI {
 	 * {1, ­3, 1, 3, ­5} → 1 + 3 = 4
 	 * 
 	 */
+	
 	/*
 	 * task6.1
 	 * largest submatrix sum 
