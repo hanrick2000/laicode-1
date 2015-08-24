@@ -321,81 +321,79 @@ public class Class2 {
 	A = {1, 2, 5, 9, ......}, T = 5, return 2
 	A = {1, 2, 5, 9, 12, ......}, T = 7, return -1
 	*/
-	 public int search(Dictionary dict, int target) {
-		    // Write your solution here
-		    if (dict == null) {
-					return -1;
-				}
-				int left = 0;
-				int right = 1;
-				
-				// if we still didn't find the right bound
-				while(dict.get(right) != null && dict.get(right) < target) {
-					left = right;
-					right *= 2;
-				}
-				
-				// after the above loop, array[right] >= target or right out of bound
-				return binarySearch(dict, left, right, target); 
-		  }
-		  
-		  
-		  public  int binarySearch(Dictionary dict, int left, int right, int target) {
-				if (left > right) {
-					return -1;
-				}
-			
-				while(left + 1 < right) {
-					int mid = left + (right - left)/2;
-					if (dict.get(mid) == null || dict.get(mid) > target ) {
-						// mid is out of bound or array[mid] > target
-						// move to left side
-						right = mid;
-					} else if (dict.get(mid) < target) {
-						// move to right side
-						left = mid;
-					} else {
-						return mid;
-					}
-				}
-				
-				if (dict.get(left) != null && dict.get(left) == target) {
-					return left;
-				} else if (dict.get(right) != null && dict.get(right) == target) {
-					return right;
-				} else {
-					return -1;
-				}
-	
 	/*
-	 * task8
-				a to the power of b
-				Fair
-				Recursion
-				Evaluate a to the power of b, assuming both a and b are integers and b is non-negative. 
+	public int search(Dictionary dict, int target) {
+		// Write your solution here
+		if (dict == null) {
+			return -1;
+		}
+		int left = 0;
+		int right = 1;
 
-				Examples
+		// if we still didn't find the right bound
+		while (dict.get(right) != null && dict.get(right) < target) {
+			left = right;
+			right *= 2;
+		}
 
-				power(2, 0) = 1
-				power(2, 3) = 8
-				power(0, 10) = 0
-				power(-2, 5) = -32
-				Corner Cases
+		// after the above loop, array[right] >= target or right out of bound
+		return binarySearch(dict, left, right, target);
+	}
+		  
+		  
+	public int binarySearch(Dictionary dict, int left, int right, int target) {
+		if (left > right) {
+			return -1;
+		}
 
-				What if the result is int overflowed? We can assume the result will not be overflowed when we solve this problem on this online judge.
+		while (left + 1 < right) {
+			int mid = left + (right - left) / 2;
+			if (dict.get(mid) == null || dict.get(mid) > target) {
+				// mid is out of bound or array[mid] > target
+				// move to left side
+				right = mid;
+			} else if (dict.get(mid) < target) {
+				// move to right side
+				left = mid;
+			} else {
+				return mid;
+			}
+		}
+
+		if (dict.get(left) != null && dict.get(left) == target) {
+			return left;
+		} else if (dict.get(right) != null && dict.get(right) == target) {
+			return right;
+		} else {
+			return -1;
+		}
+	}
 	*/
 	
-				 public long power(int a, int b) {
-					    // Write your solution here
-					    if (b == 0) {
-					      return 1;
-					    }
-					    long half = power(a, b/2);
-					    if (b %2 == 1) {
-					      return half*half * a;
-					    } else {
-					      return half*half;
-					    }
-					  }
-					  			
+	/*
+	 * task8 
+	 * a to the power of b Fair Recursion Evaluate a to the power of b,
+	 * assuming both a and b are integers and b is non-negative.
+	 * 
+	 * Examples
+	 * 
+	 * power(2, 0) = 1 power(2, 3) = 8 power(0, 10) = 0 power(-2, 5) = -32
+	 * Corner Cases
+	 * 
+	 * What if the result is int overflowed? We can assume the result will not
+	 * be overflowed when we solve this problem on this online judge.
+	 */
+
+	public long power(int a, int b) {
+		// Write your solution here
+		if (b == 0) {
+			return 1;
+		}
+		long half = power(a, b / 2);
+		if (b % 2 == 1) {
+			return half * half * a;
+		} else {
+			return half * half;
+		}
+	}
 }
