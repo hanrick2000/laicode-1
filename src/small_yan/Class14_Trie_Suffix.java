@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Map.Entry;
+
+import ds_lai_online2.TreeNode;
 
 
 public class Class14_Trie_Suffix {
@@ -14,8 +17,9 @@ public class Class14_Trie_Suffix {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 //		test();
+		test3();
 //		test5();
-		test8();
+//		test8();
 	}
 	public static class TrieNode{
 		Map<Character, TrieNode> children;
@@ -56,7 +60,7 @@ public class Class14_Trie_Suffix {
 		insert2(root.children.get(next), str.substring(1));
 	}
 	
-	//
+	// search the str in Trie. return 
 	public static TrieNode search(TrieNode root, String str) {
 		TrieNode curNode = root;
 		for(int i = 0; i < str.length(); i ++) {
@@ -112,24 +116,26 @@ public class Class14_Trie_Suffix {
 		String s1 = "abc";
 		String s2 = "ad";
 		String s3 = "abd";
-		
 		String s4 = "ab";
 		TrieNode root = new TrieNode();
 		insert2(root, s1);
 		insert2(root, s2);
 		insert2(root, s3);
 		insert2(root, s4);
+		
+		String s5 = "ab";
 //		levelOrderTraversal(root);
-//		TrieNode node = search(root, s2);
+//		TrieNode node = search(root, s5);
 //		System.out.println(node.isEnd);
 //		System.out.println(node.visited);
 //		for(Map.Entry<Character, TrieNode> entry: node.children.entrySet()) {
 //			System.out.println(entry.getKey() + " ");
 //		}
 //		remove(root, s3);
-//		System.out.println("---------------------");
-//		levelOrderTraversal(root);
+		System.out.println("---------------------");
+		levelOrderTraversal(root);
 		String prefix = "ab";
+		System.out.println("task1: all str with prefix: ");
 		ArrayList<String> result = task2_all_str_with_prefix(root, prefix);
 		System.out.println(result);
 		System.out.println(task2_1_all_str_with_prefix(root, prefix));
@@ -188,6 +194,9 @@ public class Class14_Trie_Suffix {
 			return 0;
 		}
 		TrieNode node = search(root, prefix);
+		if (node == null) {
+			return 0;
+		}
 		return node.visited;
 	}
 	
@@ -204,6 +213,9 @@ public class Class14_Trie_Suffix {
 			return ;
 		}
 		TrieNode node = search(root, prefix);
+		if (node == null) {
+			return ;
+		}
 		for(Map.Entry<Character, TrieNode> entry : node.children.entrySet()) {
 			System.out.println(entry.getKey());
 		}
@@ -213,9 +225,49 @@ public class Class14_Trie_Suffix {
 	 * task3
 	 * given a list of strings, find a list of prefix, we can uniquely identify every strings in the list. 
 	 * 给你一个list 的字符串，找出一个list of prefix，  从而可以uniquely identify 每个字符串
-	 * if (visited == 1 || isEnd) //  所有的path
-	 * 
+	 * if (visited == 1 || isEnd) //  所有的path 
 	 */
+	public static void test3() {
+		String[] strArray = {
+				"abcd", "bce", "bcd", "cdef"
+		};
+		List<String> input = new ArrayList<String>();
+		for(String str: strArray) {
+			input.add(str);
+		}
+		
+		List<String> result = task3_list_prefix_unique_identify_every_str(input);
+		System.out.println(result);
+		
+	}
+	
+	public static List<String> task3_list_prefix_unique_identify_every_str(List<String> input) {
+		TrieNode root = new TrieNode();
+		for(String str: input) {
+			insert2(root, str);
+		}
+		
+		List<String> result = new ArrayList<String>();
+		StringBuilder stb = new StringBuilder();
+		task3_helper(root, stb, result);
+		return result;
+	}
+	
+	public static void task3_helper(TrieNode node, StringBuilder stb, List<String> result) {
+		if (node.isEnd || node.visited == 1) {
+			// we find a prefix that can uniquely identify a node
+			String prefix = stb.toString();
+			result.add(prefix);
+			return ;
+		}
+		
+		for(Entry<Character, TrieNode> entry: node.children.entrySet()) {
+			stb.append(entry.getKey());
+			task3_helper(entry.getValue(), stb, result);
+			stb.deleteCharAt(stb.length() - 1);
+		}
+	}
+	
 	
 	/*
 	 * task4
@@ -232,7 +284,8 @@ public class Class14_Trie_Suffix {
 	
 	/*
 	 * task5
-	 * 给一个dictionary, 一个target string, 找出edit distance with the target string, check if the edit distance <= 1
+	 * 给一个dictionary, 一个target string, 找出edit distance with the target string, 
+	 * check if the edit distance <= 1
 	 *  
 	 * method1
 	 * naive
@@ -322,6 +375,7 @@ public class Class14_Trie_Suffix {
 	 * find all the words in the dictionary matches the regular expression.
 	 */
 	
+	
 	/*
 	 * task7
 	 * Boggle Game
@@ -383,7 +437,7 @@ public class Class14_Trie_Suffix {
 	
 	public static void BoggleGameHelper(char[][] matrix, boolean[][] visited, StringBuilder stb, TrieNode node, 
 			int rIndex, int cIndex, ArrayList<String> result) {
-		//!!!! Not check here. will leat to wrong answer
+		//!!!! Not check here. will lead to wrong answer
 //		System.out.println("stb.tostring = " + stb.toString());
 //		if (node.isEnd == true) {
 //			// we find a reasonable solution. 
