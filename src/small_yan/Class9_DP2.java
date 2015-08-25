@@ -154,7 +154,6 @@ public class Class9_DP2 {
 	 *  
 	 * 
 	 */
-	
 	/*
 	 * task2.4
 	 * state[i][k]: from index i, jump k steps can reach the end of array
@@ -240,18 +239,30 @@ public class Class9_DP2 {
 	 * 
 	 * prob(n, x) = probability of moving n steps, reaching x
 	 * prob(n, x) = prob(n - 1, x - 1)* 0.5 + prob(n-1, x + 1)* 0.5
-	 * 
+	 *                from x - 1                 from x + 1 
 	 * result:
 	 * prob(n, 0)
 	 */
+		
+	
 	
 	
 	/*
 	 * task4
 	 * Given an n x n matrix A(i,j) of integers, 
 	 * find maximum value A(c,d) ­- A(a,b) over all choices of indexes such that both c > a and d > b.
-	 * !!!
+	 * 
+	 * max(a, b) maximum value in submatrix of ((a + 1), (b + 1)) as top left corner
+	 * 
+	 * max(a, b) = max of (max(a + 1), b) max(a, b + 1), max(a + 1, b + 1)
+	 * 
+	 * from right to left, 
+	 * from low to up
+	 * 
 	 */
+	
+	
+	
 	
 	/*
 	 * task5

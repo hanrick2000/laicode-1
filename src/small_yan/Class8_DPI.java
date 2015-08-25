@@ -289,6 +289,8 @@ public class Class8_DPI {
 	 * largest submatrix sum 
 	 * O(n ^ 3)
 	 */
+	
+	
 	/*
 	 * task6.2
 	 * largest subarray product
@@ -360,15 +362,62 @@ public class Class8_DPI {
 	
 	/*
 	 * task6_3
-	 * largest submatrix productc
+	 * largest submatrix product
 	 * 
 	 */
 	
 	/*
 	 * task7 
 	 * number of square in a graph
-	 * 
+	 * Given a rectangular image of horizontal and vertical lines, 
+	 * return the number of squares present in the image.
+	 * You should think about how to represent horizontal and vertical lines by yourself
+	 *  
+	 *  得到那个Node[][] matrix. 
+	 *  然后对于每个点，（i,j）我们检查(i-1, j-1) ==> (i, j), (i-2, j - 2) ==> (i, j) ... 这些square 是否有效..
+	 *  比如说，检查  （i-2, j - 2） ==> (i, j), 我们就需要检查一下， 
+	 * （matrix[i-2][j].fromLeft == true && matrix[i-2][j].longestFromLeft >= 2） &&
+	 *  (matrix[i][j-2].fromUp == true && matrix[i][j-2].longestFromUp >= 2), 
+	 *  确保他们也能到达(i-2, j - 2) 这个点...
+	 *  这样就得到了1个square. 
+	 *  counter  //用来记录 square 的个数。
+	 *  
 	 */
+	public static class Node {
+		public boolean from_left;  // can from left
+		public boolean from_up;   // can from up
+		public int longest_from_left; // longest distance from left
+		public int longest_from_up;   // longest distance from up
+	}
+	
+	public static int task7_numSquare(Node[][] graph) {
+		
+		if (graph == null || graph.length == 0) {
+			return 0;
+		}
+		int counter = 0;
+		for(int i = 1; i < graph.length; i ++) {
+			for(int j = 1; j < graph[0].length; j ++) {
+				int minLongest = Math.min(graph[i][j].longest_from_left, graph[i][j].longest_from_up);
+				if (graph[i][j].from_left == true && graph[i][j].from_up == true) {
+					for(int diag = 1; diag <= minLongest; i ++) {
+						int i_prev = i - diag;
+						int j_prev = j - diag;
+						// check (i, j_prev)
+						boolean check1 = graph[i][j_prev].from_up && graph[i][j_prev].longest_from_up >= diag;
+						// check (i_prev, j)
+						boolean check2 = graph[i_prev][j].from_left && graph[i_prev][j].longest_from_left >= diag;
+						
+						if (check1 && check2) {
+							counter ++;
+						}
+					}
+				}
+			}
+		}
+		return counter;
+	}
+	
 	
 	/*
 	 * task8
@@ -425,6 +474,7 @@ public class Class8_DPI {
 		Debug.printMatrix(state);
 		return state[0][n - 1];
 	}
+	
 	
 	
 	
