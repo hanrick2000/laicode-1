@@ -17,8 +17,9 @@ public class Class14_Trie_Suffix {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 //		test();
-		test3();
-//		test5();
+//		test3();
+		test5();
+//		test6();
 //		test8();
 	}
 	public static class TrieNode{
@@ -284,12 +285,15 @@ public class Class14_Trie_Suffix {
 	
 	/*
 	 * task5
-	 * 给一个dictionary, 一个target string, 找出edit distance with the target string, 
+	 * 给一个dictionary, 一个target string, 找出edit distance with the target string,
+	 * 找出所有edit distance < = 1 的单词
+	 *  
 	 * check if the edit distance <= 1
 	 *  
 	 * method1
 	 * naive
 	 * editDistance(String s1, String s2) O(m*n)
+	 * 
 	 * for each of the strings in the dictionary, calculate the edit distance with the target string, check
 	 * if the edit distance <= 1
 	 * target string length: m
@@ -305,9 +309,11 @@ public class Class14_Trie_Suffix {
 	
 	public static void test5() {
 		String[] strarr = {
-				"abcde",
+				"abce",
 				"abef",
-				"adgk"
+				"adgk",
+				"abd",
+				"abcd"
 		};
 		String target = "abc";
 		ArrayList<String> dict = new ArrayList<String>();
@@ -329,11 +335,14 @@ public class Class14_Trie_Suffix {
 	}
 	
 	public static void find(String target, String path, TrieNode root, int distance, ArrayList<String> result) {
+		System.out.println("1: path = " + path);
+		System.out.println("2: distance = " + distance);
 		if (target.isEmpty()) {
 			if (distance == 0) {
 				if (root.isEnd) {
 					// only when target is empty and distance == 0 and root is end node
 					// the path can be added to result
+					System.out.println("path = " + path);
 					result.add(path);
 				}
 			} else {
@@ -341,17 +350,17 @@ public class Class14_Trie_Suffix {
 				// and the target is empty, we can do inserting one character to path
 				// and going to the next level with distance == 0
 				for(Entry<Character, TrieNode> entry: root.children.entrySet()) {
-					find(target, path + entry.getKey(), root, 0, result);
+					find(target, path + entry.getKey(), entry.getValue(), 0, result);
 				}
 			}
 			return ;
 		}
 		// target is not empty, get the first character
 		char cur = target.charAt(0);
-		// if there exists a child node mapped by the first character, we can gothere without changing the 
+		// if there exists a child node mapped by the first character, we can go there without changing the 
 		// distance
 		if (root.children.containsKey(cur)) {
-			find(target.substring(1), path, root, 0 , result);
+			find(target.substring(1), path + cur, root.children.get(cur), distance , result);
 		}
 		
 		if (distance == 1) {
@@ -367,13 +376,15 @@ public class Class14_Trie_Suffix {
 	}
 	
 	
-	
 	/*
 	 * task6
 	 * !!!
 	 * Given a dictionary and a regular expression, 
 	 * find all the words in the dictionary matches the regular expression.
 	 */
+	
+	 
+	
 	
 	
 	/*
@@ -391,7 +402,7 @@ public class Class14_Trie_Suffix {
 	 * Can we search for all the words at once instead of search for each of them one by one? Record the current visiting Trie node when doing the DFS.
 	 */
 	 
-	 	public static void test2() {
+	 	public static void test6() {
 		char[][] matrix = {
 				"ABCD".toCharArray(),
 				"DEEG".toCharArray(),
@@ -554,12 +565,15 @@ public class Class14_Trie_Suffix {
 	}
 	
 	
+	
+	
 	/*
 	 * task8
 	 * 4. a set of integer binary representations, S = 
 	 * S = “10000” “100” “1101”
 	 * T = “1011”
-	 * given another integer binary representation T, what is the largest value that can be made by T XOR any of S?
+	 * given another integer binary representation T, 
+	 * what is the largest value that can be made by T XOR any of S?
 	 * 01011 ^ 10000 = 11011
 	 * 01011 ^ 10100 = 11111
 	 * 01011 ^ 11101 = 10110
@@ -590,6 +604,8 @@ public class Class14_Trie_Suffix {
 		for(int i = 0; i < dict.length; i ++) {
 			maxLen = Math.max(maxLen, dict[i].length());
 		}
+		
+		// for strings in dict
 		ArrayList<String> dict2 = new ArrayList<String>();
 		for(int i = 0; i < dict.length; i ++) {
 			int diff = maxLen - dict[i].length();
@@ -602,6 +618,7 @@ public class Class14_Trie_Suffix {
 		}
 		System.out.println(dict2);
 		
+		// for T
 		int diff = maxLen - T.length();
 		StringBuilder sb = new StringBuilder();
 		for(int i = 0; i < diff;i ++) {
@@ -638,12 +655,41 @@ public class Class14_Trie_Suffix {
 			return ;
 		}
 		
+		// do dfs
 		for(Map.Entry<Character, TrieNode> entry: root.children.entrySet()) {
 			stb.append(entry.getKey());
 			task8_helper(entry.getValue(), T, stb);
 			stb.deleteCharAt(stb.length() - 1);
 		}
 	}
+	
+	
+	
+	/*	
+	 * Google Search 的时候， auto complete 怎么弄？ 
+	 * "amazon"
+	 * 1 "a" - top 10 frequently visited pages with 'a' as prefix
+	 * 2 "am"- top 10 frequently visited pages with "am" as prefix
+	 * 3 "ama" - top 10 frequently visited page with "ama" as prefix
+	 * 
+	 * This is : Prefix matching
+	 * 1. we can store the top 10 frequently visited pages with the current node as prefix
+	 * 2. how can we caululate top 10? 
+	 * 
+	 *      	             root
+	 *  	                 | 'a'
+	 *                  	 A
+	 *           /'a'  /'b'    \'c'   \'d'
+	 *           A     B       C       D
+	 *   B: store top 10 with prefix 'ab'
+	 *   C: store top 10 with prefix 'ac'
+	 *   ...
+	 *   Z: store top 10 with prefix 'az'
+	 *   
+	 *  top 10 with prefix "a" = merge all top 10 of its children ---> merge k sorted list. 
+	 *           
+	 *
+	 */
 	
 	
 	// Suffix Tree
@@ -664,16 +710,29 @@ public class Class14_Trie_Suffix {
 	// we still want to solve problem with "prefix" related.
 	// all the paths from root == all the substrings of the given string
 	// e.g
+	
+	
 	// 1 longest substring with repeated in a string, example banana, return ana (ana repeated twice)
 	// this is the same problem as "in the trie, what is the longest prefix that shared by multiple strings"
-	// use visited as other information. 
+	// use visited as other information.
+	
+	/*
+	 * class TrieNode{
+	 * 		Map<Character, TireNode> children;
+	 * 		boolean isEnd;
+	 * 		// other information
+	 * 		int visited;
+	 * }
+	 */
 	// 2 longest common substring with two different strings. DP
 	// S, T
-	// carete suffix tree for S
+	// create suffix tree for S
 	// for each suffix of T, search suffix in suffix Tree of S
 	// S = "banana"
 	// T = "nancy"
 	// return "nan"
+	
+	
 	
 	
 	
