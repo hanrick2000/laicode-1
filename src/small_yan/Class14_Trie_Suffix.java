@@ -16,9 +16,9 @@ public class Class14_Trie_Suffix {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-//		test();
+		test();
 //		test3();
-		test5();
+//		test5();
 //		test6();
 //		test8();
 	}
@@ -731,6 +731,27 @@ public class Class14_Trie_Suffix {
 	// S = "banana"
 	// T = "nancy"
 	// return "nan"
+	
+	/*
+	 * Largest distance between two identical substring with length >= 2
+	 * 
+	 * e,g
+	 * "b a n a n a n" 
+	 *  0 1 2 3 4  5 6
+	 *  
+	 *  distancd is 5 - 1 = 4
+	 *  
+	 *  class TrieNode {
+	 *  	Map<Character, TrieNode> children;
+	 *  	boolean isEnd;
+	 *  	// other information
+	 *  	ArrayList<Integer> startIndices;
+	 *  }
+	 *  an -> [1]
+	 *  an -> [1,3]
+	 *  an -> [1,3,5]
+	 */
+	
 	
 	
 	
