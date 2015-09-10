@@ -1,12 +1,15 @@
 package small_yan;
 
 import java.util.Arrays;
+import java.util.PriorityQueue;
+
 
 public class  Class5_Arrays2 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		test3();
+//		test3();
+		test3_2d();
 	}
 	
 	/*
@@ -177,6 +180,105 @@ public class  Class5_Arrays2 {
 	 * 
 	 * 
 	 */
+	public static void test3_2d() {
+		int[][] matrix = { 
+				{ 12, 13, 0, 12 }, 
+				{ 13, 4, 13, 12 },
+				{ 13, 8, 10, 12 }, 
+				{ 12, 13, 12, 12 }, 
+				{ 13, 13, 13, 13 } 
+		};
+		int max = maxTrapWater2D(matrix);
+		System.out.println("max = " + max);
+	}
+	
+	public static class Cell implements Comparable<Cell>{
+		public int x, y, h;  
+		// h means that tha maximum height that this cell can hold.
+		// if h > matrix[x][y], we can trap some water on this cell
+		// if h <= matrix[x][y], we cannot trap any water on this cell. 
+		public Cell(int xx, int yy, int hh) {
+			this.x = xx;
+			this.y = yy;
+			this.h = hh;  
+		}
+		@Override
+		public int compareTo(Cell o) {
+			// TODO Auto-generated method stub
+			if (this.h == o.h) {
+				return 0;
+			}
+			return this.h < o.h ? -1 : 1;
+		}
+	}
+	
+	public static int[] dx = {0, 0, -1, 1};
+	public static int[] dy = {-1,1,  0, 0};
+	
+	
+	
+	public static int maxTrapWater2D(int[][] matrix) {
+		// edge check
+		if (matrix == null || matrix.length == 0 || matrix[0] == null || matrix[0].length == 0) {
+			return 0;
+		}
+		
+		PriorityQueue<Cell> q = new PriorityQueue<Cell>();
+		// use visited
+		boolean[][] visited = new boolean[matrix.length][matrix[0].length];
+		
+		int rowLen = matrix.length;
+		int colLen = matrix[0].length;
+		
+		// put the left, right into q
+		for(int i = 0; i < rowLen; i ++) {
+			Cell c1 = new Cell(i, 0, matrix[i][0]);
+			Cell c2 = new Cell(i, colLen - 1, matrix[i][colLen - 1]);
+			
+			q.offer(c1);
+			q.offer(c2);
+			
+			visited[i][0] = true;
+			visited[i][colLen - 1] = true;
+		}
+		
+		// put the up, down bounds into q
+		for(int j = 1; j < colLen - 1; j ++) {
+			Cell c1 = new Cell(0, j, matrix[0][j]);
+			Cell c2 = new Cell(rowLen - 1, j, matrix[rowLen - 1][j]);
+			
+			q.offer(c1);
+			q.offer(c2);
+			
+			visited[0][j] = true;
+			visited[rowLen - 1][j] = true;
+		}
+		
+		
+		int sum = 0;
+		
+		while(!q.isEmpty()) {
+			Cell cur = q.poll();
+			
+			for(int i = 0; i < 4; i ++) {
+				int nx = cur.x + dx[i];
+				int ny = cur.y + dy[i];
+				
+				if (nx >= 0 && nx < rowLen && ny >= 0 && ny < colLen && !visited[nx][ny]) {
+					Cell c = new Cell(nx, ny, Math.max(cur.h, matrix[nx][ny]));
+					visited[nx][ny] = true;
+					q.offer(c);
+					sum = sum + Math.max(0, cur.h - matrix[nx][ny]);	
+				}
+			}
+		}
+		
+		return sum;
+		
+	}
+	
+	
+	
 	
 	
 	/*
@@ -233,15 +335,13 @@ public class  Class5_Arrays2 {
 	 * rightMax[]
 	 * traverse the leftMin[i] and rightMax[i]. if leftMin[i] < array[i] < rightMax[i]
 	 * 
-<<<<<<< HEAD
 	 * 
 	 * geeksforgeeks array/P7
 	 * Find a sorted subsequence of size 3 in linear time
-=======
+	 * 
 	 * follow up
 	 * find the k sorted sequence in array
 	 * refer geeks4geeks  arrays.P7_array.task4
->>>>>>> cfb8c5017abdf98a7d17ff2589a3c3ebf7d902f6
 	 */
 	public static void task5_find3Sorted(int[] a) {
 		int n = a.length;
