@@ -254,7 +254,6 @@ public class  Class5_Arrays2 {
 			visited[rowLen - 1][j] = true;
 		}
 		
-		
 		int sum = 0;
 		
 		while(!q.isEmpty()) {
