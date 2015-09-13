@@ -16,6 +16,9 @@ public class KClosest {
 //		System.out.println( esult);
 		Debug.printArray(result);
 	}
+	
+	
+	
 	public static int[] kClosest(int[] array, int target, int k) {
 	    // Write your solution here
 	    if (array == null || array.length < k) {
