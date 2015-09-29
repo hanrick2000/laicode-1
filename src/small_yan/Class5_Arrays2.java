@@ -215,8 +215,6 @@ public class  Class5_Arrays2 {
 	public static int[] dx = {0, 0, -1, 1};
 	public static int[] dy = {-1,1,  0, 0};
 	
-	
-	
 	public static int maxTrapWater2D(int[][] matrix) {
 		// edge check
 		if (matrix == null || matrix.length == 0 || matrix[0] == null || matrix[0].length == 0) {

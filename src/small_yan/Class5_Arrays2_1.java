@@ -2,7 +2,7 @@ package small_yan;
 
 import java.util.Arrays;
 
-public class  Class5_Arrays2 {
+public class  Class5_Arrays2_1 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

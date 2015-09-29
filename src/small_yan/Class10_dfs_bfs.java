@@ -140,6 +140,9 @@ public class Class10_dfs_bfs {
 	
 	/*
 	 * task4
+	 * 
+	 * Boggle Game
+	 * 
 	 * Given a matrix of characters, you can move from one cell to neighbor cell(up, down, left, right), 
 	 * each cell can be used only once. can you find the path of a given word?
 	 * 
@@ -221,6 +224,33 @@ public class Class10_dfs_bfs {
 	}
 	
 	
+	/*
+	 * task5
+	 * Shortest distance to police 
+	 * see ShortestDistance2Police in same file
+	 */
+	
+	/*
+	 * task6
+	 * Manhattan Distance
+	 * 
+	 */
+	
+	/*
+	 * task7
+	 * Letter combination phone number II
+	 * 
+	 * DFS
+	 * 
+	 * additional requirement: no duplicates set of characters for the same number
+	 */
+	
+	/*
+	 * task8
+	 * 一个球从七点开始滚， 看能不能滚到终点
+	 */
+	
+
 	
 	
 	
