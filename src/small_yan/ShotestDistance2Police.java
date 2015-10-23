@@ -89,7 +89,7 @@ public class ShotestDistance2Police {
 		boolean[][] visited = new boolean[rLen][cLen];
 		Queue<Pair> q = new LinkedList<Pair>();
 		q.add(new Pair(i, j));
-		visited[i][j] = true;
+//		visited[i][j] = true;
 		System.out.println(q.size());
 		int distance = 0;
 		while( !q.isEmpty()) {
@@ -97,36 +97,38 @@ public class ShotestDistance2Police {
 			for(int k = 0; k < size; k ++) {
 				// expand this node
 				Pair cur = q.poll();
+				visited[cur.x][cur.y] = true;
 				shortestPath[cur.x][cur.y] = Math.min(shortestPath[cur.x][cur.y], distance);
 				
 				ArrayList<Pair> neighbors = getNeighbors(matrix, visited, cur);
 				for(Pair nei: neighbors) {
 					q.offer(nei);
-					visited[nei.x][nei.y] = true;
+//					visited[nei.x][nei.y] = true;
 				}
 			}
 			distance ++;
 		}	
 	}
 	
+	public static int[] dx = {0, 0, -1, 1};
+	public static int[] dy = {-1, 1, 0, 0};
 	
 	public static ArrayList<Pair> getNeighbors(char[][] matrix, boolean[][] visited, Pair cur) {
 		int rLen = matrix.length;
 		int cLen = matrix[0].length;
 		
 		ArrayList<Pair> neighbors = new ArrayList<ShotestDistance2Police.Pair>();
-		if (cur.x + 1 < rLen && !visited[cur.x + 1][cur.y] && matrix[cur.x + 1][cur.y] != 'C') {
-			neighbors.add(new Pair(cur.x + 1, cur.y));
+		
+		
+		for(int i = 0;i < 4; i ++) {
+			int next_x = cur.x + dx[i];
+			int next_y = cur.y + dy[i];
+			if (next_x >= 0 && next_x < rLen && next_y >= 0 && next_y < cLen
+					&& matrix[next_x][next_y] != 'C' && !visited[next_x][next_y]) {
+				neighbors.add(new Pair(next_x, next_y));
+			}
 		}
-		if (cur.x - 1 >= 0 && !visited[cur.x - 1][cur.y] && matrix[cur.x - 1][cur.y] != 'C') {
-			neighbors.add(new Pair(cur.x - 1, cur.y));
-		}
-		if (cur.y + 1 < cLen && !visited[cur.x][cur.y + 1] && matrix[cur.x][cur.y + 1] != 'C') {
-			neighbors.add(new Pair(cur.x, cur.y + 1));
-		}
-		if (cur.y - 1 >= 0 && !visited[cur.x][cur.y - 1] && matrix[cur.x ][cur.y - 1] != 'C') {
-			neighbors.add(new Pair(cur.x, cur.y - 1));
-		}
+		
 		return neighbors;
 		
 	}

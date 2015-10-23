@@ -39,7 +39,7 @@ public class Class10_dfs_bfs {
 		task1_helper_better(num, path, result);
 		return result;
 	}
-	 
+	
 	
 	public static void task1_helper(int num, ArrayList<Integer> path, ArrayList<ArrayList<Integer>> result) {
 		if (num == 1) {
@@ -196,32 +196,29 @@ public class Class10_dfs_bfs {
 		if (index == str.length()) {
 			return true;
 		}
-		// rowIndex out of bound
-		if (rowIndex < 0 || rowIndex >= matrix.length) {
+		
+		if (rowIndex < 0 || rowIndex >= matrix.length ||
+				colIndex < 0 || colIndex >= matrix[0].length ||
+				visited[rowIndex][colIndex] || matrix[rowIndex][colIndex] != str.charAt(index)) {
 			return false;
 		}
-		// colIndex out of bound
-		if (colIndex < 0 || colIndex >= matrix[0].length) {
-			return false;
-		}
-		// already visited
-		if (visited[rowIndex][colIndex]) {
-			return false;
-		}
-		if (matrix[rowIndex][colIndex] != str.charAt(index)) {
-			return false;
-		}
+		
 		visited[rowIndex][colIndex] = true;
 		
 		// next index, in 4 directions
-		boolean result = task3_helper(matrix, str, visited, index + 1, rowIndex + 1, colIndex) ||
-				         task3_helper(matrix, str, visited, index + 1, rowIndex - 1, colIndex) ||
-				         task3_helper(matrix, str, visited, index + 1, rowIndex, colIndex + 1) ||
-				         task3_helper(matrix, str, visited, index + 1, rowIndex, colIndex - 1);
+		boolean result = false;
+		for(int i = 0; i < 4; i ++) {
+			int next_x = rowIndex + dx[i];
+			int next_y = colIndex + dy[i];
+			result = result || task3_helper(matrix, str, visited, index + 1, next_x, next_y);
+		}
 		visited[rowIndex][colIndex] = false;
 		
 		return result;		         
 	}
+	
+	public static int[] dx = {-1, 1, 0, 0};
+	public static int[] dy = {0,  0, 1, 1};
 	
 	
 	/*
@@ -243,12 +240,18 @@ public class Class10_dfs_bfs {
 	 * DFS
 	 * 
 	 * additional requirement: no duplicates set of characters for the same number
+	 * 
+	 * leetcode task17  in leetcode5
 	 */
+	
+	
 	
 	/*
 	 * task8
-	 * 一个球从七点开始滚， 看能不能滚到终点
+	 * 一个球从起点开始滚， 看能不能滚到终点
+	 * 
 	 */
+	
 	
 
 	

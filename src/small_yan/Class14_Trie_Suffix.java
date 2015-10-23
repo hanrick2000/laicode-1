@@ -9,17 +9,17 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Map.Entry;
 
-import ds_lai_online2.TreeNode;
+
 
 
 public class Class14_Trie_Suffix {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		test();
+//		test();
 //		test3();
 //		test5();
-//		test6();
+		test6();
 //		test8();
 	}
 	public static class TrieNode{
@@ -114,8 +114,8 @@ public class Class14_Trie_Suffix {
 	}
 	
 	public static void test() {
-		String s1 = "abc";
-		String s2 = "ad";
+		String s1 = "abe";
+		String s2 = "ac";
 		String s3 = "abd";
 		String s4 = "ab";
 		TrieNode root = new TrieNode();
@@ -124,7 +124,7 @@ public class Class14_Trie_Suffix {
 		insert2(root, s3);
 		insert2(root, s4);
 		
-		String s5 = "ab";
+//		String s5 = "ab";
 //		levelOrderTraversal(root);
 //		TrieNode node = search(root, s5);
 //		System.out.println(node.isEnd);
@@ -133,15 +133,17 @@ public class Class14_Trie_Suffix {
 //			System.out.println(entry.getKey() + " ");
 //		}
 //		remove(root, s3);
+
 		System.out.println("---------------------");
-		levelOrderTraversal(root);
+//		levelOrderTraversal(root);
 		String prefix = "ab";
 		System.out.println("task1: all str with prefix: ");
 		ArrayList<String> result = task2_all_str_with_prefix(root, prefix);
 		System.out.println(result);
-		System.out.println(task2_1_all_str_with_prefix(root, prefix));
+//		System.out.println(task2_1_all_str_with_prefix(root, prefix));
 		
-		task2_2_next_char_of_prefix(root, prefix);
+//		task2_2_next_char_of_prefix(root, prefix);
+
 	}
 	
 	
@@ -173,6 +175,7 @@ public class Class14_Trie_Suffix {
 			// we find the solution
 			String sln = prefix + stb.toString();
 			result.add(sln);
+			// don't add return here
 		}
 		for(Map.Entry<Character, TrieNode> entry: node.children.entrySet()) {
 			stb.append(entry.getKey());
@@ -222,12 +225,14 @@ public class Class14_Trie_Suffix {
 		}
 	} 
 	
+	
 	/*
 	 * task3
 	 * given a list of strings, find a list of prefix, we can uniquely identify every strings in the list. 
 	 * 给你一个list 的字符串，找出一个list of prefix，  从而可以uniquely identify 每个字符串
 	 * if (visited == 1 || isEnd) //  所有的path 
 	 */
+	
 	public static void test3() {
 		String[] strArray = {
 				"abcd", "bce", "bcd", "cdef"
@@ -253,6 +258,7 @@ public class Class14_Trie_Suffix {
 		task3_helper(root, stb, result);
 		return result;
 	}
+	
 	
 	public static void task3_helper(TrieNode node, StringBuilder stb, List<String> result) {
 		if (node.isEnd || node.visited == 1) {
@@ -281,6 +287,39 @@ public class Class14_Trie_Suffix {
 	 * we need to find all the paths ending with visited >= 75% total # of urls, and pick the longest path
 	 * as the result.
 	 */
+	public static String task4_longestURL(List<String> urls) {
+		int allURLnum = urls.size();
+		List<String> result = new ArrayList<String>();
+		TrieNode root = new TrieNode();
+		for(String s: urls) {
+			insert2(root, s);
+		}
+		StringBuilder stb = new StringBuilder();
+		task4_helper(result, root, allURLnum, stb);
+		
+		int maxLen = 0;
+		String rev = "";
+		for(String s : result) {
+			if (maxLen < s.length()) {
+				rev = s;
+			}
+		}
+		return rev;
+	}
+	
+	public static void task4_helper(List<String> result, TrieNode node, int allURLnum, StringBuilder stb) {
+		if (node.visited > allURLnum *3/4) {
+			String prefix = stb.toString();
+			result.add(prefix);
+			return ;
+		}
+		
+		for(Entry<Character, TrieNode> entry: node.children.entrySet()) {
+			stb.append(entry.getKey());
+			task4_helper(result, entry.getValue(), allURLnum, stb);
+			stb.deleteCharAt(stb.length() - 1);
+		}
+	}
 	
 	
 	/*
@@ -381,6 +420,9 @@ public class Class14_Trie_Suffix {
 	 * !!!
 	 * Given a dictionary and a regular expression, 
 	 * find all the words in the dictionary matches the regular expression.
+	 * 
+	 * “?” ­ single character
+	 * “*” ­ zero or more of any characters
 	 */
 	
 	 
@@ -446,6 +488,10 @@ public class Class14_Trie_Suffix {
 		return result;
 	}
 	
+	
+	public static int[] dx = {0, 0, -1, 1};
+	public static int[] dy = {-1,1, 0,  0};
+	
 	public static void BoggleGameHelper(char[][] matrix, boolean[][] visited, StringBuilder stb, TrieNode node, 
 			int rIndex, int cIndex, ArrayList<String> result) {
 		//!!!! Not check here. will lead to wrong answer
@@ -482,10 +528,11 @@ public class Class14_Trie_Suffix {
 			// for debug
 //			System.out.println("stb.tostring2 = " + stb.toString());
 			
-			BoggleGameHelper(matrix, visited, stb, nextNode , rIndex+ 1, cIndex, result);
-			BoggleGameHelper(matrix, visited, stb, nextNode , rIndex - 1, cIndex, result);
-			BoggleGameHelper(matrix, visited, stb, nextNode , rIndex, cIndex + 1, result);
-			BoggleGameHelper(matrix, visited, stb, nextNode , rIndex, cIndex - 1, result);
+			for(int i = 0; i < 4; i ++) {
+				int next_x = rIndex + dx[i];
+				int next_y = cIndex + dy[i];
+				BoggleGameHelper(matrix, visited, stb, nextNode, next_x, next_y, result);
+			}
 			
 			visited[rIndex][cIndex] = false;
 			stb.deleteCharAt(stb.length() - 1);
@@ -534,10 +581,13 @@ public class Class14_Trie_Suffix {
 //			set.add(stb.toString());
 //			return ;
 //		}
+		
+		// out of bound
 		if (trie == null || rowIndex < 0 || rowIndex >= board.length
 				|| colIndex < 0 || colIndex >= board[0].length) {
 			return;
 		}
+		// 
 		if (trie.children.get(board[rowIndex][colIndex]) == null
 				|| visited[rowIndex][colIndex]) {
 			return;
@@ -551,15 +601,13 @@ public class Class14_Trie_Suffix {
 		}
 		
 		visited[rowIndex][colIndex] = true;
-		// up
-		helper(board, visited, next, rowIndex - 1, colIndex, stb, set);
-		// down
-		helper(board, visited, next, rowIndex + 1, colIndex, stb, set);
-		// left
-		helper(board, visited, next, rowIndex, colIndex - 1, stb, set);
-		// right
-		helper(board, visited, next, rowIndex, colIndex + 1, stb, set);
-
+		
+		for(int i = 0; i < 4; i ++) {
+			int next_x = rowIndex + dx[i];
+			int next_y = colIndex + dy[i];
+			helper(board, visited, next, next_x, next_y, stb, set);
+		}
+		
 		visited[rowIndex][colIndex] = false;
 		stb.deleteCharAt(stb.length() - 1);
 	}

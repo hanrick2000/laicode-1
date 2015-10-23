@@ -28,6 +28,7 @@ public class Ocean {
 		}
 	}
 	
+	
 	public static class Pair implements Comparable<Pair>{
 		public int x;
 		public int y;
@@ -159,22 +160,22 @@ public class Ocean {
 		
 	}
 	
+	public static int[] dx = {0, 0, -1, 1};
+	public static int[] dy = {-1, 1, 0, 0};
 	public static ArrayList<Pair> getNeighbor(int[][] matrix, int x, int y, boolean[][] visited) {
 		int rLen = matrix.length;
 		int cLen = matrix[0].length;
 		ArrayList<Pair> neighbors = new ArrayList<Pair>();
-		if(x + 1 < rLen && !visited[x + 1][y]) {
-			neighbors.add(new Pair(x + 1, y, matrix[x + 1][y]));
+		
+		for(int i = 0; i < 4; i ++) {
+			int next_x = x + dx[i];
+			int next_y = y + dy[i];
+			
+			if (next_x >= 0 && next_x < rLen && next_y >= 0 && next_y < cLen && !visited[next_x][next_y]) {
+				neighbors.add(new Pair(next_x, next_y, matrix[next_x][next_y]));
+			}
 		}
-		if (x -1 >= 0 && !visited[x - 1][y]) {
-			neighbors.add(new Pair(x - 1, y, matrix[x-1][y]));
-		}
-		if (y + 1 < cLen && !visited[x][y + 1]) {
-			neighbors.add(new Pair(x, y + 1, matrix[x][y + 1]));
-		}
-		if (y - 1 >= 0 && !visited[x][y - 1]) {
-			neighbors.add(new Pair(x, y - 1, matrix[x][y - 1]));
-		}
+		
 		return neighbors;
 		
 	}

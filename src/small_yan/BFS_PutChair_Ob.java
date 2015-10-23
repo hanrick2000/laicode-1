@@ -51,6 +51,8 @@ public class BFS_PutChair_Ob {
 			}
 		}
 		
+		
+		
 		for(int i = 0; i < rLen; i ++) {
 			for(int j = 0; j < cLen; j ++) {
 				if (gym[i][j] != 'O' && gym[i][j] != 'E') {

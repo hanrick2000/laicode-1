@@ -9,7 +9,9 @@ public class Class11_Graph_topological_sort {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		test5();
+//		test5();
+//		test4_1();
+		test4_0();
 	}
 
 	/*
@@ -77,22 +79,129 @@ public class Class11_Graph_topological_sort {
 	 *    }
 	 */
 	
+	public static void test4_0() {
+		GraphNode n1 = new GraphNode(1);
+		GraphNode n2 = new GraphNode(2);
+		GraphNode n3 = new GraphNode(3);
+		
+		n1.neighbors.add(n2);
+		n2.neighbors.add(n3);
+		n1.neighbors.add(n3);
+		
+		List<GraphNode> graph = new ArrayList<GraphNode>();
+		graph.add(n1);
+		graph.add(n2);
+		graph.add(n3);
+		
+		
+		GraphNode n4 = new GraphNode(4);
+		GraphNode n5 = new GraphNode(5);
+		
+		n4.neighbors.add(n3);
+		n5.neighbors.add(n4);
+		
+		graph.add(n4);
+		graph.add(n5);
+		boolean rev = task4_directedGraphHasCycle(graph);
+		System.out.println("rev = " + rev);
+	}
+	
+	public static boolean directed_graph_has_cycle = false;
+	public static boolean task4_directedGraphHasCycle(List<GraphNode> graph) {
+		HashSet<GraphNode> visited = new HashSet<GraphNode>();
+		HashSet<GraphNode> visiting = new HashSet<GraphNode>();
+		
+		for(GraphNode node: graph) {
+			task4_directed_dfs(node, visited, visiting);
+		}
+		return directed_graph_has_cycle;
+	
+	}
+	
+	public static void task4_directed_dfs(GraphNode node, HashSet<GraphNode> visited, HashSet<GraphNode> visiting) {
+		if (visited.contains(node)) {
+			return ;
+		}
+		if (visiting.contains(node)) {
+			directed_graph_has_cycle = true;
+			return ;
+		}
+		visiting.add(node);
+		
+		for(GraphNode nei: node.neighbors) {
+			task4_directed_dfs(nei, visited, visiting);
+		}
+		
+		visited.add(node);
+		
+	}
+	
+
 	public static boolean task4_determineDirectedGraphIsTree(List<GraphNode> graph) {
 		return false;
 	}
+	
+
 	
 	// this we use n node from 0..n-1 and the adjacentMatrix
 	public static boolean task4_determineUndirectedGraphIsTree(int n, int[][] adjacentMatrix) {
 		return false;
 	}
 	
-	public static boolean task4_directedGraphHasCycle(List<GraphNode> graph) {
+	
+	
+	
+	
+	public static void test4_1() {
+		int n = 3; 
+		int[][] adjacentMatrix = new int[n][n];
+		adjacentMatrix[0][1] = 1;
+		adjacentMatrix[1][0] = 1;
+		adjacentMatrix[0][2] = 1;
+		adjacentMatrix[2][0] = 1;
+		
+//		adjacentMatrix[1][2] = 1;
+//		adjacentMatrix[2][1] = 1;
+		
+		boolean hasCycle  = task4_undirectedGraphHasCycle(3, adjacentMatrix);
+		System.out.println("hasCycle = " + hasCycle);
+	}
+	public static boolean task4_undirectedGraphHasCycle(int n, int[][] adjacentMatrix) {
+		if (adjacentMatrix == null || adjacentMatrix.length == 0 || adjacentMatrix[0] == null || 
+				adjacentMatrix[0].length == 0) {
+			return false;
+		}
+		boolean[] visited = new boolean[n];
+		return task4_un_hasCycle_helper(0, adjacentMatrix, visited, -1);
+	}
+	
+	public static boolean task4_un_hasCycle_helper(int n, int[][] adjacentMatrix, boolean[] visited, int parent) {
+		visited[n] = true;
+		
+		for(int i = 0; i < adjacentMatrix[n].length; i ++) {
+			if (adjacentMatrix[n][i] == 1) {
+				if (visited[i] == true) {
+					// here we need to introduce parent. 
+					// 1 -> 2, we visited 1, visited[1] = true
+					// when we visited 2, visited[1] = true, but i = 2 == parent, so, this is NOT cycle
+					// if i != parent, which means there is a cycle
+					if (i != parent) {
+						return true;
+					}
+				} else {
+					if(task4_un_hasCycle_helper(i, adjacentMatrix, visited, n)) {
+						return true;
+					}
+				}
+			}
+		}
 		return false;
 	}
 	
-	public static boolean task4_undirectedGraphHasCycle(int n, int[][] adjacentMatrix) {
-		return false;
-	}
+	
+
+	
+	
 	
 	
 	
@@ -125,9 +234,11 @@ public class Class11_Graph_topological_sort {
 		GraphNode n1 = new GraphNode(1);
 		GraphNode n2 = new GraphNode(2);
 		GraphNode n3 = new GraphNode(3);
+		
+		n1.neighbors.add(n2);
+		n1.neighbors.add(n3);
 		n2.neighbors.add(n3);
 		n3.neighbors.add(n2);
-		n1.neighbors.add(n2);
 
 		ArrayList<GraphNode> graph = new ArrayList<GraphNode>();
 		graph.add(n1);
@@ -135,9 +246,19 @@ public class Class11_Graph_topological_sort {
 		graph.add(n3);
 		ArrayList<GraphNode> topSort = topologicalSort(graph);
 
+		System.out.println("==========top sort1 ===========");
 		for (GraphNode node : topSort) {
 			System.out.print(node.key + "  ");
 		}
+		System.out.println("\n-----------------");
+		
+		
+		System.out.println("==========top sort2 ===========");
+		ArrayList<GraphNode> topSort2 = topologicalSort2(graph);
+		for (GraphNode node : topSort2) {
+			System.out.print(node.key + "  ");
+		}
+		System.out.println("\n-----------------");
 
 	}
 
@@ -158,10 +279,11 @@ public class Class11_Graph_topological_sort {
 			}
 		}
 
-		for (Entry<GraphNode, Integer> entry : map.entrySet()) {
-			System.out.println(entry.getKey().key + " :  " + entry.getValue());
-		}
-		System.out.println();
+		// for debug
+//		for (Entry<GraphNode, Integer> entry : map.entrySet()) {
+//			System.out.println(entry.getKey().key + " :  " + entry.getValue());
+//		}
+//		System.out.println();
 
 		// add all in-degree == 0 node into result, they are not in the hashMap
 		// and add them into the queue
@@ -173,12 +295,14 @@ public class Class11_Graph_topological_sort {
 			}
 		}
 
-		System.out.println("----------print queue -----------");
-		for (GraphNode n : queue) {
-			System.out.print(n.key + "   ");
-		}
-		System.out.println();
-		System.out.println("----------end print queue--------");
+		// for debug
+//		System.out.println("----------print queue -----------");
+//		for (GraphNode n : queue) {
+//			System.out.print(n.key + "   ");
+//			
+//		}
+//		System.out.println();
+//		System.out.println("----------end print queue--------");
 
 		// do BFS
 		while (!queue.isEmpty()) {
@@ -202,22 +326,113 @@ public class Class11_Graph_topological_sort {
 		// check if map.size == 0, if is, then output the result
 		// otherwise, there are still element in the map, so, there are cycle.
 
-		System.out.println("map.size = " + map.size());
+		// for debug
+//		System.out.println("map.size = " + map.size());
 
-		for (Entry<GraphNode, Integer> entry : map.entrySet()) {
-			System.out.println(entry.getKey().key + " :  " + entry.getValue());
+//		for (Entry<GraphNode, Integer> entry : map.entrySet()) {
+//			System.out.println(entry.getKey().key + " :  " + entry.getValue());
+//		}
+//		System.out.println("-----print result -----");
+//		for (GraphNode n : result) {
+//			System.out.print(n.key + " ");
+//		}
+//		System.out.println("\n--- finish print result ---");
+		
+		if (map.size() != 0) {
+			// NOT a DAG
+			return new ArrayList<GraphNode>();
 		}
-		System.out.println("-----print result -----");
-		for (GraphNode n : result) {
-			System.out.print(n.key + " ");
-		}
-		System.out.println("\n--- finish print result ---");
 		return result;
 	}
 	
+	
 	/*
+	 * task6
 	 * DFS for topological sorting
+	 * 
+	 * L <- Empty list that will contain the sorted nodes
+	 * 
+	 * for each of the nodes in the graph do
+	 *    visit(n)
+	 *    
+	 *    
+	 * visit(node n) 
+	 * 		if n is visited, then return
+	 * 		if n is visiting, then stop, NOT a DAG
+	 * 		if n is not visited nor visiting then
+	 * 			mark n visiting
+	 * 			for each node m which is n's dependency do
+	 * 				visit(m)
+	 * 			mark n visited
+	 * 			add n to head of L
+	 * 
+	 * 
 	 */
+	
+	public static ArrayList<GraphNode> topologicalSort2(ArrayList<GraphNode> graph) {
+		HashSet<GraphNode> visited = new HashSet<GraphNode>();
+		HashSet<GraphNode> visiting = new HashSet<GraphNode>();
+		ArrayList<GraphNode> list = new ArrayList<GraphNode>();
+		for(GraphNode node: graph) {
+			visit(node, visited, visiting, list);
+		}
+		
+		if (NOTDAG) {
+			return new ArrayList<GraphNode>();
+		} 
+		
+		ArrayList<GraphNode> result = new ArrayList<GraphNode>();
+		for(int i = list.size() - 1; i >= 0; i --) {
+			result.add(list.get(i));
+		}
+		
+		return result;
+	}
+	
+	public static boolean NOTDAG = false;
+	
+	public static void visit(GraphNode n, HashSet<GraphNode> visited, HashSet<GraphNode> visiting, ArrayList<GraphNode> list) {
+		if (visited.contains(n)) {
+			return ;
+		}
+		if (visiting.contains(n)) {
+			NOTDAG = true;
+			return;
+		}
+		
+		visiting.add(n);
+		for(GraphNode neighbor : n.neighbors) {
+			visit(neighbor, visited, visiting, list);
+		}
+		visited.add(n);
+		list.add(n);
+	}
+	
+	
+	
+	/*
+	 * task7
+	 * List of courses you need to take to complete the program,
+	 * what is the order of the courses you can only take one course at a time.
+	 * 
+	 * see leetcode 207 210  Course Schedule
+	 * 
+	 */
+	
+	/* task8
+	 * given a dictionary, but not knowing how the character sequence order(排序方法 未知),
+	 * 知道的只有在字典中所有String的order,求可能的character order(假设 character set已经知道了)
+	 * 
+	 * see leetcode 269 Alien Dictionary
+	 */
+	
+	/*
+	 * task9
+	 * Excel 表格计算
+	 * 
+	 * 把所有的格子都计算出来
+	 */
+	
 	
 	
 	

@@ -2,7 +2,7 @@ package lai_online;
 
 import java.util.*;
 
-public class Class06 {
+public class Class06_dfs {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -12,6 +12,9 @@ public class Class06 {
 		test9();
 //		test10();
 	}
+	
+	
+	
 	
 	
 	/*
