@@ -11,6 +11,12 @@ public class Class18_Array_More {
 	}
 
 	/*
+	 * task1: Array Duplications I(sorted array, duplicate elemnet only retain one)
+	 * taks2: Array Duplications II(sorted array, duplicate elemnet only retain two)
+	 * task3: Array Duplications III(sorted array, duplicate element not retain any)
+	 */
+	
+	/*
 	 * task1 Array Deduplication I Easy Data Structure Given a sorted integer
 	 * array, remove duplicate elements. For each group of elements with the
 	 * same value keep only one of them. Do this in-place, using the left side

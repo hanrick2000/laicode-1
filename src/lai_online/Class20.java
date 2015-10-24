@@ -13,6 +13,17 @@ public class Class20 {
 	}
 	
 	/*
+	 * task1: Minimum Cuts For Palindromes
+	 * task2: Binary Tree Path Sum To Target
+	 * task3: Maximum Path Sum Binary Tree I 
+	 * task4: Maximum Path Sum Binary Tree II 
+	 * task5: Maximum Path Sum Binary Tree III
+	 * task6: Binary Tree Diameter 
+	 * 
+	 */
+	
+	
+	/*
 	 * task1
 	 * Minimum Cuts For Palindromes Fair DP
 	 * Given a string, a partitioning of the string is a palindrome partitioning 
@@ -393,6 +404,17 @@ public class Class20 {
 		return Math.max(leftHeight, rightHeight) + 1;	
 	}
 	
+	
+	
+	/*
+	 * task7: All Permutations (with duplicates)
+	 */
+	/* task8: Min Cuts of Palindrome Partitions
+	 */
+	/* task9: Valid Blocks
+	 * task10: Longest Valid Parentheses
+	 * 
+	 */
 	
 	
 	

@@ -17,6 +17,24 @@ public class Class24 {
 	}
 	
 	/*
+	 * list
+	 * task1: 2 Sum
+	 * task2: 2 Sum All Pair I with duplicates, return index pair
+	 * task3: 2 Sum All Pair II
+	 * task4: 2 Sum Closest
+	 * task5: 2 Sum Smaller
+	 * task6: 2 Sum 2 Arrays
+	 * task7: 3 Sum
+	 * task8: 3 Sum 3 Arrays
+	 * task9: 4 Sum
+	 * task10: Common Elements In Three Sorted Arrays
+	 * task11: Reverse Binary Tree Upside Down
+	 * task12: All Valid Permutations of ParenthesesII(L pairs of (), M pairs of [], N paris of {})
+	 * taks13: N Queens
+	 * task14: All Sequence Of Sorted String (subsetII)
+	 */
+	
+	/*
 	 * task1
 	 * 2 Sum 
 	 * Easy Data Structure

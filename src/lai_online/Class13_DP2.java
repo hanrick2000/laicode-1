@@ -11,20 +11,28 @@ public class Class13_DP2 {
 	}
 	
 	/*
+	 * task1 Array Hopper II, Jump Game II
+	 * task2 Array Hopper III
+	 * task3 Dictionary Word I
+	 * task4 Edit Distance
+	 * task5 Largest Square Of 1s
+	 */
+	
+	
+	/*
 	 * task1
 	 * Array Hopper II
-Fair
-DP
-Given an array A of non-negative integers, you are initially positioned at index 0 of the array. A[i] means the maximum jump distance from index i (you can only jump towards the end of the array). Determine the minimum number of jumps you need to reach the end of array. If you can not reach the end of the array, return -1.
-
-Assumptions
-
-The given array is not null and has length of at least 1.
-Examples
-
-{3, 3, 1, 0, 4}, the minimum jumps needed is 2 (jump to index 1 then to the end of array)
-
-{2, 1, 1, 0, 2}, you are not able to reach the end of array, return -1 in this case.
+	 * Fair
+	 * DP
+	 * Given an array A of non-negative integers, you are initially positioned at index 0 of the array. 
+	 * A[i] means the maximum jump distance from index i (you can only jump towards the end of the array). 
+	 * Determine the minimum number of jumps you need to reach the end of array. 
+	 * If you can not reach the end of the array, return -1.
+	 * Assumptions
+	 * The given array is not null and has length of at least 1.
+	 * Examples
+	 * {3, 3, 1, 0, 4}, the minimum jumps needed is 2 (jump to index 1 then to the end of array)
+	 * {2, 1, 1, 0, 2}, you are not able to reach the end of array, return -1 in this case.
 	 */
 	
 	 // M[i] stands the minimum jump steps to reach array[n-1]
@@ -67,20 +75,18 @@ Examples
 	  /*
 	   * task2
 	   * Array Hopper III
-Fair
-DP
-Given an array of non-negative integers, you are initially positioned at index 0 of the array. A[i] means the maximum jump distance from that position (you can only jump towards the end of the array). Determine the minimum number of jumps you need to jump out of the array.
-
-By jump out, it means you can not stay at the end of the array. Return -1 if you can not do so.
-
-Assumptions
-
-The given array is not null and has length of at least 1.
-Examples
-
-{1, 3, 2, 0, 2}, the minimum number of jumps needed is 3 (jump to index 1 then to the end of array, then jump out)
-
-{3, 2, 1, 1, 0}, you are not able to jump out of array, return -1 in this case.
+	   * Fair
+	   * DP
+	   * Given an array of non-negative integers, you are initially positioned at index 0 of the array. 
+	   * A[i] means the maximum jump distance from that position (you can only jump towards the end of the array). 
+	   * Determine the minimum number of jumps you need to jump out of the array.
+	   * By jump out, it means you can not stay at the end of the array. Return -1 if you can not do so.
+	   * Assumptions
+	   * The given array is not null and has length of at least 1.
+	   * Examples
+	   * {1, 3, 2, 0, 2}, the minimum number of jumps needed is 3 
+	   * (jump to index 1 then to the end of array, then jump out)
+	   * {3, 2, 1, 1, 0}, you are not able to jump out of array, return -1 in this case.
 	   */
 	  
 	  // M[i] stands the minimum steps from array[i] to jump out of array
@@ -120,22 +126,19 @@ Examples
 	  }
 	  
 	  /*
+	   * task3
 	   * Dictionary Word I
-Fair
-DP
-Given a word and a dictionary, determine if it can be composed by concatenating words from the given dictionary.
-
-Assumptions
-
-The given word is not null and is not empty
-The given dictionary is not null and is not empty and all the words in the dictionary are not null or empty
-Examples
-
-Dictionary: {“bob”, “cat”, “rob”}
-
-Word: “robob” return false
-
-Word: “robcatbob” return true since it can be composed by "rob", "cat", "bob"
+	   * Fair
+	   * DP
+	   * Given a word and a dictionary, determine if it can be composed by concatenating words from the given dictionary.
+	   * Assumptions
+	   * The given word is not null and is not empty
+	   * The given dictionary is not null and is not empty and all the words in the dictionary 
+	   * are not null or empty
+	   * Examples
+	   * Dictionary: {“bob”, “cat”, “rob”}
+	   * Word: “robob” return false
+	   * Word: “robcatbob” return true since it can be composed by "rob", "cat", "bob"
 	   */
 	  
 	  /*
@@ -170,19 +173,16 @@ Word: “robcatbob” return true since it can be composed by "rob", "cat", "bob
 	  }
 	  
 	  /*
+	   * task4
 	   * Edit Distance
-Fair
-DP
-Given two strings of alphanumeric characters, determine the minimum number of Replace, Delete, and Insert operations needed to transform one string into the other.
-
-Assumptions
-
-Both strings are not null
-Examples
-
-string one: “sigh”, string two : “asith”
-
-the edit distance between one and two is 2 (one insert “a” at front then replace “g” with “t”).
+	   * Fair DP
+	   * Given two strings of alphanumeric characters, determine the minimum number of Replace, 
+	   * Delete, and Insert operations needed to transform one string into the other.
+	   * Assumptions
+	   * Both strings are not null
+	   * Examples
+	   * string one: “sigh”, string two : “asith”
+	   * the edit distance between one and two is 2 (one insert “a” at front then replace “g” with “t”).
 	   */
 	  
 	  /*
@@ -235,85 +235,71 @@ the edit distance between one and two is 2 (one insert “a” at front then rep
 	  }
 	  
 	  /*
+	   * task5
 	   * Largest Square Of 1s
-Hard
-DP
-Determine the largest square of 1s in a binary matrix (a binary matrix only contains 0 and 1), return the length of the largest square.
-
-Assumptions
-
-The given matrix is not null and guaranteed to be of size N * N, N >= 0
-Examples
-
-{ {0, 0, 0, 0},
-
-  {1, 1, 1, 1},
-
-  {0, 1, 1, 1},
-
-  {1, 0, 1, 1}}
-
-the largest square of 1s has length of 2
-
-
+	   * Hard DP
+	   * Determine the largest square of 1s in a binary matrix (a binary matrix only contains 0 and 1), return the length of the largest square.
+	   * Assumptions
+	   * The given matrix is not null and guaranteed to be of size N * N, N >= 0
+	   * Examples
+	   * { {0, 0, 0, 0},
+	   * {1, 1, 1, 1},
+	   * {0, 1, 1, 1},
+	   * {1, 0, 1, 1}}
+	   * the largest square of 1s has length of 2
 	   */
 	  
-	  public int largest(int[][] matrix) {
-		    // write your solution here
-		    if (matrix == null || matrix.length == 0 || matrix[0] == null || matrix[0].length == 0) {
-					return 0;
-				}
-				int rLen = matrix.length;
-				int cLen = matrix[0].length;
-				int[][] M = new int[rLen][cLen];
-				int maxLen = 0;
-				int maxX = -1;
-				int maxY = -1;
-				
-				// initialize
-				// copy the first row and first column form matrix to M
-				for (int i = 0; i < rLen; i++) {
-					M[i][0] = matrix[i][0];
-					if (maxLen < M[i][0]) {
-						maxLen = M[i][0];
+	public int largest(int[][] matrix) {
+		// write your solution here
+		if (matrix == null || matrix.length == 0 || matrix[0] == null
+				|| matrix[0].length == 0) {
+			return 0;
+		}
+		int rLen = matrix.length;
+		int cLen = matrix[0].length;
+		int[][] M = new int[rLen][cLen];
+		int maxLen = 0;
+		int maxX = -1;
+		int maxY = -1;
+
+		// initialize
+		// copy the first row and first column form matrix to M
+		for (int i = 0; i < rLen; i++) {
+			M[i][0] = matrix[i][0];
+			if (maxLen < M[i][0]) {
+				maxLen = M[i][0];
+				maxX = i;
+				maxY = 0;
+			}
+		}
+		for (int j = 0; j < cLen; j++) {
+			M[0][j] = matrix[0][j];
+			if (maxLen < M[0][j]) {
+				maxLen = M[0][j];
+				maxX = 0;
+				maxY = j;
+			}
+		}
+
+		for (int i = 1; i < rLen; i++) {
+			for (int j = 1; j < cLen; j++) {
+				if (matrix[i][j] == 1) {
+					M[i][j] = Math.min(Math.min(M[i - 1][j], M[i - 1][j - 1]),
+							M[i][j - 1]) + 1;
+					if (maxLen < M[i][j]) {
+						maxLen = M[i][j];
 						maxX = i;
-						maxY = 0;
-					}
-				}
-				for (int j = 0; j < cLen; j++) {
-					M[0][j] = matrix[0][j];
-					if (maxLen < M[0][j]) {
-						maxLen = M[0][j];
-						maxX = 0;
 						maxY = j;
 					}
+				} else {
+					M[i][j] = 0;
 				}
-				
-				for (int i = 1; i < rLen; i++) {
-					for (int j = 1; j < cLen; j++) {
-						if (matrix[i][j] == 1) {
-							M[i][j] = Math.min(Math.min(M[i-1][j], M[i-1][j-1]), M[i][j-1]) + 1;
-							if (maxLen < M[i][j]) {
-								maxLen = M[i][j];
-								maxX = i;
-								maxY = j;
-							}
-						} else {
-							M[i][j] = 0;
-						}
-		 				
-					}
-				}
-				
-				
-				
-				return maxLen;
-		    
-		  }
-	  
-	  
-	  
-	  
-	
+
+			}
+		}
+
+		return maxLen;
+
+	}
 
 }

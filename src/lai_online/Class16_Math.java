@@ -8,6 +8,13 @@ public class Class16_Math {
 		// TODO Auto-generated method stub
 
 	}
+	
+	/*
+	 * task1: Shuffle
+	 * task2: Reservoir Sampling
+	 * task3: Random7 Using Random5
+	 * task4: Median Tracer of Flow
+	 */
 
 	/*
 	 * task1 Median Tracker Fair Data Structure Given an unlimited flow of

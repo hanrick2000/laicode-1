@@ -9,16 +9,15 @@ public class Class06_dfs {
 //		test7();
 //		test7_1();
 //		test8();
-		test9();
+//		test9();
+//		test9_1();
 //		test10();
+//		test10_1();
+		test13();
 	}
 	
-	
-	
-	
-	
 	/*
-	 * task7
+	 * task1
 	 * All Subsets I
 	 * Given a set of characters represented by a String, return a list containing all subsets of the characters.
 	 * Assumptions
@@ -72,10 +71,12 @@ public class Class06_dfs {
 		char[] input = set.toCharArray();
 		StringBuilder stb = new StringBuilder();
 		task7_1_helper(input, stb, result, 0);
-//		helperII(input, stb, 0, result);
-		System.out.println(result);
+
+		
 		return result;
 	}
+	
+	// this is for debug
 	public static int count = 0;
 	public static void task7_1_helper(char[] set, StringBuilder stb, List<String> result, int index) {
 		System.out.println(stb.toString() + " count = " + count ++);
@@ -101,12 +102,7 @@ public class Class06_dfs {
 		}
 	}
 
-	
-	
-	
-	
-	
-	
+
 	/*
 	 * task8
 	 * Subset2
@@ -142,7 +138,6 @@ public class Class06_dfs {
 	}
 	
 	
-	
 	/*
 	 * task9
 	 * All permutations I
@@ -159,14 +154,16 @@ public class Class06_dfs {
 		if (set == null) {
 			return result;
 		}
+		if (set.length() == 0) {
+			result.add("");
+			return result;
+		}
 		char[] input = set.toCharArray();
 		task9_helper(input, 0, result);
-		System.out.println(result);
 		return result;
 	}
 	
 	public static void task9_helper(char[] set, int index, List<String> result) {
-		System.out.println(new String(set));
 		if (index == set.length) {
 			String str = new String(set);
 			result.add(str);
@@ -184,6 +181,54 @@ public class Class06_dfs {
 		set[x] = set[y];
 		set[y] = temp;
 	}
+	
+	
+	public static void test9_1() {
+		String set = "abc";
+		List<String> result = permutationsWithOrder(set);
+		System.out.println(result);
+	}
+	
+	public static List<String> permutationsWithOrder(String set) {
+		List<String> result = new ArrayList<String>();
+		if (set == null) {
+			return result;
+		}
+		if (set.length() == 0) {
+			result.add("");
+			return result;
+		}
+		char[] arrarSet = set.toCharArray();
+		Arrays.sort(arrarSet);
+		
+		// record with index has been used
+		boolean[] used = new boolean[set.length()];
+		StringBuilder stb = new StringBuilder();
+		helpWithOrder(arrarSet, used, stb, result);
+		return result;
+		
+	}
+	
+	public static void helpWithOrder(char[] array, boolean[] used, StringBuilder stb, List<String> list) {
+		if (stb.length() == array.length) {
+			list.add(stb.toString());
+			return ;
+		}
+		
+		// when picking the next char, always according to the char
+		for(int i = 0; i < array.length; i ++) {
+			if (!used[i]) {
+				used[i] = true;
+				stb.append(array[i]);
+				
+				helpWithOrder(array, used, stb, list);
+				
+				used[i] = false;
+				stb.deleteCharAt(stb.length() - 1);
+			}
+		}
+	}
+	
 	
 	/*
 	 * task10
@@ -223,10 +268,56 @@ public class Class06_dfs {
 				task10_helperII(set, index + 1, result);
 				swap(set, index, i);
 			}
-			
 		}
 	}
 	
+	public static void test10_1() {
+		String set = "abb";
+		List<String> result = task10_permutationsWithOrder_with_Dup(set);
+		System.out.println(result);
+	}
+	
+	public static List<String> task10_permutationsWithOrder_with_Dup(String set) {
+		List<String> result = new ArrayList<String>();
+		if (set == null) {
+			return result;
+		}
+		if (set.length() == 0) {
+			result.add("");
+			return result;
+		}
+		char[] arrarSet = set.toCharArray();
+		Arrays.sort(arrarSet);
+		
+		// record with index has been used
+		boolean[] used = new boolean[set.length()];
+		StringBuilder stb = new StringBuilder();
+		helpWithOrder_with_Dup(arrarSet, used, stb, result);
+		return result;
+	}
+	
+	public static void helpWithOrder_with_Dup(char[] array, boolean[] used, StringBuilder stb, List<String> list) {
+		if (stb.length() == array.length) {
+			list.add(stb.toString());
+			return ;
+		}
+		
+		// when picking the next char, always according to the char
+		for(int i = 0; i < array.length; i ++) {
+			if (used[i]||(i > 0 && array[i] == array[i - 1] && used[i - 1])) {
+				continue;
+			}
+			
+			used[i] = true;
+			stb.append(array[i]);
+			
+			helpWithOrder_with_Dup(array, used, stb, list);
+			
+			
+			stb.deleteCharAt(stb.length() - 1);
+			used[i] = false;
+		}
+	}
 	
 	
 	/*
@@ -371,6 +462,13 @@ public class Class06_dfs {
 	 * ]
 	 */
 	
+	public static void test13() {
+		int[] coins = {2,1};
+		int target = 4;
+		List<List<Integer>> result = task13_combinationCoins2(target, coins);
+		
+		System.out.println(result);
+	}
 	public static List<List<Integer>> task13_combinations(int target, int[] coins) {
 		// write your solution here
 		List<List<Integer>> result = new ArrayList<List<Integer>>();
@@ -397,6 +495,38 @@ public class Class06_dfs {
 		}
 	}
 	
+	
+	
+	public static List<List<Integer>> task13_combinationCoins2(int target, int[] coins) {
+		List<List<Integer>> result = new ArrayList<List<Integer>>();
+		List<Integer> cur = new ArrayList<Integer>();
+		task13_helper2(target, coins, 0, cur, result);
+		return result;
+	}
+	
+	public static void task13_helper2(int target, int[] coins, int index, List<Integer> cur, 
+			List<List<Integer>> result) {
+		
+		if (target < 0) {
+			return ;
+		}
+		
+		if (index == coins.length) {
+			if (target == 0) {
+				List<Integer> list = new ArrayList<Integer>(cur);
+				result.add(list);
+				return ;
+			}
+		} else {
+			int maxNumOfCurrentCoin = target/coins[index];
+			for(int i = 0; i <= maxNumOfCurrentCoin; i ++) {
+				cur.add(i);
+				task13_helper2(target - i * coins[index], coins, index + 1, cur, result);
+				cur.remove(cur.size() - 1);
+			}
+		}
+		
+	}
 	
 	/*
 	 * task14
@@ -462,10 +592,5 @@ public class Class06_dfs {
 		return true;
 	}
 	
-	
-	
-	
-	
-
 }
 

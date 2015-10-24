@@ -7,8 +7,6 @@ public class Class11 {
 
 	}
 	
-	
-
 	/*
 	 * 
 	 * All Unique Characters II

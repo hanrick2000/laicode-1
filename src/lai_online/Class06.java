@@ -99,11 +99,6 @@ public class Class06 {
 	}
 
 	
-	
-	
-	
-	
-	
 	/*
 	 * task8
 	 * Subset2
@@ -181,6 +176,7 @@ public class Class06 {
 		set[x] = set[y];
 		set[y] = temp;
 	}
+	
 	
 	/*
 	 * task10

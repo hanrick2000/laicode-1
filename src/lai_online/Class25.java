@@ -17,6 +17,24 @@ public class Class25 {
 		// TODO Auto-generated method stub
 		test7();
 	}
+	
+	
+	/*
+	 * list:
+	 * 
+	 * task1: Kth Smallest With Only 2, 3 As Factors
+	 * task2: Kth Smallest With Only 3, 5, 7 As Factors
+	 * task3: Kth Closest Point to <0,0,0>
+	 * task4: Place To Put The Chair I
+	 * task5: Place To Put The Chair II
+	 * task6: Max Water Trapped I 
+	 * task7: Max Water Trapped II 
+	 * task8: 一个字典有给一系列strings,要求找两个string,使得它们没有共同字符,并且长度乘 积 最大. 
+	 * 		  (Assumption: alllettersinthewordisfrom‘a‐z’in ASCII)
+	 * task9: Longest Common Substring
+	 * task10: Longest Common Subsequence
+	 * 
+	 */
 	/*
 	 * task1
 	 * Kth Smallest With Only 2, 3 As Factors
@@ -238,7 +256,8 @@ public class Class25 {
 	
 	/*
 	 * task6 
-	 * Max Water Trapped I Fair Data Structure
+	 * Max Water Trapped II 
+	 * Fair Data Structure
 	 * Given a non-negative
 	 * integer array representing the heights of a list of adjacent bars.
 	 * Suppose each bar has a width of 1. Find the largest amount of water that

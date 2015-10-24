@@ -12,6 +12,23 @@ public class Class05_bfs {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	/*
+	 * list
+	 * 1 get keys in binary tree lay by layer
+	 * 1_2 Get Keys In Binary Tree Layer By Layer Zig-Zag Order
+	 * 
+	 * 2 K Smallest numbers in Unsorted Array
+	 * 3 Bipartite
+	 * 4 Kth Smallest Number In Sorted Matrix 
+	 * 5 Kth Smallest With Only 2, 3 As Factors
+	 * 6 Kth Smallest With Only 3, 5, 7 As Factors
+	 * 7 Place To Put The Chair I
+	 * 8 Place To Put The Chair II
+	 * 9 Max Water Trapped II
+	 * 10 Largest Product Of Length 
+	 * 11 KthClosestPointTo<0,0,0>
+	 */
 
 	/*
 	 * task1 
@@ -1014,7 +1031,9 @@ public class Class05_bfs {
 	
 	/*
 	 * Q10
-	 * Largest Product Of Length Hard String Given a dictionary containing many words, 
+	 * Largest Product Of Length 
+	 * Hard String 
+	 * Given a dictionary containing many words, 
 	 * find the largest product of two words’ lengths, such that the
 	 * two words do not share any common characters.
 	 * 
@@ -1168,15 +1187,83 @@ public class Class05_bfs {
 	}
 	
 	
-	/*
-	 * Q12
-	 * Kth Closest Point
-	 * 
-	 * !!! implement later
-	 */
 	
 	/*
-	 * Q13
+	 * task11
+	 * Kth Closest Point
+	 * Fair Data Structure
+	 * Given three arrays sorted in ascending order. 
+	 * Pull one number from each array to form a coordinate <x,y,z> in a 3D space. 
+	 * Find the coordinates of the points that is k-th closest to <0,0,0>.
+	 * We are using Euclidean distance here.
+	 * Assumptions
+	 * The three given arrays are not null or empty
+	 * K >= 1 and K <= a.length * b.length * c.length
+	 * Return
+	 * a size 3 integer list, the first element should be from the first array, the second element should be from the second array and the third should be from the third array
+	 * Examples
+	 * A = {1, 3, 5}, B = {2, 4}, C = {3, 6}
+	 * The closest is <1, 2, 3>, distance is sqrt(1 + 4 + 9)
+	 * The 2nd closest is <3, 2, 3>, distance is sqrt(9 + 4 + 9)
+	 */
+	public static int[] task11_closest(final int[] a, final int[] b, final int[] c, int k) {
+		Comparator<List<Integer>> myComp = new Comparator<List<Integer>>() {
+
+			@Override
+			public int compare(List<Integer> o1, List<Integer> o2) {
+				// TODO Auto-generated method stub
+				long dist1 = distance(o1, a, b, c);
+				long dist2 = distance(o2, a, b, c);
+				
+				if (dist1 == dist2) {
+					return 0;
+				}
+				return dist1 < dist2 ? -1: 1;
+			}
+		};
+		PriorityQueue<List<Integer>> minHeap = new PriorityQueue<List<Integer>>(2*k, myComp);
+		HashSet<List<Integer>> visited = new HashSet<List<Integer>>();
+		List<Integer> cur = new ArrayList<Integer>();
+		visited.add(cur);
+		minHeap.add(cur);
+		
+		while( k > 0) {
+			cur = minHeap.poll();
+			List<Integer> n = Arrays.asList(cur.get(0) + 1, cur.get(1), cur.get(2));
+			if (n.get(0) < a.length && !visited.contains(n)) {
+				minHeap.add(n);
+				visited.add(n);
+			} 
+			n = Arrays.asList(cur.get(0), cur.get(1) + 1, cur.get(2));
+			if (n.get(1) < b.length && !visited.contains(n)) {
+				minHeap.add(n);
+				visited.add(n);
+			}
+			n = Arrays.asList(cur.get(0), cur.get(1), cur.get(2) + 1);
+			if (n.get(2) < c.length && !visited.contains(n)) {
+				minHeap.add(n);
+				visited.add(n);
+			}
+			k --;
+		}
+		int[] result = new int[3];
+		result[0] = a[cur.get(0)];
+		result[1] = a[cur.get(1)];
+		result[2] = a[cur.get(2)];
+		
+		return result;
+	}
+
+	public static long distance(List<Integer> point, int[] a, int[] b, int[] c) {
+		long dist = 0;
+		dist += a[point.get(0)] * a[point.get(0)];
+		dist += b[point.get(1)] * b[point.get(1)];
+		dist += c[point.get(2)] * c[point.get(2)];		
+		return dist;
+	}
+	
+	/*
+	 * Q12
 	 * Disjoint White Objects
 	 * 
 	 */
