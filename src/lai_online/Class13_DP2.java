@@ -7,7 +7,7 @@ public class Class13_DP2 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
+		test5();
 	}
 	
 	/*
@@ -22,8 +22,7 @@ public class Class13_DP2 {
 	/*
 	 * task1
 	 * Array Hopper II
-	 * Fair
-	 * DP
+	 * get the minimum steps from the start to the end
 	 * Given an array A of non-negative integers, you are initially positioned at index 0 of the array. 
 	 * A[i] means the maximum jump distance from index i (you can only jump towards the end of the array). 
 	 * Determine the minimum number of jumps you need to reach the end of array. 
@@ -38,45 +37,53 @@ public class Class13_DP2 {
 	 // M[i] stands the minimum jump steps to reach array[n-1]
 	  // base case: M[n-1] = 0;
 	  // induction rule: M[i] = 1 + min{M[j]} is all elements that can be reached by 1 jump from i
-	  public int minJump(int[] array) {
-	    // write your solution here
-	    if (array == null) {
-	      return 0;
-	    }
-	    if (array.length <= 0) {
-	      return 0;
-	    }
-	    int n = array.length; 
-	    int[] M = new int[n];
-	    M[n - 1] = 0;
-	    for(int i = n - 2; i >= 0; i--) {
-	      if (array[i] == 0) {
-	        M[i] = Integer.MAX_VALUE;
-	      } else if (i + array[i] >= n - 1) {
-	        M[i] = 1;
-	      } else {
-	        int curMin = Integer.MAX_VALUE;
-	        for(int j = i + 1; j < n && j <= i + array[i]; j++) {
-	          curMin = Math.min(curMin, M[j]);
-	        }
-	        if (curMin != Integer.MAX_VALUE) {
-	          M[i] = 1 + curMin;
-	        } else {
-	          M[i] = Integer.MAX_VALUE;
-	        }
-	      }
-	    }
-	    if (M[0] == Integer.MAX_VALUE) {
-	      return -1;
-	    }
-	    return M[0];
-	  }
-	  
+	public int minJump(int[] array) {
+		// write your solution here
+		if (array == null) {
+			return 0;
+		}
+		if (array.length <= 0) {
+			return 0;
+		}
+		int n = array.length;
+		int[] M = new int[n];
+		M[n - 1] = 0;
+		for (int i = n - 2; i >= 0; i--) {
+			if (array[i] == 0) {
+				M[i] = Integer.MAX_VALUE;
+			} else if (i + array[i] >= n - 1) {
+				// can be finish by 1 jump
+				M[i] = 1;
+			} else {
+				// traverse i+1 .. min(n, i + array[i])
+				int curMin = Integer.MAX_VALUE;
+				for (int j = i + 1; j < n && j <= i + array[i]; j++) {
+					// get the current min steps
+					curMin = Math.min(curMin, M[j]);
+				}
+				// if curMin != INT_MAX
+				if (curMin != Integer.MAX_VALUE) {
+					M[i] = 1 + curMin;
+				} else {
+					M[i] = Integer.MAX_VALUE;
+				}
+			}
+		}
+		// check whether M[0] is INT_MAX
+		if (M[0] == Integer.MAX_VALUE) {
+			// cannot reach
+			return -1;
+		}
+		return M[0];
+	}
+
 	  /*
 	   * task2
 	   * Array Hopper III
-	   * Fair
-	   * DP
+	   * Jump out of Bound
+	   * 
+	   * This can reduce to task1. M[] = new int[n + 1]
+	   * 
 	   * Given an array of non-negative integers, you are initially positioned at index 0 of the array. 
 	   * A[i] means the maximum jump distance from that position (you can only jump towards the end of the array). 
 	   * Determine the minimum number of jumps you need to jump out of the array.
@@ -99,7 +106,7 @@ public class Class13_DP2 {
 	      return -1;
 	    }
 	    int n = array.length;
-	    int[] M = new int[n + 1];
+	    int[] M = new int[n + 1]; 
 	    M[n] = 1;
 	    for(int i = n - 1; i >= 0; i--) {
 	      if (array[i] == 0) {
@@ -128,9 +135,10 @@ public class Class13_DP2 {
 	  /*
 	   * task3
 	   * Dictionary Word I
-	   * Fair
-	   * DP
-	   * Given a word and a dictionary, determine if it can be composed by concatenating words from the given dictionary.
+	   * 
+	   * Given a word and a dictionary, determine if it can be composed by 
+	   * concatenating words from the given dictionary.
+	   * 
 	   * Assumptions
 	   * The given word is not null and is not empty
 	   * The given dictionary is not null and is not empty and all the words in the dictionary 
@@ -147,7 +155,8 @@ public class Class13_DP2 {
 	    induction rule: M[i] = if there exist one j, j>= 0 && j < i, M[j] && input.sub(i - j, i) in the dict
 	                           is True
 	  */
-	  public boolean canBreak(String input, String[] dict) {
+	  
+	  public boolean task3_canBreak(String input, String[] dict) {
 	    // write your solution here
 	    if(input == null || input.length() == 0) {
 	      return true;
@@ -169,15 +178,18 @@ public class Class13_DP2 {
 	        }
 	      }
 	    }
+	    
 	    return M[n];
 	  }
 	  
 	  /*
 	   * task4
 	   * Edit Distance
-	   * Fair DP
-	   * Given two strings of alphanumeric characters, determine the minimum number of Replace, 
-	   * Delete, and Insert operations needed to transform one string into the other.
+	   * 
+	   * Given two strings of alphanumeric characters, determine the minimum number of 
+	   * Replace, Delete, and Insert operations 
+	   * needed to transform one string into the other.
+	   * 
 	   * Assumptions
 	   * Both strings are not null
 	   * Examples
@@ -236,20 +248,42 @@ public class Class13_DP2 {
 	  
 	  /*
 	   * task5
+	   * 棋盘类
+	   * 
 	   * Largest Square Of 1s
 	   * Hard DP
-	   * Determine the largest square of 1s in a binary matrix (a binary matrix only contains 0 and 1), return the length of the largest square.
+	   * 
+	   * Determine the largest square of 1s in a binary matrix (a binary matrix only contains 0 and 1), 
+	   * return the length of the largest square.
+	   * 
 	   * Assumptions
 	   * The given matrix is not null and guaranteed to be of size N * N, N >= 0
 	   * Examples
-	   * { {0, 0, 0, 0},
+	   * { 
+	   * {0, 0, 0, 0},
 	   * {1, 1, 1, 1},
 	   * {0, 1, 1, 1},
-	   * {1, 0, 1, 1}}
+	   * {1, 0, 1, 1}
+	   * }
 	   * the largest square of 1s has length of 2
 	   */
 	  
-	public int largest(int[][] matrix) {
+	public static void test5() {
+		int[][] matrix = {
+				{0,0,0,0},
+				{1,1,1,1},
+				{0,1,1,1},
+				{1,0,1,1}
+		};
+		int rev = largest(matrix);
+		System.out.println("rev = " + rev);
+	}
+	  
+	/*
+	 * M[i][j] the max Length of Squares that ending with [i,j]
+	 * M[i][j] = min(M[i - 1][j - 1], M[i - 1][j], M[i][j - 1]) + 1
+	 */
+	public static int largest(int[][] matrix) {
 		// write your solution here
 		if (matrix == null || matrix.length == 0 || matrix[0] == null
 				|| matrix[0].length == 0) {
@@ -286,6 +320,7 @@ public class Class13_DP2 {
 				if (matrix[i][j] == 1) {
 					M[i][j] = Math.min(Math.min(M[i - 1][j], M[i - 1][j - 1]),
 							M[i][j - 1]) + 1;
+					// update the maxLen
 					if (maxLen < M[i][j]) {
 						maxLen = M[i][j];
 						maxX = i;
@@ -294,12 +329,9 @@ public class Class13_DP2 {
 				} else {
 					M[i][j] = 0;
 				}
-
 			}
 		}
-
 		return maxLen;
-
 	}
 
 }

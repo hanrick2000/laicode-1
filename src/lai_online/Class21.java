@@ -27,6 +27,7 @@ public class Class21 {
 	 * task7: Largest Number Smaller In Binary Search Tree 
 	 * task8: Cutting Wood I
 	 * task9: Binary Search Delete
+	 * task10: Merge Stone
 	 */
 	
 

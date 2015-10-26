@@ -14,6 +14,15 @@ public class Class18_Array_More {
 	 * task1: Array Duplications I(sorted array, duplicate elemnet only retain one)
 	 * taks2: Array Duplications II(sorted array, duplicate elemnet only retain two)
 	 * task3: Array Duplications III(sorted array, duplicate element not retain any)
+	 * task4: Largest and Smallest
+	 * task5: Largest and Second Largest
+	 * task6: Spiral Order Print
+	 * task7: Rotate Matrix by 90 Degree Clockwise
+	 * task8: Zig-zag Order Print Binary Tree
+	 * task9: Lowest Common Ancestor(without parent pointer)
+	 * task10: Lowest Common Ancestor(with parent pointer)
+	 * task11: Lowest Common Ancestor of K nodes
+	 * 
 	 */
 	
 	/*

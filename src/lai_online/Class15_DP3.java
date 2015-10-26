@@ -3,8 +3,23 @@ package lai_online;
 public class Class15_DP3 {
 
 	/*
+	 * list:
+	 * task1: Largest Subarray Sum
+	 * task2: Longest Connecutive "1"s
+	 * task3: Largest Cross With All "1"s
+	 * task4: Largest X With All "1"s
+	 * task5: Given a matrix where every element is either 0 or 1, fine the largest 
+	 * 		  subSquare surrounded by '1'
+	 * task6: Largest SubMatrix Sum
+	 * task7: Cutting Wood I
 	 * 
-	 * task1 Longest 1s Easy DP 
+	 */
+	
+	
+	/*
+	 * 
+	 * task1 Longest 1s 
+	 * Easy DP 
 	 * Given an array containing only 0s and 1s, find
 	 * the length of the longest subarray of consecutive 1s. Assumptions The
 	 * given array is not null Examples {0, 1, 0, 1, 1, 1, 0}, the longest

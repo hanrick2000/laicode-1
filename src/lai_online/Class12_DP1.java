@@ -1,16 +1,19 @@
 package lai_online;
 
+import java.util.Arrays;
+
 public class Class12_DP1 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
+		test2();
 	}
 	/*
 	 * task1 Longest Ascending SubArray
 	 * task2 Max Product Of Cutting Rope
 	 * task3 Array Hopper I
 	 */
+	
 	
 	/*
 	 * task1
@@ -23,6 +26,8 @@ public class Class12_DP1 {
 	 * Examples
 	 * {7, 2, 3, 1, 5, 8, 9, 6}, longest ascending subarray is {1, 5, 8, 9}, length is 4.
 	 * {1, 2, 3, 3, 4, 4, 5}, longest ascending subarray is {1, 2, 3}, length is 3.
+	 * 
+	 * 
 	 */
 	
 	public static int longest(int[] array) {
@@ -50,18 +55,37 @@ public class Class12_DP1 {
 	
 	/*
 	 * task2
+	 * 
 	 * Max Product Of Cutting Rope Fair DP
-	 * Given a rope with positive integer-length n, how to cut the rope into m integer-length parts 
-	 * with length p[0], p[1], ...,p[m-1], in order to 
-	 * get the maximal product of p[0]*p[1]* ... *p[m-1]? 
+	 * Given a rope with positive integer-length n, how to cut the rope into m integer-length parts
+	 *  
+	 * with length p[0], p[1], ...,p[m-1], in order to
+	 * 
+	 * get the maximal product of p[0]*p[1]* ... *p[m-1]?
+	 *  
 	 * m is determined by you and must be greater than 0 (at least one cut must be made). 
 	 * Return the max product you can have.
+	 * 
 	 * Assumptions
 	 * n >= 2
 	 * Examples
 	 * n = 12, the max product is 3 * 3 * 3 * 3 = 81(cut the rope into 4 pieces with length of each is 3).
+	 *
+	 * M[n] is the max product of n
+	 * M[n] =  Max(i, M[i]) * Max(n - i, M[n - i])
+	 * Init: 
+	 * AT Least 1 cut, so M[0]= 0, M[1] = 0;
+	 * 
 	 */
-	public int maxProduct(int n) {
+	
+	public static void test2() {
+		int n = 12;
+		int rev = task2_maxProduct(n);
+		int rev2 = task2_maxProduct_Rec(n);
+		System.out.println(rev);
+		System.out.println(rev2);
+	}
+	public static int task2_maxProduct(int n) {
 	    // write your solution here
 	    if (n <= 1) {
 				return 0;
@@ -77,13 +101,31 @@ public class Class12_DP1 {
 				}
 				M[i] = curMax;
 			}
-
+			System.out.println(Arrays.toString(M));
 			return M[n];
-	    
 	  }
 	
+	public static int task2_maxProduct_Rec(int n) {
+		return task2_helper(n);
+	}
+	
+	public static int task2_helper(int n) {
+		if (n == 0 || n == 1) {
+			return 0;
+		}
+		int curMax = 0;
+		for(int i = 1; i <= n/2; i ++) {
+			curMax = Math.max(curMax, Math.max(i, task2_helper(i)) * Math.max(n - i, task2_helper(n - i)));
+		}
+		return curMax;
+	}
+	
+	
 	/*
-	 * Array Hopper I Fair DP Given an array A of non-negative integers, you are
+	 * task3
+	 * 
+	 * Array Hopper I Fair DP 
+	 * Given an array A of non-negative integers, you are
 	 * initially positioned at index 0 of the array. A[i] means the maximum jump
 	 * distance from that position (you can only jump towards the end of the
 	 * array). Determine if you are able to reach the last index.
@@ -101,9 +143,9 @@ public class Class12_DP1 {
 	 // M[i] stands whether array[i] can reach the end of the array, names array[n- 1]. n = array.length
 	  // base: M[n-1] true;
 	  // induction rule: M[i] = 
-	  // 1 if i + array[i] >= n-1  M[i] = true;
-	  // 2 for j > i && j <= i + array[i] if M[j] == true, M[i] = true 
-	public boolean canJump(int[] array) {
+	  // 						1 if i + array[i] >= n-1  M[i] = true;
+	  // 						2 for j > i && j <= i + array[i] if M[j] == true, M[i] = true 
+	public boolean task3_canJump(int[] array) {
 		// write your solution here
 		if (array == null) {
 			return true;
@@ -129,5 +171,4 @@ public class Class12_DP1 {
 		return M[0];
 	}
 	
-
 }

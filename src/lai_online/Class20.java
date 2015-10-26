@@ -409,11 +409,14 @@ public class Class20 {
 	/*
 	 * task7: All Permutations (with duplicates)
 	 */
-	/* task8: Min Cuts of Palindrome Partitions
+	/*
+	 * task8: Min Cuts of Palindrome Partitions
 	 */
-	/* task9: Valid Blocks
+	/*
+	 * task9: Valid Blocks
+	 */
+	/*
 	 * task10: Longest Valid Parentheses
-	 * 
 	 */
 	
 	

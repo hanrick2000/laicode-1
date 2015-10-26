@@ -14,6 +14,7 @@ public class Class16_Math {
 	 * task2: Reservoir Sampling
 	 * task3: Random7 Using Random5
 	 * task4: Median Tracer of Flow
+	 * task5: 95th percentile
 	 */
 
 	/*
