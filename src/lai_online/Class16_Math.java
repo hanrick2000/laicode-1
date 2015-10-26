@@ -10,15 +10,19 @@ public class Class16_Math {
 	}
 	
 	/*
-	 * task1: Shuffle
-	 * task2: Reservoir Sampling
-	 * task3: Random7 Using Random5
-	 * task4: Median Tracer of Flow
-	 * task5: 95th percentile
+	 * task1: Median Tracer of Flow
+	 * task2: 95th percentile
+	 * 
+	 * task3: Shuffle
+	 * task4: Reservoir Sampling
+	 * task5: Random7 Using Random5
+	 * task6: Random1000 Using Random5
+	 * 
 	 */
 
 	/*
-	 * task1 Median Tracker Fair Data Structure Given an unlimited flow of
+	 * task1 
+	 * Median Tracker Fair Data Structure Given an unlimited flow of
 	 * numbers, keep track of the median of all elements seen so far.
 	 * 
 	 * You will have to implement the following two methods for the class
@@ -31,9 +35,12 @@ public class Class16_Math {
 	 */
 
 	/*
-	 * task2 95 Percentile Fair None Given a list of integers representing the
-	 * lengths of urls, find the 95 percentile of all lengths (95% of the urls
-	 * have lengths <= returned length).
+	 * task2 
+	 * 95 Percentile 
+	 * 
+	 * Given a list of integers representing the lengths of urls,
+	 *  
+	 * find the 95 percentile of all lengths (95% of the urls have lengths <= returned length).
 	 * 
 	 * Assumptions
 	 * 
@@ -61,7 +68,8 @@ public class Class16_Math {
 	}
 
 	/*
-	 * task3 Perfect Shuffle Fair Probability Given an array of integers
+	 * task3 
+	 * Perfect Shuffle Fair Probability Given an array of integers
 	 * (without any duplicates), shuffle the array such that all permutations
 	 * are equally likely to be generated.
 	 * 
@@ -79,6 +87,9 @@ public class Class16_Math {
 		}
 	}
 
+	/*
+	 * generate a random [low, high]
+	 */
 	public static int rand(int low, int high) {
 		return low + (int) (Math.random() * (high - low + 1));
 	}
@@ -99,11 +110,13 @@ public class Class16_Math {
 	 * 
 	 * You will implement two methods for a sampling class:
 	 * 
-	 * read(int value) - read one number from the flow sample() - return at any
-	 * time the sample, if n values have been read, the probability of returning
-	 * any one of the n values is 1/n, return null if there is no value read so
-	 * far You may need to add more fields for the class.
+	 * read(int value) - read one number from the flow 
+	 * 
+	 * sample() - return at any time the sample, if n values have been read, the probability of returning
+	 * any one of the n values is 1/n, return null if there is no value read so far 
+	 * You may need to add more fields for the class.
 	 */
+	
 
 	/*
 	 * task5 Random7 Using Random5 Fair Probability Given a random generator
@@ -115,17 +128,16 @@ public class Class16_Math {
 		// write your solution here
 		// you can use RandomFive.random5() for generating
 		// 0 - 4 with equal probability.
-		// int temp = RandomFive.random5() * 5 + RandomFive.random5();
-		// if (temp < 21) {
-		// return temp % 7;
-		// }
-		// return random7();
-		return -1;
+		 int temp = RandomFive.random5() * 5 + RandomFive.random5();
+		 if (temp < 21) {
+		 return temp % 7;
+		 }
+		 return random7();
 	}
 
 	public static class RandomFive {
-		public int random5() {
-			return 1;
+		public static int random5() {
+			return (int)Math.random() * (5 + 1);
 		}
 	}
 
@@ -160,7 +172,7 @@ public class Class16_Math {
 
 	public int random2() {
 		// return RandomFive.random5()%2;
-		return -1;
+		return RandomFive.random5() % 2;
 	}
 
 }

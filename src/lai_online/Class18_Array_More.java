@@ -14,10 +14,15 @@ public class Class18_Array_More {
 	 * task1: Array Duplications I(sorted array, duplicate elemnet only retain one)
 	 * taks2: Array Duplications II(sorted array, duplicate elemnet only retain two)
 	 * task3: Array Duplications III(sorted array, duplicate element not retain any)
+	 * 
+	 * 
 	 * task4: Largest and Smallest
 	 * task5: Largest and Second Largest
+	 * 
+	 * 
 	 * task6: Spiral Order Print
 	 * task7: Rotate Matrix by 90 Degree Clockwise
+	 * 
 	 * task8: Zig-zag Order Print Binary Tree
 	 * task9: Lowest Common Ancestor(without parent pointer)
 	 * task10: Lowest Common Ancestor(with parent pointer)
@@ -26,7 +31,8 @@ public class Class18_Array_More {
 	 */
 	
 	/*
-	 * task1 Array Deduplication I Easy Data Structure Given a sorted integer
+	 * task1 Array Deduplication I  
+	 * Given a sorted integer
 	 * array, remove duplicate elements. For each group of elements with the
 	 * same value keep only one of them. Do this in-place, using the left side
 	 * of the original array and maintain the relative order of the elements of
@@ -54,7 +60,8 @@ public class Class18_Array_More {
 	}
 
 	/*
-	 * task2 Move 0s To The End II Easy Data Structure Given an array of
+	 * task2 Move 0s To The End II 
+	 * Given an array of
 	 * integers, move all the 0s to the right end of the array.
 	 * 
 	 * The relative order of the elements in the original array need to be
@@ -91,6 +98,7 @@ public class Class18_Array_More {
 		array[j] = temp;
 	}
 
+		
 	/*
 	 * task3 Get Keys In Binary Tree Layer By Layer Zig-Zag Order Fair Data
 	 * Structure Get the list of keys in a given binary tree layer by layer in
