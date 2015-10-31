@@ -1,37 +1,51 @@
 package lai_online;
 
 import java.util.*;
+
+
+import debug.Debug;
 import ds.*;
 
 public class Class18_Array_More {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
+		test2();
+//		test4();
+//		test7();
+		System.out.println("--------------");
+		
 	}
 
 	/*
 	 * task1: Array Duplications I(sorted array, duplicate elemnet only retain one)
 	 * taks2: Array Duplications II(sorted array, duplicate elemnet only retain two)
 	 * task3: Array Duplications III(sorted array, duplicate element not retain any)
+	 * task4: Array Duplications IV (unsorted, remove adjacent duplicate elements repeatedly,)
+	 * 
+	 * task5: LinkedList DeduplicatesI(sorted, duplicate element only retain one)
+	 * task6: LinkedList DeduplicatesII(sorted, duplicate element retain two)
+	 * task7: LinkedList DeduplicatesIII(sorted, duplicate element not retain any)
+	 * 
+	 * task8: Largest and Smallest
+	 * task9: Largest and Second Largest
 	 * 
 	 * 
-	 * task4: Largest and Smallest
-	 * task5: Largest and Second Largest
+	 * task10: Spiral Order Print
+	 * task11: Rotate Matrix by 90 Degree Clockwise
 	 * 
+	 * task12: Zig-zag Order Print Binary Tree
 	 * 
-	 * task6: Spiral Order Print
-	 * task7: Rotate Matrix by 90 Degree Clockwise
-	 * 
-	 * task8: Zig-zag Order Print Binary Tree
-	 * task9: Lowest Common Ancestor(without parent pointer)
-	 * task10: Lowest Common Ancestor(with parent pointer)
-	 * task11: Lowest Common Ancestor of K nodes
+	 * task13: Lowest Common Ancestor(without parent pointer)
+	 * task14: Lowest Common Ancestor(with parent pointer)
+	 * task15: Lowest Common Ancestor of K nodes
 	 * 
 	 */
 	
+	
 	/*
 	 * task1 Array Deduplication I  
+	 * <Duplicate only retain once>
 	 * Given a sorted integer
 	 * array, remove duplicate elements. For each group of elements with the
 	 * same value keep only one of them. Do this in-place, using the left side
@@ -59,6 +73,291 @@ public class Class18_Array_More {
 
 	}
 
+	
+	/*
+	 * task2 Array Deduplication II 
+	 * <Keep at most two of the duplicates>
+	 * Fair Data Structure Given a sorted integer
+	 * array, remove duplicate elements. For each group of elements with the
+	 * same value keep at most two of them. Do this in-place, using the left
+	 * side of the original array and maintain the relative order of the
+	 * elements of the array. Return the array after deduplication.
+	 * 
+	 * Assumptions
+	 * 
+	 * The given array is not null Examples
+	 * 
+	 * {1, 2, 2, 3, 3, 3} → {1, 2, 2, 3, 3}
+	 */
+	/*
+	 * 1 2 2 3 3 3 3 4 4 | s
+	 */
+
+	
+	public static int[] task2_dedup(int[] array) {
+		// write your solution here
+		if (array == null || array.length <= 2) {
+			return array;
+		}
+		int start = 0;
+		
+		int count = 1;
+		for (int i = 1; i < array.length; i++) {
+			if (array[i] != array[start]) {
+				array[++start] = array[i];
+				count = 1;
+			} else {
+				if (count < 2) {
+					array[++start] = array[i];
+					count++;
+				}
+			}
+		}
+
+		return Arrays.copyOf(array, start + 1);
+	}
+	
+	public static void test2() {
+		int[] array = {1,1,2,2,3,3,4};
+//		int[] result = task2_dedup2(array);
+//		System.out.println(Arrays.toString(result));
+		int[] result2 = task2_dedup(array);
+		System.out.println(Arrays.toString(result2));
+		
+	}
+	
+	public static int[] task2_dedup2(int[] array) {
+		if (array == null || array.length <= 2) {
+			return array;
+		}
+		int start = 2;
+		for(int i = 2; i < array.length; i ++) {
+			if (array[i] != array[start - 2]) {
+				array[start] = array[i];
+				start ++;
+			}
+		}
+		return Arrays.copyOf(array, start);
+	}
+
+	/*
+	 * task3 
+	 * Array Deduplication III
+	 * <Don't keep any of the duplicate letters> 
+	 * Given a sorted integer
+	 * array, remove duplicate elements. For each group of elements with the
+	 * same value do not keep any of them. 
+	 * 
+	 * Do this in-place, using the left side
+	 * of the original array and and maintain the relative order of the elements
+	 * of the array. Return the array after deduplication.
+	 * 
+	 * Assumptions
+	 * 
+	 * The given array is not null Examples
+	 * 
+	 * {1, 2, 2, 3, 3, 3} → {1}
+	 */
+
+	public int[] task3_dedup(int[] array) {
+		// write your solution here
+		if (array == null || array.length <= 1) {
+			return array;
+		}
+		int start = 0;
+		boolean flag = false;
+		for (int i = 1; i < array.length; i++) {
+			if (array[i] == array[start]) {
+				flag = true;
+			} else {
+				// array[i] != array[start]
+				if (flag == false) {
+					// the candidates doesn't have duplicate
+					// we put the next candidate in next position and set flag
+					// == false
+					array[++start] = array[i];
+				} else {
+					// flag == true
+					// the candidates has duplicates.
+					// it can no longer put here. put another candidate, and set
+					// flag == false
+					array[start] = array[i];
+					flag = false;
+				}
+			}
+		}
+		
+		// the last element
+		if (flag == false) {
+			start++;
+		}
+		return Arrays.copyOf(array, start);
+
+	}
+	
+	
+	
+	 /*
+	  * task4
+	  * Array Deduplication IV
+	  * <Unsorted Array, repeatedly deduplication>
+	  * 
+	  * Given an unsorted integer array, remove adjacent duplicate elements repeatedly, from left to right. 
+	  * For each group of elements with the same value do not keep any of them.
+	  * Do this in-place, using the left side of the original array. Return the array after deduplication.
+	  * Assumptions
+	  * The given array is not null
+	  * Examples
+	  * {1, 2, 3, 3, 3, 2, 2} → {1, 2, 2, 2} → {1}, return {1}
+	  */
+	public static void test4() {
+		int[] array = {1,2,3,3,3,2,2};
+		int[] rev = task4_dedup(array);
+		System.out.println(Arrays.toString(rev));
+	}
+	
+	public static int[] task4_dedup(int[] array) {
+		// write your solution here
+		if (array == null || array.length <= 1) {
+			return array;
+		}
+		int end = -1;
+		for(int i = 0; i < array.length; i ++) {
+			if (end == -1 || array[end] != array[i]) {
+				array[++end] = array[i];
+			} else {
+				// end != -1 && array[end] == array[i]
+				// go forward to see whether there are more duplicates
+				while(i + 1 < array.length && array[i + 1] == array[end]) {
+					i ++;
+				}
+				// end --, since the candidate has deduplicate
+				end --;
+			}
+		}
+		return Arrays.copyOf(array, end +1);
+	}
+	 
+	
+	
+	/*
+	 * task5: LinkedList DeduplicatesI(sorted, duplicate element only retain
+	 * one)
+	 * 
+	 * input: 1 -> 2 -> 2 ->3 ->3 ->4
+	 * output: 1 -> 2 ->3 ->4
+	 */
+	public static ListNode task5_dedup_linkedlist_retain_one(ListNode head) {
+		if (head == null || head.next == null) {
+			return head;
+		}
+		ListNode dummy = new ListNode(-1);
+		ListNode tail = dummy;
+		ListNode fast = head;
+		ListNode slow = head;
+		while(fast != null) {
+			while(fast != null && fast.value == slow.value) {
+				fast = fast.next;
+			}
+			// here, fast.val != slow.val
+			// add slow to tail
+			slow.next = null;
+			tail.next = slow;
+			tail = tail.next;
+			
+			// update slow
+			slow = fast;
+		}
+		return dummy.next;
+	}
+	
+	
+	/*
+	 * task6: LinkedList DeduplicatesII(sorted, duplicate element retain two)
+	 */
+	
+	
+
+	/*
+	 * task7: LinkedList DeduplicatesIII(sorted, duplicate element not retain
+	 * any)
+	 */
+	public static void test7() {
+		ListNode n1 = new ListNode(1);
+		ListNode n2 = new ListNode(1);
+		ListNode n3 = new ListNode(2);
+		ListNode n4 = new ListNode(3);
+		ListNode n5 = new ListNode(3);
+		ListNode n6 = new ListNode(4);
+		n1.next = n2;
+		n2.next = n3;
+		n3.next = n4;
+		n4.next = n5;
+		n5.next = n6;
+		
+		Debug.printLinkedList(n1);
+		
+		ListNode rev = task7_dedup_list_retain_none(n1);
+		Debug.printLinkedList(rev);
+	}
+	
+	
+	public static ListNode task7_dedup_list_retain_none(ListNode head) {
+		if (head == null || head.next == null) {
+			return head;
+		}
+		
+		boolean flag = false; // show that current candidate(slow) has
+		// duplicates or not
+		ListNode dummy = new ListNode(Integer.MIN_VALUE);
+		ListNode tail = dummy;
+
+		ListNode slow = head, fast = head.next;
+		
+		// slow is the candidate
+		while(fast != null) {
+			System.out.println("fastVal = " + fast.value);
+
+			if (fast.value == slow.value) {
+				flag = true;
+			} else {
+				// fast.val != slow.val
+				if (flag == false) {
+					// the candidate doesn't have duplicate
+					slow.next = null;
+					tail.next = slow;
+					tail = tail.next;
+					
+					// update slow
+					slow = fast;
+				} else {
+					// the candidate duplicate, take the next candidate
+					// flag = true
+					slow = fast;
+					flag = false;
+				}
+			}
+			// update fast
+			fast = fast.next;			
+		}
+		// append the last
+
+		if (flag == false && slow !=  null) {
+			slow.next = null;
+			tail.next = slow;
+		}
+	
+		return dummy.next;	
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/*
 	 * task2 Move 0s To The End II 
 	 * Given an array of
@@ -99,148 +398,17 @@ public class Class18_Array_More {
 	}
 
 		
+	
 	/*
-	 * task3 Get Keys In Binary Tree Layer By Layer Zig-Zag Order Fair Data
-	 * Structure Get the list of keys in a given binary tree layer by layer in
-	 * zig-zag order.
-	 * 
-	 * Examples
-	 * 
-	 * 5
-	 * 
-	 * / \
-	 * 
-	 * 3 8
-	 * 
-	 * / \ \
-	 * 
-	 * 1 4 11
-	 * 
-	 * the result is [5, 3, 8, 11, 4, 1]
-	 * 
-	 * Corner Cases
-	 * 
-	 * What if the binary tree is null? Return an empty list in this case. How
-	 * is the binary tree represented?
-	 * 
-	 * We use the level order traversal sequence with a special symbol "#"
-	 * denoting the null node.
-	 * 
-	 * For Example:
-	 * 
-	 * The sequence [1, 2, 3, #, #, 4] represents the following binary tree:
-	 * 
-	 * 1
-	 * 
-	 * / \
-	 * 
-	 * 2 3
-	 * 
-	 * /
-	 * 
-	 * 4
+	 * task8 Largest and Smallest
 	 */
-
-	public static List<Integer> task3_zigZag(TreeNode root) {
-		// Write your solution here.
-		return new ArrayList<Integer>();
-	}
+	
+	
 
 	/*
-	 * task4 Array Deduplication II Fair Data Structure Given a sorted integer
-	 * array, remove duplicate elements. For each group of elements with the
-	 * same value keep at most two of them. Do this in-place, using the left
-	 * side of the original array and maintain the relative order of the
-	 * elements of the array. Return the array after deduplication.
-	 * 
-	 * Assumptions
-	 * 
-	 * The given array is not null Examples
-	 * 
-	 * {1, 2, 2, 3, 3, 3} → {1, 2, 2, 3, 3}
-	 */
-	/*
-	 * 1 2 2 3 3 3 3 4 4 | s
-	 */
-
-	public int[] task4_dedup(int[] array) {
-		// write your solution here
-		if (array == null || array.length <= 2) {
-			return array;
-		}
-		int start = 0;
-		// for(int i = 2; i < array.length; i ++) {
-		// if (array[start - 2] != array[i]) {
-		// array[start] = array[i];
-		// start ++;
-		// }
-		// }
-		int count = 1;
-		for (int i = 1; i < array.length; i++) {
-			if (array[i] != array[start]) {
-				array[++start] = array[i];
-				count = 1;
-			} else {
-				if (count < 2) {
-					array[++start] = array[i];
-					count++;
-				}
-			}
-		}
-
-		return Arrays.copyOf(array, start + 1);
-	}
-
-	/*
-	 * task5 Array Deduplication III Fair Data Structure Given a sorted integer
-	 * array, remove duplicate elements. For each group of elements with the
-	 * same value do not keep any of them. Do this in-place, using the left side
-	 * of the original array and and maintain the relative order of the elements
-	 * of the array. Return the array after deduplication.
-	 * 
-	 * Assumptions
-	 * 
-	 * The given array is not null Examples
-	 * 
-	 * {1, 2, 2, 3, 3, 3} → {1}
-	 */
-
-	public int[] task5_dedup(int[] array) {
-		// write your solution here
-		if (array == null || array.length <= 1) {
-			return array;
-		}
-		int start = 0;
-		boolean flag = false;
-		for (int i = 1; i < array.length; i++) {
-			if (array[i] == array[start]) {
-				flag = true;
-			} else {
-				// array[i] != array[start]
-				if (flag == false) {
-					// the candidates doesn't have duplicate
-					// we put the next candidate in next position and set flag
-					// == false
-					array[++start] = array[i];
-				} else {
-					// flag == true
-					// the candidates has duplicates.
-					// it can no longer put here. put another candidate, and set
-					// flag == false
-					array[start] = array[i];
-					flag = false;
-				}
-			}
-		}
-		if (flag == false) {
-			start++;
-		}
-		return Arrays.copyOf(array, start);
-
-	}
-
-	/*
-	 * task6 Largest And Smallest Fair Data Structure Use the least number of
+	 * task8 Largest And Smallest 
+	 * Fair Data Structure 
+	 * Use the least number of
 	 * comparisons to get the largest and smallest number in the given integer
 	 * array. Return the largest number and the smallest number.
 	 * 
@@ -250,7 +418,7 @@ public class Class18_Array_More {
 	 * 
 	 * {2, 1, 5, 4, 3}, the largest number is 5 and smallest number is 1.
 	 */
-	public int[] task6_largestAndSmallest(int[] a) {
+	public int[] task8_largestAndSmallest(int[] a) {
 		// write your solution here
 		if (a == null || a.length < 1)
 			return null;
@@ -300,6 +468,14 @@ public class Class18_Array_More {
 		}
 		return new int[] { max, min };
 	}
+	
+	
+	
+	/*
+	 * task9: Largest and Second Largest 
+	 */
+	
+	
 
 	/*
 	 * task8 Rotate Matrix Fair Data Structure Rotate an N * N matrix clockwise
@@ -352,6 +528,7 @@ public class Class18_Array_More {
 		matrix[x2][y2] = temp;
 	}
 
+	
 	/*
 	 * task9 Lowest Common Ancestor II Fair Data Structure Given two nodes in a
 	 * binary tree (with parent pointer available), find their lowest common
@@ -446,20 +623,15 @@ public class Class18_Array_More {
 	/*
 	 * task10
 	 * Sort In Specified Order
-Fair
-Data Structure
-Given two integer arrays A1 and A2, sort A1 in such a way that the relative order among the elements will be same as those are in A2.
-
-For the elements that are not in A2, append them in the right end of the A1 in an ascending order.
-
-Assumptions:
-
-A1 and A2 are both not null.
-There are no duplicate elements in A2.
-Examples:
-
-A1 = {2, 1, 2, 5, 7, 1, 9, 3}, A2 = {2, 1, 3}, A1 is sorted to {2, 2, 1, 1, 3, 5, 7, 9}
- 
+	 * Fair
+	 * Data Structure
+	 * Given two integer arrays A1 and A2, sort A1 in such a way that the relative order among the elements will be same as those are in A2.
+	 * For the elements that are not in A2, append them in the right end of the A1 in an ascending order.
+	 * Assumptions:
+	 * A1 and A2 are both not null.
+	 * There are no duplicate elements in A2.
+	 * Examples:
+	 * A1 = {2, 1, 2, 5, 7, 1, 9, 3}, A2 = {2, 1, 3}, A1 is sorted to {2, 2, 1, 1, 3, 5, 7, 9}
 	 */
 	 public static int[] task10_sortSpecial(int[] A1, int[] A2) {
 		    // Write your solution here.
@@ -467,65 +639,16 @@ A1 = {2, 1, 2, 5, 7, 1, 9, 3}, A2 = {2, 1, 3}, A1 is sorted to {2, 2, 1, 1, 3, 5
 		  }
 	 
 	 
-	 /*
-	  * task11
-	  * Array Deduplication IV
-Hard
-Data Structure
-Given an unsorted integer array, remove adjacent duplicate elements repeatedly, from left to right. For each group of elements with the same value do not keep any of them.
-
-Do this in-place, using the left side of the original array. Return the array after deduplication.
-
-Assumptions
-
-The given array is not null
-Examples
-
-{1, 2, 3, 3, 3, 2, 2} → {1, 2, 2, 2} → {1}, return {1}
-	  */
-	 public int[] task11_dedup(int[] array) {
-		    // write your solution here
-		  if (array == null || array.length <= 1) {
-					return array;
-				}
-				LinkedList<Integer> st = new LinkedList<Integer>();
-				st.offer(array[0]);
-				int i = 1;
-				while (i < array.length) {
-					if (!st.isEmpty() && array[i] == st.peek()) {
-						while (i < array.length && array[i] == st.peek()) {
-							i++;
-						}
-						// pop out st.peek();
-						st.poll();
-					} else {
-						st.push(array[i]);
-						i++;
-					}
-				}
-				// System.out.println(st.size());
-				int[] result = new int[st.size()];
-				for (int j = st.size() - 1; j >= 0; j--) {
-					result[j] = st.poll();
-				}
-				// System.out.println(result.length);
-				return result;
-		  }
-	 
+	
 	 
 	 /*
 	  * task12
-	  * Largest And Second Largest
-Hard
-Data Structure
-Use the least number of comparisons to get the largest and 2nd largest number in the given integer array. Return the largest number and 2nd largest number.
-
-Assumptions
-
-The given array is not null and has length of at least 2
-Examples
-
-{2, 1, 5, 4, 3}, the largest number is 5 and 2nd largest number is 4.
+	  * Largest And Second Largest 
+	  * Use the least number of comparisons to get the largest and 2nd largest number in the given integer array. Return the largest number and 2nd largest number.
+	  * Assumptions
+	  * The given array is not null and has length of at least 2
+	  * Examples
+	  * {2, 1, 5, 4, 3}, the largest number is 5 and 2nd largest number is 4.
 	  */
 	  public int[] largestAndSecond(int[] array) {
 		    // write your solution here
@@ -602,33 +725,18 @@ Examples
 			/*
 			 * task13
 			 * Lowest Common Ancestor IV
-Hard
-Recursion
-Given K nodes in a binary tree, find their lowest common ancestor.
-
-Assumptions
-
-K >= 2
-
-There is no parent pointer for the nodes in the binary tree
-
-The given two nodes are guaranteed to be in the binary tree
-
-Examples
-
-        5
-
-      /   \
-
-     9     12
-
-   /  \      \
-
-  2    3      14
-
-The lowest common ancestor of 2, 3, 14 is 5
-
-The lowest common ancestor of 2, 3, 9 is 9
+			 * Given K nodes in a binary tree, find their lowest common ancestor.
+			 * Assumptions K >= 2
+			 * There is no parent pointer for the nodes in the binary tree
+			 * The given two nodes are guaranteed to be in the binary tree
+			 * Examples
+			 *         5
+			 *       /   \
+			 *     9     12
+			 *   /  \      \
+			 *  2    3      14
+			 *  The lowest common ancestor of 2, 3, 14 is 5
+			 *  The lowest common ancestor of 2, 3, 9 is 9
 			 */
 			
 	public TreeNode lowestCommonAncestor(TreeNode root, List<TreeNode> nodes) {
@@ -649,5 +757,54 @@ The lowest common ancestor of 2, 3, 9 is 9
 		}
 		return left != null ? left : right;
 	}
+	
+	
+	/*
+	 * task12 Get Keys In Binary Tree Layer By Layer Zig-Zag Order Fair Data
+	 * Structure Get the list of keys in a given binary tree layer by layer in
+	 * zig-zag order.
+	 * 
+	 * Examples
+	 * 
+	 * 5
+	 * 
+	 * / \
+	 * 
+	 * 3 8
+	 * 
+	 * / \ \
+	 * 
+	 * 1 4 11
+	 * 
+	 * the result is [5, 3, 8, 11, 4, 1]
+	 * 
+	 * Corner Cases
+	 * 
+	 * What if the binary tree is null? Return an empty list in this case. How
+	 * is the binary tree represented?
+	 * 
+	 * We use the level order traversal sequence with a special symbol "#"
+	 * denoting the null node.
+	 * 
+	 * For Example:
+	 * 
+	 * The sequence [1, 2, 3, #, #, 4] represents the following binary tree:
+	 * 
+	 * 1
+	 * 
+	 * / \
+	 * 
+	 * 2 3
+	 * 
+	 * /
+	 * 
+	 * 4
+	 */
+
+	public static List<Integer> task12_zigZag(TreeNode root) {
+		// Write your solution here.
+		return new ArrayList<Integer>();
+	}
+
 
 }
