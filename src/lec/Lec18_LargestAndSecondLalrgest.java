@@ -30,7 +30,8 @@ public class Lec18_LargestAndSecondLalrgest {
 			// pair<index, value>
 			list.add(new Pair(i, array[i]));
 		}
-		// 
+		// <Index, Smaller list of This Integer whose index is Index>
+		
 		HashMap<Integer, ArrayList<Integer>> map = new HashMap<Integer, ArrayList<Integer>>();
 		while (list.size() > 1) {
 			List<Pair> nextRound = new ArrayList<Pair>();
@@ -38,11 +39,11 @@ public class Lec18_LargestAndSecondLalrgest {
 				if (i + 1 < list.size()) {
 					Pair p1 = list.get(i);
 					Pair p2 = list.get(i + 1);
-					
+					// p1.val <= p2.val, p2 win
 					if (p1.second <= p2.second) {
 						// p2 win, add p2 to the nextRound
 						nextRound.add(p2);
-						// if this 
+						// if this p2.first is not in 
 						if (!map.containsKey(p2.first)) {
 							map.put(p2.first, new ArrayList<Integer>());
 						}

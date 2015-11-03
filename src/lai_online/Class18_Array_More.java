@@ -1,7 +1,7 @@
 package lai_online;
 
 import java.util.*;
-
+import java.util.Map.Entry;
 
 import debug.Debug;
 import ds.*;
@@ -10,10 +10,12 @@ public class Class18_Array_More {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		test2();
+//		test2();
 //		test4();
 //		test7();
-		System.out.println("--------------");
+//		System.out.println("--------------");
+//		test9();
+		test16();
 		
 	}
 
@@ -397,16 +399,11 @@ public class Class18_Array_More {
 		array[j] = temp;
 	}
 
-		
-	
-	/*
-	 * task8 Largest and Smallest
-	 */
-	
 	
 
 	/*
-	 * task8 Largest And Smallest 
+	 * task8 
+	 * Largest And Smallest 
 	 * Fair Data Structure 
 	 * Use the least number of
 	 * comparisons to get the largest and smallest number in the given integer
@@ -418,7 +415,7 @@ public class Class18_Array_More {
 	 * 
 	 * {2, 1, 5, 4, 3}, the largest number is 5 and smallest number is 1.
 	 */
-	public int[] task8_largestAndSmallest(int[] a) {
+	public static int[] task8_largestAndSmallest(int[] a) {
 		// write your solution here
 		if (a == null || a.length < 1)
 			return null;
@@ -471,14 +468,103 @@ public class Class18_Array_More {
 	
 	
 	
-	/*
-	 * task9: Largest and Second Largest 
-	 */
+
+	 /*
+	  * task9
+	  * Largest And Second Largest 
+	  * Use the least number of comparisons to get the largest and 2nd largest number in the given integer array. Return the largest number and 2nd largest number.
+	  * Assumptions
+	  * The given array is not null and has length of at least 2
+	  * Examples
+	  * {2, 1, 5, 4, 3}, the largest number is 5 and 2nd largest number is 4.
+	  */
+	
+	public static void test9() {
+		int[] array = {2,1,5,4,3};
+		int[] result = task9_largestAndSecond(array);
+		System.out.println(Arrays.toString(result));
+	}
+	public static int[] task9_largestAndSecond(int[] array) {
+		// write your solution here
+		// return a Pair object, the field first is the largest
+		if (array == null || array.length == 0) {
+			return null;
+		}
+		List<Pair> list = new ArrayList<Pair>();
+		for (int i = 0; i < array.length; i++) {
+			// pair<index, value>
+			list.add(new Pair(i, array[i]));
+		}
+		// <Index, Smaller list of the value of Index>
+		HashMap<Integer, ArrayList<Integer>> map = new HashMap<Integer, ArrayList<Integer>>();
+		while (list.size() > 1) {
+			List<Pair> nextRound = new ArrayList<Pair>();
+			for (int i = 0; i < list.size(); i += 2) {
+				if (i + 1 < list.size()) {
+					Pair p1 = list.get(i);
+					Pair p2 = list.get(i + 1);
+
+					if (p1.value <= p2.value) {
+						// p2 win, add p2 to the nextRound
+						nextRound.add(p2);
+						// if p2.index is not in map
+						if (!map.containsKey(p2.index)) {
+							map.put(p2.index, new ArrayList<Integer>());
+						}
+						// add p2's smaller to p2's smaller list
+						map.get(p2.index).add(p1.value);
+					} else {
+						// p1 win
+						nextRound.add(p1);
+						if (!map.containsKey(p1.index)) {
+							map.put(p1.index, new ArrayList<Integer>());
+						}
+						// add p1's smaller to p1's smaller list
+						map.get(p1.index).add(p2.value);
+					}
+				} else {
+					// add the last pair into nextRound if list.size() is odd
+					nextRound.add(list.get(i));
+				}
+			}
+			list = nextRound;
+
+		}
+		// the second Max is must be in the final winner's smaller list
+		int secondMax = max(map.get(list.get(0).index));
+		// System.out.println("secondMax = " + secondMax);
+		return new int[] { list.get(0).value, secondMax };
+	}
+
+	public static int max(List<Integer> list) {
+		int max = list.get(0);
+		for (Integer i : list) {
+			if (i > max) {
+				max = i;
+			}
+		}
+		return max;
+	}
+
+	public static  class Pair {
+		public int index;
+		public int value;
+
+		public Pair(int x, int y) {
+			this.index = x;
+			this.value = y;
+		}
+	}
 	
 	
 
+	
+	
+	
+	
 	/*
-	 * task8 Rotate Matrix Fair Data Structure Rotate an N * N matrix clockwise
+	 * task11
+	 * Rotate Matrix Fair Data Structure Rotate an N * N matrix clockwise
 	 * 90 degrees.
 	 * 
 	 * Assumptions
@@ -499,7 +585,7 @@ public class Class18_Array_More {
 	 * 
 	 * {5, 4, 3} }
 	 */
-	public static void task8_rotate(int[][] matrix) {
+	public static void task11_rotate(int[][] matrix) {
 		// write your solution here
 		if (matrix == null || matrix.length == 0 || matrix[0] == null
 				|| matrix[0].length == 0) {
@@ -527,10 +613,84 @@ public class Class18_Array_More {
 		matrix[x1][y1] = matrix[x2][y2];
 		matrix[x2][y2] = temp;
 	}
+	
+	// another way
 
 	
 	/*
-	 * task9 Lowest Common Ancestor II Fair Data Structure Given two nodes in a
+	 * task12 Get Keys In Binary Tree Layer By Layer Zig-Zag Order Fair Data
+	 * Structure Get the list of keys in a given binary tree layer by layer in
+	 * zig-zag order.
+	 * 
+	 * Examples
+	 * 
+	 * 5
+	 * 
+	 * / \
+	 * 
+	 * 3 8
+	 * 
+	 * / \ \
+	 * 
+	 * 1 4 11
+	 * 
+	 * the result is [5, 3, 8, 11, 4, 1]
+	 * 
+	 * Corner Cases
+	 * 
+	 * What if the binary tree is null? Return an empty list in this case. How
+	 * is the binary tree represented?
+	 * 
+	 * We use the level order traversal sequence with a special symbol "#"
+	 * denoting the null node.
+	 * 
+	 * For Example:
+	 * 
+	 * The sequence [1, 2, 3, #, #, 4] represents the following binary tree:
+	 * 
+	 * 1
+	 * 
+	 * / \
+	 * 
+	 * 2 3
+	 * 
+	 * /
+	 * 
+	 * 4
+	 */
+
+	public static List<Integer> task12_zigZag(TreeNode root) {
+		// Write your solution here.
+		return new ArrayList<Integer>();
+	}
+	
+	
+	
+	
+	
+	/* 
+	 * task13: Lowest Common Ancestor(without parent pointer)
+	 */
+	public static TreeNode task13_LCA_No_ParentPointer(TreeNode root, TreeNode n1,TreeNode n2) {
+		if (root == null) {
+			return null;
+		}
+		if (root == n1 || root == n2) {
+			return root;
+		}
+		
+		TreeNode left = task13_LCA_No_ParentPointer(root.left, n1, n2);
+		TreeNode right = task13_LCA_No_ParentPointer(root.right, n1, n2);
+		
+		if (left != null && right != null) {
+			return root;
+		}
+		return left != null ? left : right;
+	}
+	
+	
+	/*
+	 * task14 Lowest Common Ancestor II Fair Data Structure Given two nodes in a
 	 * binary tree (with parent pointer available), find their lowest common
 	 * ancestor.
 	 * 
@@ -563,7 +723,7 @@ public class Class18_Array_More {
 	 * TreeNodeP right; public TreeNodeP parent; public TreeNodeP(int key,
 	 * TreeNodeP parent) { this.key = key; this.parent = parent; } }
 	 */
-	public static TreeNodeP task9_lowestCommonAncestor(TreeNodeP one,
+	public static TreeNodeP task14_lowestCommonAncestor_With_ParentPointer(TreeNodeP one,
 			TreeNodeP two) {
 		// write your solution here
 		if (one == null || two == null) {
@@ -620,126 +780,27 @@ public class Class18_Array_More {
 		return length;
 	}
 	
-	/*
-	 * task10
-	 * Sort In Specified Order
-	 * Fair
-	 * Data Structure
-	 * Given two integer arrays A1 and A2, sort A1 in such a way that the relative order among the elements will be same as those are in A2.
-	 * For the elements that are not in A2, append them in the right end of the A1 in an ascending order.
-	 * Assumptions:
-	 * A1 and A2 are both not null.
-	 * There are no duplicate elements in A2.
-	 * Examples:
-	 * A1 = {2, 1, 2, 5, 7, 1, 9, 3}, A2 = {2, 1, 3}, A1 is sorted to {2, 2, 1, 1, 3, 5, 7, 9}
-	 */
-	 public static int[] task10_sortSpecial(int[] A1, int[] A2) {
-		    // Write your solution here.
-		    return A1;
-		  }
-	 
-	 
 	
-	 
-	 /*
-	  * task12
-	  * Largest And Second Largest 
-	  * Use the least number of comparisons to get the largest and 2nd largest number in the given integer array. Return the largest number and 2nd largest number.
-	  * Assumptions
-	  * The given array is not null and has length of at least 2
-	  * Examples
-	  * {2, 1, 5, 4, 3}, the largest number is 5 and 2nd largest number is 4.
-	  */
-	  public int[] largestAndSecond(int[] array) {
-		    // write your solution here
-		    // return a Pair object, the field first is the largest
-		    if (array == null || array.length == 0) {
-					return null;
-				}
-				List<Pair> list = new ArrayList<Pair>();
-				for (int i = 0; i < array.length; i++) {
-					// pair<index, value>
-					list.add(new Pair(i, array[i]));
-				}
-				// 
-				HashMap<Integer, ArrayList<Integer>> map = new HashMap<Integer, ArrayList<Integer>>();
-				while (list.size() > 1) {
-					List<Pair> nextRound = new ArrayList<Pair>();
-					for (int i = 0; i < list.size(); i += 2) {
-						if (i + 1 < list.size()) {
-							Pair p1 = list.get(i);
-							Pair p2 = list.get(i + 1);
-							
-							if (p1.second <= p2.second) {
-								// p2 win, add p2 to the nextRound
-								nextRound.add(p2);
-								// if this 
-								if (!map.containsKey(p2.first)) {
-									map.put(p2.first, new ArrayList<Integer>());
-								}
-								// add p2's smaller to p2's smaller list
-								map.get(p2.first).add(p1.second);
-							} else {
-								// p1 win
-								nextRound.add(p1);
-								if (!map.containsKey(p1.first)) {
-									map.put(p1.first, new ArrayList<Integer>());
-								}
-								// add p1's smaller to p1's smaller list
-								map.get(p1.first).add(p2.second);
-							}
-						} else {
-							// add the last pair into nextRound if list.size() is odd
-							nextRound.add(list.get(i));
-						}
-					}
-					list = nextRound;
+	/*
+	 * task15
+	 * 
+	 * Lowest Common Ancestor IV
+	 * Lowest Common Ancestor of K nodes
+	 * Given K nodes in a binary tree, find their lowest common ancestor.
+	 * Assumptions K >= 2
+	 * There is no parent pointer for the nodes in the binary tree
+	 * The given two nodes are guaranteed to be in the binary tree
+	 * Examples
+	 *         5
+	 *       /   \
+	 *     9     12
+	 *   /  \      \
+	 *  2    3      14
+	 *  The lowest common ancestor of 2, 3, 14 is 5
+	 *  The lowest common ancestor of 2, 3, 9 is 9
+	 */
 
-				}
-				int secondMax = max(map.get(list.get(0).first));
-				// System.out.println("secondMax = " + secondMax);
-				return new int[] { list.get(0).second, secondMax };
-		  }
-		  
-		  public  int max(List<Integer> list) {
-				int max = list.get(0);
-				for (Integer i : list) {
-					if (i > max) {
-						max = i;
-					}
-				}
-				return max;
-			}
-
-			public  class Pair {
-				public int first;
-				public int second;
-
-				public Pair(int x, int y) {
-					this.first = x;
-					this.second = y;
-				}
-			}
-	 
-	 
-			/*
-			 * task13
-			 * Lowest Common Ancestor IV
-			 * Given K nodes in a binary tree, find their lowest common ancestor.
-			 * Assumptions K >= 2
-			 * There is no parent pointer for the nodes in the binary tree
-			 * The given two nodes are guaranteed to be in the binary tree
-			 * Examples
-			 *         5
-			 *       /   \
-			 *     9     12
-			 *   /  \      \
-			 *  2    3      14
-			 *  The lowest common ancestor of 2, 3, 14 is 5
-			 *  The lowest common ancestor of 2, 3, 9 is 9
-			 */
-			
-	public TreeNode lowestCommonAncestor(TreeNode root, List<TreeNode> nodes) {
+	public static TreeNode task15_lowestCommonAncestor(TreeNode root, List<TreeNode> nodes) {
 		// write your solution here
 		if (root == null) {
 			return null;
@@ -749,62 +810,102 @@ public class Class18_Array_More {
 				return root;
 			}
 		}
-		TreeNode left = lowestCommonAncestor(root.left, nodes);
-		TreeNode right = lowestCommonAncestor(root.right, nodes);
+		TreeNode left = task15_lowestCommonAncestor(root.left, nodes);
+		TreeNode right = task15_lowestCommonAncestor(root.right, nodes);
 
 		if (left != null && right != null) {
 			return root;
 		}
 		return left != null ? left : right;
 	}
-	
+
 	
 	/*
-	 * task12 Get Keys In Binary Tree Layer By Layer Zig-Zag Order Fair Data
-	 * Structure Get the list of keys in a given binary tree layer by layer in
-	 * zig-zag order.
+	 * task16
 	 * 
-	 * Examples
+	 * Sort In Specified Order Fair Data Structure Given two integer
+	 * arrays A1 and A2, sort A1 in such a way that the relative order among the
+	 * elements will be same as those are in A2. For the elements that are not
+	 * in A2, append them in the right end of the A1 in an ascending order.
 	 * 
-	 * 5
-	 * 
-	 * / \
-	 * 
-	 * 3 8
-	 * 
-	 * / \ \
-	 * 
-	 * 1 4 11
-	 * 
-	 * the result is [5, 3, 8, 11, 4, 1]
-	 * 
-	 * Corner Cases
-	 * 
-	 * What if the binary tree is null? Return an empty list in this case. How
-	 * is the binary tree represented?
-	 * 
-	 * We use the level order traversal sequence with a special symbol "#"
-	 * denoting the null node.
-	 * 
-	 * For Example:
-	 * 
-	 * The sequence [1, 2, 3, #, #, 4] represents the following binary tree:
-	 * 
-	 * 1
-	 * 
-	 * / \
-	 * 
-	 * 2 3
-	 * 
-	 * /
-	 * 
-	 * 4
+	 * Assumptions: A1 and A2 are both not null. There are no duplicate elements
+	 * in A2. Examples: 
+	 * A1 = {2, 1, 2, 5, 7, 1, 9, 3}, 
+	 * A2 = {2, 1, 3}, 
+	 * A1 is 
+	 * sorted to {2, 2, 1, 1, 3, 5, 7, 9}
 	 */
-
-	public static List<Integer> task12_zigZag(TreeNode root) {
-		// Write your solution here.
-		return new ArrayList<Integer>();
+	
+	/*
+	 * method1
+	 * use hashMap
+	 * 1. traverse A1, <Key: number, Value: count of number>
+	 * 2. traverse A2, put the corresponding elements into A1
+	 * 3. Sort the remaining elements in hashMap and put them into A1
+	 */
+	public static void test16() {
+		int[] A1 = {2, 1, 2, 5, 7, 1, 9, 3};
+		System.out.println(Arrays.toString(A1));
+		int[] A2 = {2, 1, 3};
+		
+		int[] rev = task16_sortSpecial_hashMap(A1, A2);
+		System.out.println(Arrays.toString(rev));
 	}
+	
+	public static int[] task16_sortSpecial_hashMap(int[] A1, int[] A2) {
+		// Write your solution here.
+		// edge case
+		if (A1 == null || A2 == null || A1.length == 0 || A2.length == 0) {
+			return A1;
+		}
+		
+		Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+		for(int i = 0; i < A1.length; i ++) {
+			if (!map.containsKey(A1[i])) {
+				map.put(A1[i], 0);
+			}
+			map.put(A1[i], map.get(A1[i]) + 1);
+		}
+		
+		int index = 0;
+		for(int i = 0; i < A2.length; i ++) {
+			int curKey = A2[i];
+			if (map.containsKey(curKey)) {
+				int curCounter = map.get(curKey);
+				for(int j = 0; j < curCounter; j ++) {
+					A1[index ++] = curKey;
+				}
+				map.remove(curKey);
+			}
+		}
+		
+		int startIndex = index;
+		int endIndex = A1.length - 1;
+		
+		for(Entry<Integer, Integer> entry: map.entrySet()) {
+			A1[index ++] = entry.getKey();
+		}
+		Arrays.sort(A1, startIndex, endIndex);
+		
+		
+		return A1;
+	}
+	
+	
+	
+	
+	
+	 
+	
+	
+	 
+	
+	 
+	
+	 
+		
+	
+	
 
 
 }

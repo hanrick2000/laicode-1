@@ -7,6 +7,7 @@ public class Class15_DP3 {
 		// TODO Auto-generated method stub
 		test3_2();
 	}
+	
 	/*
 	 * list:
 	 * task1.1: Largest Subarray Sum
@@ -29,7 +30,6 @@ public class Class15_DP3 {
 	
 	/*
 	 * task1.1 
-	 * 
 	 * Largest SubArray Sum  
 	 * Given an unsorted integer array, find
 	 * the subarray that has the greatest sum. Return the sum. Assumptions The
@@ -37,6 +37,7 @@ public class Class15_DP3 {
 	 * -2, 1}, the largest subarray sum is 2 + (-1) + 4 = 5 {-2, -1, -3}, the
 	 * largest subarray sum is -1
 	 */
+	
 	public int task1_largestSum(int[] array) {
 		// write your solution here
 		if (array == null || array.length == 0) {
@@ -154,9 +155,9 @@ public class Class15_DP3 {
 				{1,0,1,1}
 		};
 		int rev = task3_2_largest(matrix);
-		System.out.println("rev = "+ rev );
-		
+		System.out.println("rev = "+ rev );		
 	}
+
 	public static int task3_2_largest(int[][] matrix) {
 		// write your solution here
 
@@ -251,7 +252,7 @@ public class Class15_DP3 {
 				}
 			}
 		}
-		
+
 		Debug.printMatrix(M1);
 		System.out.println("---------");
 		Debug.printMatrix(M2);
@@ -284,7 +285,8 @@ public class Class15_DP3 {
 	 * 
 	 * {0, 1, 1, 1},
 	 * 
-	 * {1, 0, 1, 1} }
+	 * {1, 0, 1, 1} 
+	 * }
 	 * 
 	 * the largest X of 1s has arm length 2.
 	 */
@@ -294,6 +296,7 @@ public class Class15_DP3 {
 				|| matrix[0].length == 0) {
 			return 0;
 		}
+		
 		int rLen = matrix.length;
 		int cLen = matrix[0].length;
 		int[][] M1 = getLeftBottom2RightTop(matrix);
@@ -520,8 +523,5 @@ public class Class15_DP3 {
 		}
 		// Debug.printMatrix(M);
 		return M;
-	}
-
-	
-	
+	}	
 }

@@ -9,6 +9,7 @@ public class Class16_4_Reservoir_Sampling {
 		this.count = 0;
 		this.sample = 0;
 	}
+	
 	public void read(int value) {
 		// write your implementation here
 		count ++;
