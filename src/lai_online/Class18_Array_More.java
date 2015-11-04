@@ -887,7 +887,6 @@ public class Class18_Array_More {
 		}
 		Arrays.sort(A1, startIndex, endIndex);
 		
-		
 		return A1;
 	}
 	

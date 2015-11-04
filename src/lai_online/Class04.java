@@ -3,7 +3,6 @@ package lai_online;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import ds.ListNode;
 import ds.TreeNode;
 
 import java.util.*;

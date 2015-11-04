@@ -28,49 +28,49 @@ public class Class06_dfs {
 	 * Set = null, all the subsets are []
 	 * 
 	 */
-	public static void  test7() {
+	public static void  test1() {
 		String set = "abc";
-		List<String> result = task7_subsets(set);
+		List<String> result = task1_subsets(set);
 		System.out.println(result);
 	}
 	
-	public static List<String> task7_subsets(String set) {
+	public static List<String> task1_subsets(String set) {
 		ArrayList<String> result = new ArrayList<String>();
 		if (set ==null || set.length() == 0) {
 			return result;
 		}
 		StringBuilder sb = new StringBuilder();
-		task7_helper(set, 0, sb, result);
+		task1_helper(set, 0, sb, result);
 		return result;
 	}
 	
 	// this helper function, we use a StringBuilder for the intermediate result
-	public static void task7_helper(String set, int index, StringBuilder sb, List<String> result) {
+	public static void task1_helper(String set, int index, StringBuilder sb, List<String> result) {
 		if (index == set.length()) {
 			result.add(sb.toString());
 			return ;
 		}
-		task7_helper(set, index + 1, sb, result);
+		task1_helper(set, index + 1, sb, result);
 		sb.append(set.charAt(index));
-		task7_helper(set, index + 1, sb, result);
+		task1_helper(set, index + 1, sb, result);
 		sb.deleteCharAt(sb.length() - 1);
 	}
 	
 	// another method
-	public static void test7_1() {
+	public static void test1_1() {
 		String set = "abc";
-		List<String> result = task7_1_subsets(set);
+		List<String> result = task1_1_subsets(set);
 		System.out.println(result);
 	}
 	
-	public static List<String> task7_1_subsets(String set) {
+	public static List<String> task1_1_subsets(String set) {
 		List<String> result = new ArrayList<String>();
 		if (set == null) {
 			return result;
 		}
 		char[] input = set.toCharArray();
 		StringBuilder stb = new StringBuilder();
-		task7_1_helper(input, stb, result, 0);
+		task1_1_helper(input, stb, result, 0);
 
 		
 		return result;
@@ -78,7 +78,7 @@ public class Class06_dfs {
 	
 	// this is for debug
 	public static int count = 0;
-	public static void task7_1_helper(char[] set, StringBuilder stb, List<String> result, int index) {
+	public static void task1_1_helper(char[] set, StringBuilder stb, List<String> result, int index) {
 		System.out.println(stb.toString() + " count = " + count ++);
 		// choose what is the index in the original set to pick
 		// maintain the ascending order of the picked indices
@@ -86,7 +86,7 @@ public class Class06_dfs {
 		
 		for(int i = index; i < set.length; i ++) {
 			stb.append(set[i]);
-			task7_1_helper(set, stb, result, i + 1);
+			task1_1_helper(set, stb, result, i + 1);
 			stb.deleteCharAt(stb.length() - 1);
 		}
 	}
