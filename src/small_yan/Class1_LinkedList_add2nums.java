@@ -1,4 +1,4 @@
-package small_yan;
+ package small_yan;
 import ds.*;
 
 public class Class1_LinkedList_add2nums {

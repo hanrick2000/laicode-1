@@ -210,9 +210,10 @@ public class Class21 {
 	}
 
 	/*
-	 * 1 / \ 2 3
-	 * 
-	 * 1 / \ 1' 3 / \ / 2 3' / 2'
+	 *     1 
+	 *    / \ 
+	 *   2   3
+	 *  1 / \ 1' 3 / \ / 2 3' / 2'
 	 */
 	// return the copyNode of the curNode, which is node.left
 	public static RandomTreeNode copyLeftRightNode(RandomTreeNode node) {
@@ -377,6 +378,7 @@ public class Class21 {
 	 */
 	
 	
+	
 
 	/*
 	 * task5 
@@ -509,6 +511,7 @@ public class Class21 {
 	 * L = 10, A = {2, 4, 7}, the minimum total cost is 10 + 4 + 6 = 20 (cut at
 	 * 4 first then cut at 2 and cut at 7)
 	 */
+	
 	
 	/*
 	 * task9

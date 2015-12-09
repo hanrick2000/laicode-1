@@ -170,7 +170,8 @@ public class Class2_BT_BST {
 	}
 	
 	//3 diameter
-	// Binary Tree, diameter, from one node to another, longest path. length of path = # of nodes on the path.
+	// Binary Tree, diameter, from one node to another, longest path. 
+	// length of path = # of nodes on the path.
 	public static int longest = 0;
 	public static int diameter(TreeNode root) {
 		if (root == null) {

@@ -6,7 +6,7 @@ public class Class16_Math {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
+		test6();
 	}
 	
 	/*
@@ -50,8 +50,24 @@ public class Class16_Math {
 	 * 
 	 * Examples
 	 * 
-	 * [1, 2, 3, ..., 95, 96, 97, 98, 99, 100], 95 percentile of all lengths is
+	 * [1, 2, 3, ..., 95, 96, 97, 98, 99, 100],
+	 * 95 percentile of all lengths is
+	 * 
 	 * 95.
+	 * 
+	 * 
+	 * <key = length, value = counter>
+	 * <100, 1>
+	 * <99, 1>
+	 * <98, 1>
+	 * etc
+	 * 
+	 * sum = 0; 
+	 * while(sum <= 0.05 * (total urls number))
+	 *    sum += count[--length];
+	 * 
+	 * return length
+	 * 
 	 */
 	public int percentile95(List<Integer> lengths) {
 		// write your solution here
@@ -103,10 +119,12 @@ public class Class16_Math {
 	/*
 	 * task4
 	 * 
-	 * Reservoir Sampling Fair Probability Consider an unlimited flow of data
-	 * elements. How do you sample one element from this flow, such that at any
-	 * point during the processing of the flow, you can return a random element
-	 * from the n elements read so far.
+	 * Reservoir Sampling Fair Probability 
+	 * Consider an unlimited flow of data
+	 * elements. How do you sample one element from this flow, 
+	 * such that at any point during the processing of the flow, 
+	 * you can return a random element from the n elements read 
+	 * so far.
 	 * 
 	 * You will implement two methods for a sampling class:
 	 * 
@@ -137,7 +155,7 @@ public class Class16_Math {
 
 	public static class RandomFive {
 		public static int random5() {
-			return (int)Math.random() * (5 + 1);
+			return (int)(Math.random() * 5);
 		}
 	}
 
@@ -146,33 +164,73 @@ public class Class16_Math {
 	 * random5(), the return value of random5() is 0 - 4 with equal probability.
 	 * Use random5() to implement random1000()
 	 */
+	
+	public static void test6() {
+//		for(int i = 0; i < 10; i ++) {
+//			int random1000 = random1000();
+//			System.out.println("random1000 = "  + random1000);
+//		}
+		
+		random1000_2();
+		
+	}
 
-	public int random1000() {
+	public static int random1000() {
 		// write your solution here
 		// you can use RandomFive.random5() for generating
 		// 0 - 4 with equal probability.
-		int[] arr = new int[11];
-		for (int i = 0; i < 11; i++) {
+		int n = 11;
+		int[] arr = new int[n];
+		for (int i = 0; i < n; i++) {
 			arr[i] = random2();
 		}
 		// now we get the number
 		int digit = 1;
 		int sum = 0;
-		for (int i = 0; i < 11; i++) {
+		for (int i = 0; i < n; i++) {
 			if (arr[i] == 1) {
 				sum += digit;
 			}
 			digit *= 2;
 		}
+		System.out.println(Arrays.toString(arr));
+		System.out.println(" sum = " + sum);
 		if (sum < 1000) {
 			return sum;
 		}
 		return random1000();
 	}
 
-	public int random2() {
+	public static int random2() {
 		// return RandomFive.random5()%2;
 		return RandomFive.random5() % 2;
 	}
+	
+	
+	public  static int random1000_2() {
+		
+		int n = 5;
+		int[] arr = new int[n];
+		
+		for(int i = 0; i < n; i ++ ) {
+			arr[i] = RandomFive.random5();
+		}
+	
+		
+		int digit = 1;
+		int sum = 0;
+		for(int i = 0; i < n; i ++) {
+			sum += arr[i] * digit;
+			digit *=5;
+		}
+		
+		if (sum < 1000) {
+			return sum;
+		}
+		
+		return random1000_2();
+	}
+	
+	
 
 }

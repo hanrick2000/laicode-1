@@ -5,11 +5,19 @@ public class Class02 {
 		// TODO Auto-generated method stub
 
 	}
+	
+	/*
+	 * list
+	 * task1: fibonacci number
+	 * task2: 
+	 */
 
 	/*
 	 * task1
 	 * 
-	 * Fibonacci Number Easy DP Get the Kth number in the Fibonacci Sequence. (K
+	 * Fibonacci Number 
+	 * Easy DP 
+	 * Get the Kth number in the Fibonacci Sequence. (K
 	 * is 0-indexed, the 0th Fibonacci number is 0 and the 1st Fibonacci number
 	 * is 1).
 	 * 
@@ -23,12 +31,22 @@ public class Class02 {
 	 * overflowed when we solve this problem on this online judge, but we should
 	 * also know that it is possible to get an overflowed number, and sometimes
 	 * we will need to use something like BigInteger.
+	 * 
+	 * 1: recursion
+	 * 2: dp
+	 * 3: matrix. 
 	 */
+	public static long task1_fibonacci(int n) {
+		return -1;
+	}
+	
 
 	/*
-	 * task2 Classical Binary Search Easy Data Structure Given a target integer
-	 * T and an integer array A sorted in ascending order, find the index i such
-	 * that A[i] == T or return -1 if there is no such index.
+	 * task2 Classical Binary Search 
+	 * Easy Data Structure 
+	 * 
+	 * Given a target integer T and an integer array A sorted in ascending order, 
+	 * find the index i such that A[i] == T or return -1 if there is no such index.
 	 * 
 	 * Assumptions
 	 * 
@@ -41,9 +59,16 @@ public class Class02 {
 	 * What if A is null or A is of zero length? We should return -1 in this
 	 * case.
 	 */
+	public static int task2_binary_search(int[] array, int target) {
+		return -1;
+	}
+	
 
 	/*
-	 * task3 First Occurrence Fair Data Structure Given a target integer T and
+	 * task3 First Occurrence 
+	 * Fair Data Structure 
+	 * 
+	 * Given a target integer T and
 	 * an integer array A sorted in ascending order, find the index of the first
 	 * occurrence of T in A or return -1 if there is no such index.
 	 * 
@@ -56,9 +81,16 @@ public class Class02 {
 	 * 
 	 * What if A is null or A of zero length? We should return -1 in this case.
 	 */
+	public static int task3_first_occurence(int[] array, int target) {
+		return -1;
+	}
 
+	
 	/*
-	 * task4 Last Occurrence Fair Data Structure Given a target integer T and an
+	 * task4 Last Occurrence 
+	 * Fair Data Structure 
+	 * 
+	 * Given a target integer T and an
 	 * integer array A sorted in ascending order, find the index of the last
 	 * occurrence of T in A or return -1 if there is no such index.
 	 * 
@@ -74,9 +106,17 @@ public class Class02 {
 	 * What if A is null or A is array of zero length? We should return -1 in
 	 * this case.
 	 */
+	public static int task4_last_occurence(int[] array, int target) {
+		return -1;
+	}
 
+	
 	/*
-	 * task5 Closest In Sorted Array Fair Data Structure Given a target integer
+	 * task5 Closest In Sorted Array 
+	 * 
+	 * Fair Data Structure 
+	 * 
+	 * Given a target integer
 	 * T and an integer array A sorted in ascending order, find the index i in A
 	 * such that A[i] is closest to T.
 	 * 
@@ -92,9 +132,16 @@ public class Class02 {
 	 * What if A is null or A is of zero length? We should return -1 in this
 	 * case.
 	 */
+	public static int task5_closest_in_sorted_array(int[] array, int target) {
+		return -1;
+	}
 
+	
 	/*
-	 * task6 K Closest In Sorted Array Fair Data Structure Given a target
+	 * task6 K Closest In Sorted Array 
+	 * Fair Data Structure 
+	 * 
+	 * Given a target
 	 * integer T, a non-negative integer K and an integer array A sorted in
 	 * ascending order, find the K closest numbers to T in A.
 	 * 
@@ -110,6 +157,15 @@ public class Class02 {
 	 * 8}, T = 3, K = 3, return {4, 1, 6} Corner Cases
 	 * 
 	 * What if A is null? We should return null in this case.
+	 * 
+	 * 
+	 * 
+	 * 1 find the largest element which is smaller than or equal to the target
+	 * 2 if array[start] > target, all elements > target
+	 *   if array[end] < target, all elements < target
+	 *   else
+	 * 3 get the smaller from a[start] and a[end], put it into array[index]
+	 * 
 	 */
 
 	public static int[] task6_kClosest(int[] array, int target, int k) {
@@ -131,6 +187,7 @@ public class Class02 {
 				start = mid;
 			}
 		}
+		
 		// if the target isn't in array
 		// after above while, start should point the last element which is
 		// smaller than target
@@ -152,6 +209,7 @@ public class Class02 {
 				result[i] = array[i];
 			}
 		}
+		
 		int index = 0;
 		while (index < k) {
 			int candidate = -1;
@@ -175,10 +233,10 @@ public class Class02 {
 			result[index] = candidate;
 			index++;
 		}
-
 		return result;
 	}
 
+	
 	/*
 	 * task7
 	 * 
@@ -194,12 +252,15 @@ public class Class02 {
 	 * 
 	 * A = {1, 2, 5, 9, ......}, T = 5, return 2 A = {1, 2, 5, 9, 12, ......}, T
 	 * = 7, return -1
+	 * 
 	 */
 
 	/*
 	 * task8
 	 * 
-	 * a to the power of b Fair Recursion Evaluate a to the power of b, assuming
+	 * a to the power of b 
+	 * Fair Recursion 
+	 * Evaluate a to the power of b, assuming
 	 * both a and b are integers and b is non-negative.
 	 * 
 	 * Examples
@@ -209,5 +270,8 @@ public class Class02 {
 	 * 
 	 * What if the result is int overflowed? We can assume the result will not
 	 * be overflowed when we solve this problem on this online judge.
+	 * 
 	 */
+	
+	
 }

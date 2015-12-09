@@ -1,11 +1,16 @@
 package lai_online;
 
+import java.util.Arrays;
+
 import debug.Debug;
 
 public class Class15_DP3 {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		test3_2();
+//		test1_2();
+//		test3_2();
+		test1_3();
+//		test2_2();
 	}
 	
 	/*
@@ -48,6 +53,7 @@ public class Class15_DP3 {
 		for (int i = 0; i < array.length; i++) {
 			if (sum < 0) {
 				sum = 0;
+				
 			}
 			sum += array[i];
 			maxSum = Math.max(maxSum, sum);
@@ -59,6 +65,48 @@ public class Class15_DP3 {
 	 * task1.2
 	 * Largest SubArray Sum, print out the subArray
 	 */
+	
+	public static void test1_2() {
+		int[] array = {-1, -3, -4, -2, -5};
+		int[] result = task1_2_largestSumArray(array);
+		System.out.println(Arrays.toString(result));
+	}
+	public static int[] task1_2_largestSumArray(int[] array) {
+		if (array == null || array.length == 0) {
+			return array;
+		}
+		int start = 0, end = -1;
+		int sum = 0;
+		int maxSum = Integer.MIN_VALUE;
+		for(int i= 0; i < array.length; i ++ ) {
+			sum += array[i];
+			if (sum < 0) {
+				sum = 0;
+				start = i + 1;
+			} else if (sum > maxSum) {
+				maxSum = sum;
+				end = i;
+			}
+		}
+		
+		if (end == -1) {
+			// end == -1
+			// All elements are negative. traverse the array and get the largest
+			// negative element
+			for (int i = 0; i < array.length; i++) {
+				if (array[i] > maxSum) {
+					start = i;
+					end = i;
+					maxSum = array[i];
+				}
+			}
+		}
+		
+		// copyOfRange(Array, start, end + 1)  copies : array[start..end]
+		return Arrays.copyOfRange(array, start, end + 1);
+		
+	}
+	
 	
 	/*
 	 * task1.3
@@ -80,16 +128,279 @@ public class Class15_DP3 {
 	 * 
 	 * {0, -1, -1, 1},
 	 * 
-	 * {0, 0, 1, 1} }
+	 * {0, 0,  1,  1}
+	 * 
+	 *  }
 	 * 
 	 * the largest submatrix sum is (-1) + 4 + 1 + 1 + (-1) + 1 + 1 + 1 = 7.
+	 * 
+	 * 
+	 * Method1: O(n^3)
+	 * Method2: O(n^4)
 	 */
-
-	public int task1_3_largest(int[][] matrix) {
-		// write your solution here
-		return 0;
+	public static void test1_3() {
+		int[][] matrix = { 
+				{ 1, -2, -1, 4 },
+				{ 1, -1, 1, 1 },
+				{ 0, -1, -1, 1 },
+				{ 0, 0, 1, 1 } 
+		};
+		int maxSum = task1_3_largest(matrix);
+		
+		int maxSum2 = task1_3_maxSubMatrix_method2(matrix);
+		
 	}
+	
+	public static int task1_3_largest(int[][] matrix) {
+		// write your solution here
+		int rLen = matrix.length;
+		int cLen = matrix[0].length;
+		
+		int maxSum = Integer.MIN_VALUE;
+		int start_x = -1, start_y = -1;
+		int end_x = -1, end_y = -1;
+		for(int leftBound = 0;  leftBound < cLen; leftBound ++) {
+			int[] curSum = new int[rLen];
+			for(int rightBound = leftBound; rightBound < cLen; rightBound ++) {
+				for(int i = 0; i < rLen; i ++) {
+					curSum[i] += matrix[i][rightBound];
+				}
+				Wrapper pos = task1_3_largestSumSubArray(curSum);
+				
+				if (pos.maxVal > maxSum) {
+					start_x = pos.start;
+					start_y = leftBound;
+					
+					end_x = pos.end;
+					end_y = rightBound;
+					maxSum = pos.maxVal;
+				}
+			}
+		}
+		
+		// print out the matrix
+		for(int i = start_x; i <= end_x; i ++) {
+			for(int j = start_y; j <= end_y; j++) {
+				System.out.print(matrix[i][j] + " ");
+			}
+			System.out.println();
+		}
+		
+		System.out.println("maxSum = " + maxSum);
+		return maxSum;
+	}
+	
+	public static class Wrapper {
+		int start;
+		int end;
+		int maxVal;
+		public Wrapper(int s, int e, int m) {
+			this.start = s;
+			this.end = e;
+			this.maxVal = m;
+		}
+	}
+	
+	public static Wrapper task1_3_largestSumSubArray(int[] array) {
+		int start = 0, end = -1;
+		int maxSum = Integer.MIN_VALUE;
+		int sum = 0;
+		
+		for(int i = 0; i < array.length; i ++) {
+			sum += array[i];
+			if (sum < 0) {
+				start = i + 1;
+			} else {
+				if (sum > maxSum) {
+					maxSum = sum;
+					end = i;
+				}
+			}
+		}
+		
+		if (end == -1) {
+			for(int i = 0; i < array.length; i ++) {
+				if (array[i] > maxSum) {
+					maxSum = array[i];
+					start = i;
+					end = i;
+				}
+			}
+		}
+		return new Wrapper(start, end, maxSum);
+		
+	}
+	
 
+	public static int task1_3_maxSubMatrix_method2(int[][] matrix) {
+		int rLen = matrix.length;
+		int cLen = matrix[0].length;
+		int[][] M = new int[rLen][cLen];
+		
+		for(int j = 0; j < cLen; j ++) {
+			M[0][j] = j == 0 ? matrix[0][j] : M[0][j - 1] + matrix[0][j];
+		}
+		
+		for(int i = 0; i < rLen; i ++) {
+			M[i][0] = i == 0 ? matrix[i][0] : M[i - 1][0] + matrix[i][0];
+		}
+		
+		for(int i = 1; i < rLen; i ++) {
+			int curSumInThisRow = matrix[i][0];  // !!! here
+			for(int j = 1; j < cLen; j ++) {
+				curSumInThisRow += matrix[i][j];
+				M[i][j] = M[i - 1][j] + curSumInThisRow;
+			}
+		}
+		
+		int maxSum = Integer.MIN_VALUE;
+		int final_x1 = -1, final_y1 = -1;
+		int final_x2 = -1, final_y2 = -1;
+		
+		// O(n^4)
+		for(int x1 = 0; x1 < rLen; x1 ++) {
+			for(int y1 = 0; y1 < cLen; y1 ++) {
+				for(int x2 = x1 + 1; x2 < rLen; x2 ++) {
+					for(int y2 = y1 + 1; y2 < cLen; y2 ++) {
+						int curSum = M[x2][y2] - (y1 >= 1 ? M[x2][y1 - 1] : 0) - (x1 >= 1 ? M[x1 - 1][y2]: 0 )
+								+ (x1 >= 1 && y1 >= 1 ? M[x1 - 1][y1 - 1] : 0);
+						
+						if (curSum > maxSum) {
+							maxSum = curSum;
+							final_x1 = x1;
+							final_y1 = y1;
+							final_x2 = x2;
+							final_y2 = y2;
+						}
+					}
+				}
+			}
+		}
+		
+		System.out.println("-------------");
+		
+		for(int i = 0; i < rLen; i ++) {
+			for(int j = 0; j < cLen; j ++) {
+				System.out.print(M[i][j] + " ");
+			}
+			System.out.println();
+		}
+		System.out.println("-------------");
+		
+		for(int i = final_x1; i < final_x2; i ++) {
+			for(int j = final_y1; j < final_y2; j ++) {
+				System.out.print(matrix[i][j] + " ");
+			}
+			System.out.println();
+		}
+		System.out.println("maxSum = " + maxSum);
+		return maxSum;
+	}
+	
+	
+	/*
+	 * task2.1: Largest SubArray Product
+	 */
+	public static int task2_1_maxSubArrayProduct(int[] array) {
+		if (array == null || array.length == 0) {
+			return 0;
+		}
+		int[] maxEndingHere = new int[array.length];
+		int[] minEndingHere = new int[array.length];
+		
+		for(int i = 0; i < array.length; i ++) {
+			if (i == 0) {
+				maxEndingHere[i] = array[i];
+				minEndingHere[i] = array[i];
+			} else {
+				maxEndingHere[i] = Math.max(array[i], 
+						Math.max(maxEndingHere[i - 1] * array[i], minEndingHere[i - 1] * array[i]));
+				minEndingHere[i] = Math.min(array[i],
+						Math.max(maxEndingHere[i - 1] * array[i], minEndingHere[i - 1] * array[i]));
+			}
+		}
+		
+		int maxProduct = Integer.MIN_VALUE;
+		for(int i = 0; i < array.length; i ++) {
+			maxProduct = Math.max(maxProduct, maxEndingHere[i]);
+		}
+		
+		return maxProduct;
+	}
+	
+	
+	/*
+	 * task2.2: Largest SubArray Product, print out the subArray
+	 */
+	public static void test2_2() {
+		int[] array = {-1, 3};
+		int rev = task2_2_maxSubArrayProduct_Print(array);
+		System.out.println("rev  = " + rev);
+	}
+	
+	public static int task2_2_maxSubArrayProduct_Print(int[] array) {
+		if (array == null || array.length == 0) {
+			return 0;
+		}
+		int start = -1, end = -1;
+		
+		int[] maxEndingHere = new int[array.length];
+		int[] minEndingHere = new int[array.length];
+		
+		for(int i = 0; i < array.length; i ++) {
+			if (i == 0) {
+				maxEndingHere[i] = array[i];
+				minEndingHere[i] = array[i];
+			} else {
+				maxEndingHere[i] = Math.max(array[i], 
+						Math.max(maxEndingHere[i - 1] * array[i], minEndingHere[i - 1] * array[i]));
+				minEndingHere[i] = Math.min(array[i],
+						Math.max(maxEndingHere[i - 1] * array[i], minEndingHere[i - 1] * array[i]));
+			}
+		}
+		
+		int maxProduct = Integer.MIN_VALUE;
+		for(int i = 0; i < array.length; i ++) {
+			if (maxProduct < maxEndingHere[i]) {
+				maxProduct = maxEndingHere[i];
+				end = i;
+			}
+		}
+		
+		System.out.println(Arrays.toString(maxEndingHere));
+		
+		System.out.println("start = " + start);
+		System.out.println("end = " + end);
+		
+		System.out.println("--------------");
+		
+		if (maxProduct != 0) {
+			int product = 1;
+		    start = end;
+			while(start >= 0 && product != maxProduct) {
+				product *= array[start];
+				start --;
+			}
+		}
+		start ++;
+		
+		System.out.println("start = " + start);
+		System.out.println("end = " + end);
+		
+		System.out.println("maxProduct = " + maxProduct);
+		
+		return maxProduct;
+	}
+	
+	
+	
+	/*
+	 * task2.3: Largest SubMatrix Product, print out the SubMatrix
+	 * 
+	 * the same with task1.3
+	 */
+	
+	
 	
 	
 	/*
@@ -108,7 +419,7 @@ public class Class15_DP3 {
 	 * M[i] = array[i] == 1 ? M[i - 1] + 1
 	 *        0
 	 */
-	public static int task2_longest1s(int[] array) {
+	public static int task3_1_longest1s(int[] array) {
 		// write your solution here
 		if (array == null || array.length == 0) {
 			return 0;
@@ -128,6 +439,9 @@ public class Class15_DP3 {
 		}
 		return maxLen;
 	}
+	
+	
+	
 	/*
 	 * task3.2 
 	 * 
@@ -139,10 +453,12 @@ public class Class15_DP3 {
 	 * Assumptions The given matrix is not null
 	 * Examples 
 	 * { 
+	 * 
 	 * {0, 0, 0, 0}, 
 	 * {1, 1, 1, 1}, 
 	 * {0, 1, 1, 1}, 
-	 * {1, 0, 1, 1} }
+	 * {1, 0, 1, 1} 
+	 * }
 	 * 
 	 * the largest cross of 1s has arm length 2
 	 */

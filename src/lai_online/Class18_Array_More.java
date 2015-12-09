@@ -354,10 +354,7 @@ public class Class18_Array_More {
 	
 	
 	
-	
-	
-	
-	
+
 	
 	
 	/*
@@ -615,7 +612,8 @@ public class Class18_Array_More {
 	}
 	
 	// another way
-
+	
+	
 	
 	/*
 	 * task12 Get Keys In Binary Tree Layer By Layer Zig-Zag Order Fair Data

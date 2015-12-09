@@ -6,28 +6,46 @@ public class Class03 {
 		// TODO Auto-generated method stub
 
 	}
+	/*
+	 * list
+	 * 1 number of nodes
+	 * 2 reverse linked list
+	 * 3 middle of list node
+	 * 4 
+	 */
 
 	/*
-	 * task1 Number Of Nodes Easy Data Structure Return the number of nodes in
+	 * task1 Number Of Nodes 
+	 * Easy Data Structure 
+	 * 
+	 * Return the number of nodes in
 	 * the linked list.
 	 * 
 	 * Examples
 	 * 
 	 * L = null, return 0 L = 1 -> null, return 1 L = 1 -> 2 -> null, return 2
 	 */
+	
+	
+	
 
 	/*
-	 * task2 Reverse Linked List Easy Data Structure Reverse a singly-linked
-	 * list.
+	 * task2 Reverse Linked List 
+	 * Easy Data Structure 
+	 * Reverse a singly-linked list.
 	 * 
 	 * Examples
 	 * 
 	 * L = null, return null L = 1 -> null, return 1 -> null L = 1 -> 2 -> 3 ->
 	 * null, return 3 -> 2 -> 1 -> null
 	 */
+	
+	
 
 	/*
-	 * task3 Middle Node Of Linked List Easy Data Structure Find the middle node
+	 * task3 Middle Node Of Linked List 
+	 * Easy Data Structure 
+	 * Find the middle node
 	 * of a given linked list.
 	 * 
 	 * Examples
@@ -38,7 +56,10 @@ public class Class03 {
 	 */
 
 	/*
-	 * task4 Check If Linked List Has A Cycle Easy Data Structure Check if a
+	 * task4 Check If Linked List Has A Cycle 
+	 * Easy Data Structure 
+	 * 
+	 * Check if a
 	 * given linked list has a cycle. Return true if it does, otherwise return
 	 * false.
 	 */

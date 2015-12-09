@@ -14,6 +14,9 @@ public class Class02_SearchInUnknowSizedSortedArray {
 	 * Examples
 	 * A = {1, 2, 5, 9, ......}, T = 5, return 2
 	 * A = {1, 2, 5, 9, 12, ......}, T = 7, return -1
+	 * 
+	 * the key idea is that when the pointer out of bound,return null rather than throw out an exception. 
+	 *  
 	 */
 	
 	
@@ -37,7 +40,8 @@ public class Class02_SearchInUnknowSizedSortedArray {
 			this.array = array;
 		}
 		
-		public Integer get(int index) {
+		public Integer get(int index) { // !!! note the return type
+		    // key: if index >= array.length, then return null;NOT throw an exception. 
 			if (array == null || index >= array.length) {
 				return null;
 			}
@@ -69,7 +73,9 @@ public class Class02_SearchInUnknowSizedSortedArray {
 	
 		while(left + 1 < right) {
 			int mid = left + (right - left)/2;
+			// first, handle the case that:  dict.get(mid) == null 
 			if (dict.get(mid) == null || dict.get(mid) > target ) {
+				// special attention to right
 				// mid is out of bound or array[mid] > target
 				// move to left side
 				right = mid;

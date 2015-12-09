@@ -13,10 +13,10 @@ public class Class19_Intervals {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 //		test();
-//		test1_2();
+		test1_2();
 //		test2();
 //		test3();
-		test4_1();
+//		test4_1();
 	}
 	
 	public static class Interval{
@@ -51,6 +51,7 @@ public class Class19_Intervals {
 	
 	/*
 	 * task1
+	 * merge intervals
 	 * 1 sort by start
 	 * 2 maintain last interval
 	 * 3 check intersect
@@ -65,6 +66,7 @@ public class Class19_Intervals {
 			return o1.start < o2.start ? -1 : 1;
 		}
 	};
+	
 	public static List<Interval> task1_merge(List<Interval> list) {
 		
 		
@@ -111,7 +113,8 @@ public class Class19_Intervals {
 	
 	/*
 	 * task1.2
-	 * determine if a target is covered by a list of intervals(no intersect), sorted by the start
+	 * determine if a target is covered by a list of intervals(!!! no intersect), 
+	 * sorted by the start
 	 * [0,2][4,6][7,10]
 	 * is 1 covered by the list of intervals?
 	 * is 3 covered by the list of intervals? 
@@ -122,10 +125,10 @@ public class Class19_Intervals {
 	public static void test1_2() {
 		List<Interval> list = new ArrayList<Class19_Intervals.Interval>();
 		list.add(new Interval(0, 2));
-		list.add(new Interval(4, 12));
-		list.add(new Interval(8, 10));
-		int target = 11;
-//		System.out.println(task1_2_covered_by_intervals(list, target));
+		list.add(new Interval(7, 8));
+		list.add(new Interval(9, 10));
+		int target = 9;
+		System.out.println(task1_2_covered_by_intervals(list, target));
 		System.out.println(task1_2_1_covered_by_intervals(list, target));
 	}
 	
@@ -143,6 +146,9 @@ public class Class19_Intervals {
 				end = mid;
 			}
 		}
+		// debug
+		System.out.println("start = " + start);
+		System.out.println("end = " + end);
 		if (list.get(end).start <= target) {
 			// check whether list.get(end).end >= target
 			if (list.get(end).end >= target) {
@@ -158,7 +164,7 @@ public class Class19_Intervals {
 	
 	/*
 	 * task1.2.1
-	 * 1 element is convered by intervals ? 
+	 * 1 element is covered by intervals ?  (!!! Have intersect)
 	 * intervals could be with intersects
 	 * [0,2]  [4,12]  [8,10]
 	 * is 11 covered by the list of intervals
@@ -351,7 +357,7 @@ public class Class19_Intervals {
 	 * task4.0 all numbers of intervals intersected
 	 * 
 	 * task 4.1
-	 * User login facebook, and each session is record as (start_timestamp, end_timestamp), track all number
+	 * User login Facebook, and each session is record as (start_timestamp, end_timestamp), track all number
 	 * of users logged in
 	 * [0,5)
 	 * [2,4)

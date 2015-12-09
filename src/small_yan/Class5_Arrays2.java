@@ -196,7 +196,7 @@ public class  Class5_Arrays2 {
 		public int x, y, h;  
 		// h means that tha maximum height that this cell can hold.
 		// if h > matrix[x][y], we can trap some water on this cell
-		// if h <= matrix[x][y], we cannot trap any water on this cell. 
+		// if h <= matrix[x][y], we can NOT trap any water on this cell. 
 		public Cell(int xx, int yy, int hh) {
 			this.x = xx;
 			this.y = yy;
@@ -220,7 +220,7 @@ public class  Class5_Arrays2 {
 		if (matrix == null || matrix.length == 0 || matrix[0] == null || matrix[0].length == 0) {
 			return 0;
 		}
-		
+		// minHeap
 		PriorityQueue<Cell> q = new PriorityQueue<Cell>();
 		// use visited
 		boolean[][] visited = new boolean[matrix.length][matrix[0].length];
@@ -228,6 +228,7 @@ public class  Class5_Arrays2 {
 		int rowLen = matrix.length;
 		int colLen = matrix[0].length;
 		
+		// put the edges into queue
 		// put the left, right into q
 		for(int i = 0; i < rowLen; i ++) {
 			Cell c1 = new Cell(i, 0, matrix[i][0]);
@@ -256,15 +257,16 @@ public class  Class5_Arrays2 {
 		
 		while(!q.isEmpty()) {
 			Cell cur = q.poll();
-			
 			for(int i = 0; i < 4; i ++) {
+				// neighbor's position
 				int nx = cur.x + dx[i];
 				int ny = cur.y + dy[i];
 				
 				if (nx >= 0 && nx < rowLen && ny >= 0 && ny < colLen && !visited[nx][ny]) {
-					Cell c = new Cell(nx, ny, Math.max(cur.h, matrix[nx][ny]));
+					Cell nei = new Cell(nx, ny, Math.max(cur.h, matrix[nx][ny]));
 					visited[nx][ny] = true;
-					q.offer(c);
+					q.offer(nei);
+					
 					sum = sum + Math.max(0, cur.h - matrix[nx][ny]);	
 				}
 			}

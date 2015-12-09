@@ -174,7 +174,9 @@ public class Class1_LinkedList {
 	}
 
 	/*
-	 * list的长度可以帮助解题. 2. List A and List B, intersection, A : 1​ ­ -> 2 ­ -> ​5
+	 * list的长度可以帮助解题. 
+	 * 2. List A and List B, intersection, 
+	 * A : 1​ ­ -> 2 ­ -> ​5
 	 * ­ -> 6 ­ -> 7 ­ -> 8 | B 5
 	 * 
 	 * get A's length, B's length diff = alength - blength suppose aLength >
@@ -182,7 +184,8 @@ public class Class1_LinkedList {
 	 */
 
 	/*
-	 * task3 task3.1 Add two Lists I
+	 * task3 
+	 * task3.1 Add two Lists I
 	 * 
 	 * 1 -­> 2 ­-> 3 -­> null 7 ­-> 8 -­> null 321 + 87 = 408 8 ­-> 0 ­-> 4 -­>
 	 * null
@@ -210,7 +213,8 @@ public class Class1_LinkedList {
 	 */
 
 	/*
-	 * task4 删除多个List里面的符合要求的node 4.1 remove all nodes contains vowels.
+	 * task4 删除多个List里面的符合要求的node 
+	 * 4.1 remove all nodes contains vowels.
 	 * 用cur.next 判断
 	 */
 

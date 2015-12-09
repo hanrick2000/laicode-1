@@ -1,6 +1,8 @@
 
 package lai_online;
 
+import java.util.Arrays;
+
 import debug.Debug;
 
 public class Class01 {
@@ -8,9 +10,22 @@ public class Class01 {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 //		test_quickSort();
-		test5();
+//		test2();
+		test3();
+//		test4();
+//		test5();
 	}
 
+	
+	/*
+	 * list
+	 * task1: selection sort
+	 * task2: move 0 and 1s
+	 * task3: rainbow sort
+	 * task4: merge sort
+	 * task5: quick sort
+	 */
+	
 	/*
 	 * Task1 
 	 * Selection Sort Data Structure 
@@ -37,10 +52,6 @@ public class Class01 {
 	 * then, swap the min element with current element 
 	 */
 	
-	
-	
-	
-	
 
 	/*
 	 * task2 
@@ -57,13 +68,64 @@ public class Class01 {
 	 * 
 	 * {1} --> {1} 
 	 * {1, 0, 3, 0, 1} --> {1, 3, 1, 0, 0} or {1, 1, 3, 0, 0} or {3,1, 1, 0, 0}
+	 * 
+	 * 
 	 */
+	public static void test2() {
+		int[] array = {1,0,3,0,1};
+		System.out.println(Arrays.toString(array));
+		task2_move0and1(array);
+		System.out.println(Arrays.toString(array));
+	}
+	
+	public static void task2_move0and1(int[] array) {
+		// edge check
+		if (array == null || array.length == 0) {
+			return ;
+		}
+		int left = 0, right = array.length - 1;
+		
+		while(left <= right) {
+			if (array[left] > 0) {
+				left ++;
+			} else if (array[right] == 0) {
+				right --;
+			} else {
+				swap(array, left, right);
+				left ++;
+				right --;
+			}
+		}
+	}
+	
+	// [0, s)  processed. >0
+	// [s, f)  useless
+	// [f, n)  to explore
+	public static int[] moveZero(int[] array) {
+		// Write your solution here.
+		if (array == null || array.length == 0) {
+			return array;
+		}
+		int s = 0, f = 0;
+		for(; f < array.length; f ++) {
+			if (array[f] != 0) {
+				array[s ++] = array[f];
+			}
+		}
+		for(int i = s; i < array.length; i ++) {
+			array[i] = 0;
+		}
+		
+		return array;
+	}
 	
 	
 
 	/*
 	 * task3 
-	 * Rainbow Sort Fair Data Structure Given an array of balls, where the
+	 * Rainbow Sort 
+	 * Fair Data Structure 
+	 * Given an array of balls, where the
 	 * color of the balls can only be Red, Green or Blue, sort the balls such
 	 * that all the Red balls are grouped on the left side, all the Green balls
 	 * are grouped in the middle and all the Blue balls are grouped on the right
@@ -80,8 +142,47 @@ public class Class01 {
 	 * 
 	 * What if the input array is of length zero? In this case, we should not do
 	 * anything as well.
+	 * 
+	 * [0, p1)  -1
+	 * [p1, p2)  0
+	 * (p2, p3) unknown
+	 * [p3, n - 1) 1
+	 * 
+	 * p2 == -1, swap(array, p1, p2), p1 ++, p2 ++;
+	 * p2 == 0,  p2 ++;
+	 * p2 == 1, swap(array, p2, p3), p3 --;
 	 */
+	public static void test3() {
+		int[] array = {1,0, 0};
+		System.out.println(Arrays.toString(array));
+		task3_rainbow_sort(array);
+		System.out.println(Arrays.toString(array));
+	}
+	
+	
+	public static void task3_rainbow_sort(int[] array) {
+		if (array == null || array.length == 0) {
+			return ;
+		}
+		int p1 = 0, p2 = 0, p3 = array.length - 1;
+		while(p2 <= p3) {
+			if (array[p2] == -1) {
+				swap(array, p1, p2);
+				p1 ++;
+				p2 ++;
+			} else if (array[p2] == 0) {
+				p2 ++;
+			} else {
+				swap(array, p2, p3);
+				p3 --;
+			}
+		}
+		System.out.println("p1 = " + p1);
+		System.out.println("p2 = " + p2);
+	}
+	
 
+	
 	
 	/*
 	 * task4 
@@ -99,6 +200,52 @@ public class Class01 {
 	 * anything. What if the given array is of length zero? In this case, we do
 	 * not need to do anything.
 	 */
+	public static void test4() {
+		int[] array = {4,2,-3,6, 1};
+		int[] result = task4_mergeSort(array);
+		System.out.println(Arrays.toString(result));
+	}
+	
+	public static int[] task4_mergeSort(int[] array) {
+		int n = array.length;
+		int[] helper = new int[n];
+		int left = 0, right = n - 1;
+		mergeSort(array, helper, left, right);
+		return array;
+	}
+	
+	public static void mergeSort(int[] array, int[] helper, int left, int right) {
+		if (left >= right) {
+			return ;
+		}
+		
+		int mid = left + (right - left)/2;
+		mergeSort(array, helper, left, mid);
+		mergeSort(array, helper, mid + 1, right);
+		merge(array, helper, left, mid, right);
+	}
+	
+	public static void merge(int[] array, int[] helper, int left, int mid, int right) {
+		// copy the original array to helper
+		for(int i = left; i <= right; i ++) {
+			helper[i] = array[i];
+		}
+		int leftIndex = left;
+		int rightIndex = mid + 1;
+		
+		while(leftIndex <= mid && rightIndex <= right) {
+			if (helper[leftIndex] <= helper[rightIndex]) {
+				array[left ++] = helper[leftIndex ++];
+			} else {
+				array[left ++] = helper[rightIndex ++];
+			}
+		}
+		
+		// left.length == right.length or left.length == right.length + 1
+		while(leftIndex <= mid) {
+			array[left ++] = helper[leftIndex ++];
+		}	
+	}
 
 	/*
 	 * task5 
@@ -147,7 +294,7 @@ public class Class01 {
 		swap(array, pivotIndex, right);
 		
 		int leftBound = left, rightBound = right - 1;
-		while(leftBound <= rightBound) {
+		while(leftBound <= rightBound) { // !!! leftBound <= rightBound
 			if (array[leftBound] < pivot) {
 				leftBound ++;
 			} else if (array[rightBound] >= pivot) {
@@ -156,12 +303,11 @@ public class Class01 {
 				swap(array, leftBound, rightBound);
 			}
 		}
-		
 		// swap right with leftBound, i.e, put the pivot to its position. 
 		swap(array, leftBound, right);
 		
+		// the pivot's position. 
 		return leftBound;
-		
 		
 	}
 	
@@ -180,36 +326,11 @@ public class Class01 {
 		array[j] = temp;
 	}
 	
-	
 	public static void test5() {
 		int[] array = {0, 0, 0, 0, 1};
 		
 		int[] output = moveZero(array);
 		Debug.printArray(output);
 	}
-	
-	
-	// [0, s)  processed. >0
-	// [s, f)  useless
-	// [f, n)  to explore
-	public static int[] moveZero(int[] array) {
-		// Write your solution here.
-		if (array == null || array.length == 0) {
-			return array;
-		}
-		int s = 0, f = 0;
-		for(; f < array.length; f ++) {
-			if (array[f] != 0) {
-				array[s ++] = array[f];
-			}
-		}
-		for(int i = s; i < array.length; i ++) {
-			array[i] = 0;
-		}
-		
-		return array;
-	}
-	  
-	 
-	
+ 	
 }

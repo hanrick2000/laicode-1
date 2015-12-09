@@ -10,7 +10,8 @@ public class Class05_bfs {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		
+//		test2_1();
+		test6();
 	}
 	
 	/*
@@ -33,6 +34,8 @@ public class Class05_bfs {
 	/*
 	 * task1 
 	 * get keys in binary tree layer by layer
+	 * 
+	 * dfs
 	 */
 	public List<List<Integer>> task1_1_layerByLayer(TreeNode root) {
 		// Write your solution here.
@@ -67,11 +70,9 @@ public class Class05_bfs {
 	 * task1_2
 	 * Follow up
 	 * Get Keys In Binary Tree Layer By Layer Zig-Zag Order
+	 * 
 	 */
 
-	
-	
-	
 	
 
 	
@@ -87,9 +88,10 @@ public class Class05_bfs {
 	 * Examples
 	 * A = {3, 4, 1, 2, 5}, K = 3, the 3 smallest numbers are {1, 2, 3}
 	 */
+	
+	
 	// method1: using priority queue. maxHeap size is k
 	// time: n log k
-	
 	public static void test3() {
 		int[] array = { 3, 1, 5, 2, 4 };
 		int[] result = task2_1_kSmallest(array, 5);
@@ -140,6 +142,7 @@ public class Class05_bfs {
 		return result;
 	}
 
+	
 	public static int[] kSmallest2(int[] array, int k) {
 		if (array == null) {
 			return null;
@@ -179,12 +182,55 @@ public class Class05_bfs {
 	
 	// method2
 	// use the idea quick sort
+	
+	public static void test2_1() {
+		int[] array = {5,3,2,8,9,1,6};
+		int[] result = task2_1_kSmallest_method2(array, 3);
+		int[] result2 = kSmallest2(array, 3);
+		System.out.println(Arrays.toString(result2));
+	}
 	public static int[] task2_1_kSmallest_method2 (int[] array, int k) {
-		return null;
+		
+		quickSelect(array, 0, array.length - 1, k - 1);
+		int[] result = Arrays.copyOf(array, k);
+		System.out.println(Arrays.toString(result));
+		return result;
 	}
 	
-	public static int quickSelect(int[] array, int start, int end, int target) {
-		return -1;
+	public static void quickSelect(int[] array, int start, int end, int target) {
+		int mid = partition(array, start, end);
+		if (mid == target) {
+			return;
+		} else if (target < mid) {
+			quickSelect(array, start, mid - 1, target);
+		} else {
+			quickSelect(array, mid + 1, end, target);
+		}
+	}
+	
+	public static int partition(int[] array, int left, int right) {
+		int pivot = array[right];
+		int start = left, end = right - 1;
+		while(start <= end) {
+			if (array[start] < pivot) {
+				start ++;
+			} else if (array[end] >= pivot) {
+				end --;
+			} else {
+				// swap array[start], array[end]
+				swap(array, start, end);
+				start ++;
+				end --;
+			}
+		}
+		// the start points the location which belongs pivot
+		swap(array, start, right);
+		return start;
+	}
+	public static void swap(int[] array, int start, int end) {
+		int temp = array[start];
+		array[start] = array[end];
+		array[end] = temp;
 	}
 	
 	
@@ -322,6 +368,7 @@ public class Class05_bfs {
 				return o1.value < o2.value? -1: 1;
 			}
 		});
+		
 		boolean[][] visited = new boolean[len][clen];
 		int result = Integer.MIN_VALUE;
 		visited[0][0] = true;
@@ -330,10 +377,12 @@ public class Class05_bfs {
 			Item cur = minHeap.poll();
 			result = cur.value;
 			if (cur.x + 1 < len && !visited[cur.x + 1][cur.y]) {
+				// go down
 				minHeap.offer(new Item(cur.x + 1, cur.y, matrix[cur.x + 1][cur.y]));
 				visited[cur.x + 1][cur.y] = true;
 			}
 			if (cur.y + 1 < clen && !visited[cur.x][cur.y + 1]) {
+				// go right
 				minHeap.offer(new Item(cur.x, cur.y + 1, matrix[cur.x][cur.y + 1]));
 				visited[cur.x][cur.y + 1] = true;
 			}
@@ -361,7 +410,9 @@ public class Class05_bfs {
 	 *         <i, j> => <i + 1, j> and <i, j + 1>
 	 * Termination: the kth time to pop out from priority queue 
 	 * 
-	 * using a hashset to avoid generating more then once. 
+	 * using a hashset to avoid generating more then once.
+	 * 
+	 * !!! the result might out of bound. transfer this to Long. Discuss with the Interviewer. 
 	 */
 	
 	public static void Q5_test() {
@@ -407,34 +458,76 @@ public class Class05_bfs {
 	 * the 3rd smallest is 3 * 5 ^ 2 * 7 = 525
 	 * the 5th smallest is 3 ^ 3 * 5 * 7 = 945
 	 */
+	public static void test6() {
+		int k = 10;
+		int rev1 = Q6_kthSmallestWith3_5_7_method2(k);
+		int rev2 = Q6_kthSmallestWith3_5_7_method2(k);
+		
+		System.out.println("rev1 = " + rev1);
+		System.out.println("rev2 = " + rev2);
+	}
+	
 	public static long Q6_kthSmallestWith3_5_7(int k) {
-	    // write your solution here
-	    if (k < 1) {
-				return -1;
-			}
-			HashSet<Integer> visited = new HashSet<Integer>();
-			PriorityQueue<Integer> minHeap = new PriorityQueue<Integer>(k);
-			minHeap.add(3*5*7);
-			visited.add(3*5*7);
+		// write your solution here
+		if (k < 1) {
+			return -1;
+		}
+		HashSet<Integer> visited = new HashSet<Integer>();
+		PriorityQueue<Integer> minHeap = new PriorityQueue<Integer>(k);
+		minHeap.add(3 * 5 * 7);
+		visited.add(3 * 5 * 7);
 
-			while(k > 1) { // pop out k - 1 time
-				int current = minHeap.poll();
-				if (!visited.contains(current*3)) {
-					visited.add(current * 3);
-					minHeap.add(current * 3);
-				}
-				if (!visited.contains(current * 5)) {
-					visited.add(current*5);
-					minHeap.add(current* 5);
-				}
-				if (!visited.contains(current * 7)) {
-					visited.add(current * 7);
-					minHeap.add(current * 7);
-				}
-				k --;
+		while (k > 1) { // pop out k - 1 time
+			int current = minHeap.poll();
+			if (!visited.contains(current * 3)) {
+				visited.add(current * 3);
+				minHeap.add(current * 3);
 			}
-			return minHeap.peek();
-	  }
+			if (!visited.contains(current * 5)) {
+				visited.add(current * 5);
+				minHeap.add(current * 5);
+			}
+			if (!visited.contains(current * 7)) {
+				visited.add(current * 7);
+				minHeap.add(current * 7);
+			}
+			k--;
+		}
+		return minHeap.peek();
+	}
+	
+	// use deque
+	public static int Q6_kthSmallestWith3_5_7_method2(int k) {
+		int seed = 1;
+		Deque<Integer> three = new LinkedList<Integer>();
+		Deque<Integer> five = new LinkedList<Integer>();
+		Deque<Integer> seven = new LinkedList<Integer>();
+		
+		three.add(seed * 3);
+		five.add(seed * 5);
+		seven.add(seed * 7);
+		int result = seed;
+		while(k > 0) {
+			if (three.peekFirst() < five.peekFirst() && three.peekFirst() < seven.peekFirst()) {
+				result = three.pollFirst();
+				three.offerLast(result * 3);
+				five.offerLast(result * 5);
+				seven.offerLast(result * 7);
+			} else if (five.peekFirst() < three.peekFirst() && five.peekFirst() < seven.peekFirst()) {
+				result = five.pollFirst();
+				five.offerLast(result * 5);
+				seven.offerLast(result * 7);
+			} else {
+				result = seven.pollFirst();
+				seven.offerLast(result * 7);
+			}
+			
+			k --;
+		}
+		
+		System.out.println(result);
+		return result;
+	}
 	
 	/*
 	 * Q7: 
@@ -521,10 +614,7 @@ public class Class05_bfs {
 				}
 			}
 		}
-		
-		
-		
-		
+			
 		// get the position to put the chair
 		for(int i = 0; i < len; i ++) {
 			for(int j = 0; j < len; j ++) {
@@ -937,57 +1027,64 @@ public class Class05_bfs {
 	
 	public static int Q9_maxTrapped(int[][] matrix) {
 		// write your solution here
-		if (matrix == null || matrix.length == 0 || matrix[0] == null || matrix[0].length == 0) {
+		if (matrix == null || matrix.length == 0 || matrix[0] == null
+				|| matrix[0].length == 0) {
 			return 0;
 		}
 		int rLen = matrix.length;
 		int cLen = matrix[0].length;
-		boolean[][] visited = new  boolean[rLen][cLen];
+		boolean[][] visited = new boolean[rLen][cLen];
 		int[][] level = new int[rLen][cLen];
-		
+
 		// initialize the level matrix
-		for(int i = 0; i < rLen; i ++) {
-			for(int j = 0; j < cLen; j ++) {
+		for (int i = 0; i < rLen; i++) {
+			for (int j = 0; j < cLen; j++) {
 				if (i == 0 || j == 0 || i == rLen - 1 || j == cLen - 1) {
+					// the edges, level == matrix[i][j]
 					level[i][j] = matrix[i][j];
 				} else {
 					level[i][j] = Integer.MAX_VALUE;
 				}
 			}
 		}
-		
+
 		Comparator<Coordinate> myComp = new Comparator<Coordinate>() {
-			
+
 			@Override
 			public int compare(Coordinate o1, Coordinate o2) {
 				// TODO Auto-generated method stub
 				return o1.level - o2.level;
 			}
 		};
-		PriorityQueue<Coordinate> minHeap = new PriorityQueue<Coordinate>(rLen * cLen , myComp);
-		
+		PriorityQueue<Coordinate> minHeap = new PriorityQueue<Coordinate>(rLen
+				* cLen, myComp);
+
 		// visit the border of the matrix
-		for(int i = 0; i < rLen; i ++) {
-			for(int j = 0; j < cLen; j ++) {
+		for (int i = 0; i < rLen; i++) {
+			for (int j = 0; j < cLen; j++) {
 				if (i == 0 || j == 0 || i == rLen - 1 || j == cLen - 1) {
-					Coordinate point = new Coordinate(i, j, matrix[i][j], level[i][j]);
+					Coordinate point = new Coordinate(i, j, matrix[i][j],
+							level[i][j]);
 					// put the point into priority queue
 					minHeap.add(point);
 					visited[i][j] = true;
 				}
 			}
 		}
-		int sum = 0;
 		
-		while(!minHeap.isEmpty()) {
+		int sum = 0;
+		while (!minHeap.isEmpty()) {
 			Coordinate cur = minHeap.poll();
 			sum += cur.level - cur.height;
-			
-			List<Coordinate> neighbors = Q7_getNeighbor(matrix, cur, visited, level);
-			for(Coordinate neighbor : neighbors) {
+
+			List<Coordinate> neighbors = Q7_getNeighbor(matrix, cur, visited,
+					level);
+			for (Coordinate neighbor : neighbors) {
 				if (visited[neighbor.x][neighbor.y] == false) {
-					int newLevel = Math.max(neighbor.height, 
-							        Math.min( level[neighbor.x][neighbor.y], level[cur.x][cur.y]));
+					int newLevel = Math
+							.max(neighbor.height, Math.min(
+									level[neighbor.x][neighbor.y],
+									level[cur.x][cur.y]));
 
 					if (level[neighbor.x][neighbor.y] != newLevel) {
 						// update in neighbor's. level
@@ -997,7 +1094,7 @@ public class Class05_bfs {
 						visited[neighbor.x][neighbor.y] = true;
 					}
 				}
-				
+
 			}
 		}
 		return sum;
