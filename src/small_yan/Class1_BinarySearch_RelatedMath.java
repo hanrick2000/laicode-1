@@ -4,8 +4,8 @@ public class Class1_BinarySearch_RelatedMath {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-//		test4();
-		test5();
+		test4();
+//		test5();
 	}
 	
 	/*
@@ -107,7 +107,8 @@ public class Class1_BinarySearch_RelatedMath {
 	
 	/*
 	 * task5
-	 * divide two integers without using "/" (or mod two integers without using "%")
+	 * divide two integers without using "/" 
+	 * (or mod two integers without using "%")
 	 * 
 	 */
 	public static void test5() {

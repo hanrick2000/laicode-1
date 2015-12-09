@@ -21,7 +21,11 @@ public class Class1_LinkedList {
 	}
 
 	/*
-	 * Linked List ● insert() ● delete() ● find() ● kth() from start/end ●
+	 * Linked List 
+	 * ● insert() 
+	 * ● delete() 
+	 * ● find() 
+	 * ● kth() from start/end ●
 	 * middle node ● merge() ● reverse() ● partition a). slow and fast pointer
 	 * b). dummy head ­­ head有可能会变化 c). iterative d). recursive head ­> (next
 	 * list) Other Topics: ­ Double Linked List ­ Circular Single/Double Linked

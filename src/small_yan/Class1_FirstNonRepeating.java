@@ -6,5 +6,9 @@ public class Class1_FirstNonRepeating {
 		// TODO Auto-generated method stub
 
 	}
+	
+	/*
+	 * HashMap with Double Linked List
+	 */
 
 }

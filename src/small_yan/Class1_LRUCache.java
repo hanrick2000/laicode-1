@@ -3,6 +3,9 @@ package small_yan;
 import java.util.HashMap;
 import java.util.Map;
 
+/*
+ * HashMap with Double LinkedList
+ */
 public class Class1_LRUCache<K,V> {
 
 	static class Node<K,V>{

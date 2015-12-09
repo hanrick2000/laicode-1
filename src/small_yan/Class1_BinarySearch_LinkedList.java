@@ -371,7 +371,8 @@ public class Class1_BinarySearch_LinkedList {
 	 */
 	
 	/*
-	 * (2) int[] array, rotated sorted array, rotation position. (no duplicate elements).
+	 * (2) int[] array, rotated sorted array, rotation position. 
+	 * (no duplicate elements).
 	 * 
 	 * while (left < right - 1)
 	 * a[mid - 1] > a[mid], return a[mid];
