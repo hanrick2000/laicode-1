@@ -1,5 +1,7 @@
 package small_sun;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import ds.TreeNode;
@@ -10,7 +12,9 @@ public class Class1_09202014 {
 		// TODO Auto-generated method stub
 //		test2();
 //		test11();
-		test12();
+//		test12();
+//		test6();
+		test7();
 	}
 	
 	/*
@@ -96,6 +100,30 @@ public class Class1_09202014 {
 	 * <2> just make sure that a[even] > a[even - 1] && a[even] < a[even + 1], so we can make sure that 
 	 * the array is sorted in waved way
 	 */
+	public static void test6() {
+		int[] array = {1,2,3};
+		task6_waved_sorting(array);
+		System.out.println(Arrays.toString(array));
+	}
+	public static void task6_waved_sorting(int[] array) {
+		if (array == null || array.length <= 1) {
+			return ;
+		}
+		for(int i = 0 ; i < array.length; i += 2) {
+			if (i > 0 && array[i] > array[i - 1]) {
+				swap(array, i, i - 1);
+			}
+			if (i < array.length - 1 && array[i] > array[i + 1]) {
+				swap(array, i, i + 1);
+			}
+		} 
+	}
+	
+	public static void swap(int[] array, int x, int y) {
+		int temp = array[x];
+		array[x] = array[y];
+		array[y] = temp;
+	}
 	
 	
 	/*
@@ -106,6 +134,53 @@ public class Class1_09202014 {
 	 * this can reduce to all set, and get the sum_so_far. 
 	 * if sum_so_far * 2 = total_sum, we get one solution. 
 	 */
+	public static void test7() {
+		int[] array = {1,2,3,4};
+		ArrayList<Integer> result = task7_divideArray(array);
+		System.out.println(result);
+	}
+	
+	
+	public static ArrayList<Integer> task7_divideArray(int[] array) {
+		int total_sum = 0;
+		for(int i = 0; i < array.length; i ++) {
+			total_sum += array[i];
+		}
+		int sum_so_far = 0;
+		ArrayList<Integer> cur = new ArrayList<Integer>();
+		ArrayList<Integer> result = new ArrayList<Integer>();
+		task6_helper(array, 0, cur, total_sum, sum_so_far, result);
+		
+		return result;
+	}
+	public static boolean found = false;
+	public static void task6_helper(int[] array, int index, ArrayList<Integer> cur, 
+			int total_sum,int sum_so_far, ArrayList<Integer> result) {
+		if (found) {
+			return;
+		} else {
+			if (index == array.length) {
+				if (sum_so_far * 2 == total_sum) {
+					// copy the content of cur to result
+					for(Integer i: cur) {
+						result.add(i);
+					}
+					found = true;
+				}
+				return ;
+			}
+			// don't choose
+			task6_helper(array, index + 1, cur, total_sum, sum_so_far, result);
+			// choose
+			cur.add(array[index]);
+			sum_so_far += array[index];
+			task6_helper(array, index + 1, cur, total_sum, sum_so_far, result);
+			sum_so_far -= cur.get(cur.size() - 1);
+			cur.remove(cur.size() - 1);
+		}
+	}
+	
+	
 	
 	/*
 	 * task8
