@@ -12,7 +12,8 @@ public class Class10_Recursion2 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		test2();
+//		test2();
+		tes3();
 		
 	}
 	
@@ -154,6 +155,11 @@ public class Class10_Recursion2 {
 	 * N = 3, all valid permutations are ["((()))", "(()())", "(())()", "()(())", "()()()"]
 	 * N = 0, all valid permutations are [""]
 	 */
+	public static void tes3() {
+		List<String> result = validParentheses(4);
+		System.out.println(result);
+	}
+	
 	public static List<String> validParentheses(int n) {
 		// write your solution here
 		List<String> result = new ArrayList<String>();
@@ -225,7 +231,8 @@ public class Class10_Recursion2 {
 	}
 	
 	
-	public static void task4_helper(int[] remaining, char[] PS, Deque<Character> stack,StringBuilder cur, int targetLen,List<String> result) {
+	public static void task4_helper(int[] remaining, char[] PS, 
+			Deque<Character> stack,StringBuilder cur, int targetLen,List<String> result) {
 		if (cur.length() == targetLen) {
 			// get a solution
 			result.add(cur.toString());
