@@ -336,9 +336,4 @@ public class Class1_09202014 {
 	}
 	
 	
-	
-	
-	
-	
-	
 }
