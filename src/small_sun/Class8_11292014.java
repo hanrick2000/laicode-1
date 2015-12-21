@@ -2,7 +2,8 @@ package small_sun;
 
 public class Class8_11292014 {
 	/*
-	 * Q1. Given an array with all positive integers, determine whether there exists a contiguous sub­array in the array, 
+	 * Q1. Given an array with all positive integers, 
+	 * determine whether there exists a contiguous sub­array in the array, 
 	 * which sums to a target number x.
 	 */
 	
