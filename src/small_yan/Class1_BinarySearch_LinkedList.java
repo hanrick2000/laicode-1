@@ -172,6 +172,7 @@ public class Class1_BinarySearch_LinkedList {
 	 * 
 	 */
 	
+	
 	/*
 	 * task2.2.2
 	 * !!!this is slightly different with 2.2.1. 

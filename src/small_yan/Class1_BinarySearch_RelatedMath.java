@@ -14,24 +14,25 @@ public class Class1_BinarySearch_RelatedMath {
 	 */
 	// method1
 	public static void test4() {
-//		for(int i = 1; i < 10000; i ++) {
-//			System.out.println("---------------------------");
-//			System.out.println("i = " + i);
-//			int sqrt = sqrt1(i);
-//			System.out.println("sqrt = "+ sqrt);
-//			System.out.println("===========================");
-//		}
+		for(int i = 1; i < 10000; i ++) {
+			System.out.println("---------------------------");
+			System.out.println("i = " + i);
+			int sqrt = sqrt1(i);
+			System.out.println("sqrt = "+ sqrt);
+			System.out.println("===========================");
+		}
 		
 //		double i = 0.01;
-		for(int i = 1; i < 100; i ++) {
-			System.out.println("------------");
-			double k = (double) i;
-			double sqrt2 = sqrt3(k);
-			System.out.println(sqrt2);
-			System.out.println(sqrt2*sqrt2);
-			System.out.println("------------");
-		}
+//		for(int i = 1; i < 100; i ++) {
+//			System.out.println("------------");
+//			double k = (double) i;
+//			double sqrt2 = sqrt3(k);
+//			System.out.println(sqrt2);
+//			System.out.println(sqrt2*sqrt2);
+//			System.out.println("------------");
+//		}
 	}
+	
 	public static int sqrt1(int target) {
 		if (target < 2) {
 			return target;
@@ -60,9 +61,7 @@ public class Class1_BinarySearch_RelatedMath {
 		}
 	}
 	
-	// newton method
-	
-	
+	// binary search 
 	public static double sqrt2(double target) {
 		if (target == 0 || target == 1) {
 			return target;
@@ -104,6 +103,7 @@ public class Class1_BinarySearch_RelatedMath {
 		}
 		return x;
 	}
+	
 	
 	/*
 	 * task5

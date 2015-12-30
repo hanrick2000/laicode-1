@@ -1,10 +1,15 @@
 package small_yan;
 
+import java.util.ArrayList;
+
+import small_yan.IntervalTree.ITNode;
+import debug.Debug;
+
 public class Class1_BinarySearch_Others {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
+		test8();
 	}
 	
 	/*
@@ -52,7 +57,7 @@ public class Class1_BinarySearch_Others {
 	 * 
 	 * 
 	 * 7. number of values <= 0 in Young’s Matrix.
-	 * ­ 5 , ­ 3 , 0​,  1  3 ­ 
+	 * ­-5 , ­ -3 , 0​,  1  3 ­ 
 	 * -2 ,  2 , 3,  ​4  1
 	 * -1 ,  ​5 , 6 , 7  1
 	 *  0 ,  ​6 , 7 , 9  1
@@ -73,6 +78,165 @@ public class Class1_BinarySearch_Others {
 	 * 
 	 * !!! see handout. 
 	 */
+	
+	/*
+	 * task8 
+	 * 
+	 */
+	public static void  test8() {
+		char[][] matrix = {
+				"oxoooo".toCharArray(),
+				"oxxxxo".toCharArray(),
+				"ooxxxo".toCharArray(), 
+				"ooxxoo".toCharArray(), 
+				"oooxoo".toCharArray()
+		};
+		ArrayList<Point> result = task8_getSmallestRect2(matrix);
+		
+	}
+	
+	
+	public static class Point{
+		int x ;
+		int y;
+		public Point(int _x, int _y) {
+			this.x = _x;
+			this.y = _y;
+		}
+	}
+	public static ArrayList<Point> task8_getSmallestRect(char[][] matrix) {
+		// sanity check
+		if (matrix == null || matrix.length == 0 ||matrix[0] == null || matrix[0].length == 0) {
+			return null;
+		}
+		int[][] left2Right = task8_getLeft2Right(matrix);
+		int[][] up2Down = task8_getUp2Down(matrix);
+		Debug.printMatrix(left2Right);
+		Debug.printMatrix(up2Down);
+		
+		int rLen = matrix.length;
+		int cLen = matrix[0].length;
+
+		int x1 = Integer.MAX_VALUE, y1 = Integer.MAX_VALUE;
+		int x2 = Integer.MIN_VALUE, y2 = Integer.MIN_VALUE;
+		// left to right
+		for(int i = 0; i < rLen; i ++) {
+			for(int j = 0; j < cLen; j ++) {
+				// update x1, y1
+				if (left2Right[i][j] != 0) {
+					x1 = Math.min(x1, i);
+					y1 = Math.min(y1, j);
+					x2 = Math.max(x2, i);
+					y2 = Math.max(y2, j);
+				}
+				if (up2Down[i][j] != 0) {
+					x1 = Math.min(x1, i);
+					y1 = Math.min(y1, j);
+					x2 = Math.max(x2, i);
+					y2 = Math.max(y2, j);
+				}
+			}
+		}
+		
+		System.out.println("x1 = " + x1 + " : " + "y1 = " + y1);
+		System.out.println("x2 = " + x2 + " : " + "y2 = " + y2);
+		
+		
+		// 
+		return null;
+	}
+	
+	
+	public static ArrayList<Point> task8_getSmallestRect2(char[][] matrix) {
+		// sanity check
+		if (matrix == null || matrix.length == 0 ||matrix[0] == null || matrix[0].length == 0) {
+			return null;
+		}
+	
+		int rLen = matrix.length;
+		int cLen = matrix[0].length;
+
+		int x1 = Integer.MAX_VALUE, y1 = Integer.MAX_VALUE;
+		int x2 = Integer.MIN_VALUE, y2 = Integer.MIN_VALUE;
+		// left to right
+		for(int i = 0; i < rLen; i ++) {
+			for(int j = 0; j < cLen; j ++) {
+				// update x1, y1
+				if (matrix[i][j] != 'o') {
+					x1 = Math.min(x1, i);
+					y1 = Math.min(y1, j);
+					x2 = Math.max(x2, i);
+					y2 = Math.max(y2, j);
+				}
+				if (matrix[i][j] != 'o') {
+					x1 = Math.min(x1, i);
+					y1 = Math.min(y1, j);
+					x2 = Math.max(x2, i);
+					y2 = Math.max(y2, j);
+				}
+			}
+		}
+		
+		System.out.println("x1 = " + x1 + " : " + "y1 = " + y1);
+		System.out.println("x2 = " + x2 + " : " + "y2 = " + y2);
+		
+		
+		// 
+		return null;
+	}
+	
+	
+	public static int[][] task8_getLeft2Right(char[][] matrix) {
+		int rLen = matrix.length;
+		int cLen = matrix[0].length;
+		int[][] left2Right = new int[rLen][cLen];
+		
+		for(int i = 0; i < rLen; i ++) {
+			for(int j = 0; j < cLen; j ++) {
+				if (j == 0) {
+					if (matrix[i][j] == 'o') {
+						left2Right[i][j] = 0;
+					} else {
+						left2Right[i][j] = 1;
+					}
+				} else {
+					if (matrix[i][j] == 'o') {
+						left2Right[i][j] = 0;
+					} else {
+						left2Right[i][j] = 1 + left2Right[i][j - 1];
+					}
+				}
+			}
+		}
+		return left2Right;
+	}
+	
+	public static int[][]  task8_getUp2Down(char[][] matrix) {
+		int rLen = matrix.length;
+		int cLen = matrix[0].length;
+		int[][] up2Down = new int[rLen][cLen];
+		
+		for(int j = 0; j < cLen; j ++) {
+			for(int i = 0; i < rLen; i ++) {
+				if (i == 0) {
+					if (matrix[i][j] == 'o') {
+						up2Down[i][j] = 0;
+					} else {
+						up2Down[i][j] = 1;
+					}
+				} else {
+					if (matrix[i][j] == 'o') {
+						up2Down[i][j] = 0;
+					} else {
+						up2Down[i][j] = up2Down[i - 1][j] + 1;
+					}
+				}
+			}
+		}
+		return up2Down;
+	}
+	
+	
 	
 
 }
