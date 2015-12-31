@@ -1,7 +1,10 @@
 package small_yan;
 
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
+
+import linkedlist.LinkedList;
 
 /*
  * HashMap with Double LinkedList
@@ -41,10 +44,11 @@ public class Class1_LRUCache<K,V> {
 		this.limit = limit;
 		this.size = 0;
 		map = new HashMap<K, Node<K,V>>();
-		
 	}
 		
-	// setKey 
+	
+	// setKey, set a <key, value> pair, which means this is latest recent used
+	// we put the node<key, value> in front of the DDL
 	public void set(K key,V value) {
 		// the key is already in the map
 		Node<K, V> node = null;
@@ -52,8 +56,7 @@ public class Class1_LRUCache<K,V> {
 			node = map.get(key);
 			node.value = value;
 			// delete the node from double linked list
-			remove(node);
-			
+			remove(node);		
 		} else if(size < limit){
 			// the key is not in the map
 			node = new Node<K, V>(key, value);
@@ -66,10 +69,12 @@ public class Class1_LRUCache<K,V> {
 			// update node's content
 			node.update(key, value);
 		}
+		// put the node in front of the DDL
+		offerFirst(node);
 		
-		append(node);
 	}
 	
+	// get Key, which means we used it. and we need to put it in front of the DDL 
 	public V get(K key) {
 		if (!map.containsKey(key)) {
 			return null;
@@ -77,8 +82,8 @@ public class Class1_LRUCache<K,V> {
 		Node<K, V> node = map.get(key);
 		// remove node first
 		remove(node);
-		// append the node to head
-		append(node);
+		// put the node to head
+		offerFirst(node);
 		return node.value;
 	}
 	
@@ -115,9 +120,9 @@ public class Class1_LRUCache<K,V> {
 	}
 	
 	
-	// append node in front of the double linked list
+	// offerFirst node in front of the double linked list
 	// and set the corresponding position in HashMap
-	public Node<K, V> append(Node<K, V> node) {
+	public Node<K, V> offerFirst(Node<K, V> node) {
 		map.put(node.key, node);
 		size ++;
 		
@@ -128,6 +133,7 @@ public class Class1_LRUCache<K,V> {
 		} else {
 			node.next = head;
 			head.prev = node;
+			// update head
 			head = node;
 		}
 		return node;

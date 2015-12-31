@@ -11,7 +11,8 @@ public class Class1_LinkedList2 {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 //		test1();
-		test5();
+//		test5();
+		test8_2();
 	}
 	
 	/*
@@ -26,7 +27,7 @@ public class Class1_LinkedList2 {
 	 * 2 check if linked list has cycle/ return the node where cycle starts
 	 * 3 determine the mid node of linked list that possibly has cycle
 	 * 4 get/ delete nth node from tail
-	 * 5 determine the lngest sub list not containing duplicate values
+	 * 5 determine the largest sub list not containing duplicate values
 	 *  
 	 */
 	public static void test1() {
@@ -156,6 +157,7 @@ public class Class1_LinkedList2 {
 				myset.add(fast.value);
 				fast = fast.next;
 			} else {
+				// myset contains fast.value
 				//move slow
 				myset.remove(slow.value);
 				slow = slow.next;
@@ -185,12 +187,113 @@ public class Class1_LinkedList2 {
 	 * each child is the head of a separate list.
 	 */
 	
-	public static class ListNodeC {
-		ListNodeC child;
-		ListNodeC next;
-		ListNodeC prev;
+	public static class ListNodeCD {
+		ListNodeCD child;
+		ListNodeCD next;
+		ListNodeCD prev;
 		int val;
 	} 
+	
+	
+	/*
+	 * http://www.geeksforgeeks.org/flatten-a-linked-list-with-next-and-child-pointers/
+	 * 
+	 * 10 -> 5 -> 12 -> 7 ->11
+	 *  |               |
+	 *  4 -> 20 -> 13   17 -> 6
+	 *        |     |    |  
+	 *        2     16   9 -> 8
+	 *              ｜   ｜
+	 *              3    19 －>15
+	 *              
+	 *  result:
+	 *  10 -> 5 ->12 ->7 ->11 ->4 -> 20 ->13 ->17 ->6 ->2 ->16 ->9 ->8 ->3 ->19 ->15
+	 *  we need to clearly say that we need to flatten level by level. 
+	 *  
+	 *  get the tail of the first level, in the above example, the ptr points to 11
+	 *  start from the first level, process all nodes one by one, if a node has a child, 
+	 *  then we append the child to tail and update the tail, otherwise, we don't do anyting. 
+	 *  
+	 *   After the first level is processed, all the next level nodes will be appended after first level. 
+	 *   Same process of the append nodes
+	 * 
+	 * 
+	 */
+	
+	public static void test8_2() {
+		ListNodeCS n1 = new ListNodeCS(1);
+		ListNodeCS n2 = new ListNodeCS(2);
+		ListNodeCS n3 = new ListNodeCS(3);
+		ListNodeCS n4 = new ListNodeCS(4);
+		ListNodeCS n5 = new ListNodeCS(5);
+		ListNodeCS n6 = new ListNodeCS(6);
+		
+		n1.next = n2;
+		n2.next = n3;
+		n1.child = n4;
+		n4.next = n5;
+		n5.child = n6;
+		
+		printListNodeCS(n1);
+		ListNodeCS rev = task8_flatten(n1);
+		printListNodeCS(rev);
+		
+	}
+	
+	public static class ListNodeCS{
+		ListNodeCS child;
+		ListNodeCS next;
+		int val;
+		public ListNodeCS(int v) {
+			this.val = v;
+			this.child = null;
+			this.next = null;
+		}
+	}
+	
+	public static ListNodeCS task8_flatten(ListNodeCS head) {
+		// sanity check
+		if (head == null) {
+			return head;
+		}
+		
+		// get the tail of the first level
+		ListNodeCS tail = head;
+		while(tail.next != null) {
+			tail = tail.next;
+		}
+		
+		ListNodeCS cur = head;
+		
+		while (cur != null) {
+			// if current node has child, append its child to the tail and update tail
+			if (cur.child != null) {
+				ListNodeCS child = cur.child;
+				cur.child = null;
+				// append to the tail
+				tail.next = child;
+				// update the tail
+				while(tail.next != null) {
+					tail = tail.next;
+				}
+			}
+			// update the current node
+			cur = cur.next;
+		}
+		return head;
+	}
+	
+	public static void printListNodeCS(ListNodeCS head) {
+		ListNodeCS cur = head;
+		while(cur != null) {
+			System.out.print(cur.val + " ");
+			cur = cur.next;
+		}
+		System.out.println();
+	}
+	
+	
+	
 	
 	
 	/*

@@ -18,7 +18,9 @@ public class Class1_LinkedList_add2nums {
 	 * 
 	 * Input: (2 -> 4 -> 3) + (5 -> 6 -> 4) Output: 7 -> 0 -> 8
 	 * 
-	 * 2->4->3 stands for 342 5->6->4 stands for 465 the sum is 807 LinkedList
+	 * 2->4->3 stands for 342 
+	 * 5->6->4 stands for 465 
+	 * the sum is 807 LinkedList
 	 * least significant --> most significant.
 	 */
 	/*
@@ -83,8 +85,12 @@ public class Class1_LinkedList_add2nums {
 	}
 
 	/*
-	 * Follow up LinkedList most significant --> least significant e.g 342
-	 * 3->4->2 465 4->6->5 807 8->0->7
+	 * Follow up LinkedList most significant --> least significant 
+	 * e.g 
+	 * 342 3->4->2 
+	 * 465 4->6->5 
+	 * 807 8->0->7
+	 * 
 	 */
 	public static void test2() {
 		ListNode node1_1 = new ListNode(9);
@@ -171,6 +177,7 @@ public class Class1_LinkedList_add2nums {
 		return result;
 	}
 
+	// add num nodes in front of list
 	public static ListNode addDummyNode(ListNode list, int num) {
 		ListNode dummy = new ListNode(-1);
 		ListNode tail = dummy;
@@ -268,7 +275,7 @@ public class Class1_LinkedList_add2nums {
 		
 			// link the result to dummy. 
 			dummy.next = result;
-			//check valueue in carry
+			//check value in carry
 			if (carry.value != 0) {
 				// if the carry is still not 0
 				dummy.value = carry.value;

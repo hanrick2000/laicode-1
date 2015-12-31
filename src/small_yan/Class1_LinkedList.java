@@ -13,10 +13,11 @@ public class Class1_LinkedList {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 //		test();
-		// test1_3();
+//		 test1_3();
 		// test4_2();
 		// test5();
 //		test7_1();
+//		test7_2();
 		test8_1();
 	}
 
@@ -54,6 +55,22 @@ public class Class1_LinkedList {
 
 		return newHead;
 	}
+	
+	public static ListNode task1_reverse_iter(ListNode head) {
+		// sanity check
+		if (head == null || head.next == null) {
+			return head;
+		}
+		ListNode prev = null, cur = head;
+		while(cur != null) {
+			ListNode next = cur.next;
+			cur.next = prev;
+			prev = cur;
+			cur = next;
+		}
+		
+		return prev;
+	}
 
 	/*
 	 * task1.1 print linked list in reverse order recursion stack iterative : --
@@ -71,7 +88,7 @@ public class Class1_LinkedList {
 		Debug.printLinkedList(n1);
 
 		// task1_1_printReverse(n1);
-		ListNode newHead = task1_reverse(n1);
+		ListNode newHead = task1_reverse_iter(n1);
 		Debug.printLinkedList(newHead);
 
 	}
@@ -86,6 +103,21 @@ public class Class1_LinkedList {
 
 	/*
 	 * task1.2 reverse Double Linked List
+	 * cur  next
+	 * 1 -> 2 -> 3 ->4 ->5
+	 *   <-   <-   <-  <-
+	 * 
+	 * cur = head;
+	 * next = cur.next;
+	 * next.prev = null;
+	 * 
+	 * newHead = reverseDDL(head.next);
+	 * 
+	 * next.next = cur;
+	 * cur.prev = next;
+	 * 
+	 * return newHead;
+	 * 
 	 */
 
 	public static DListNode task1_2_reverseDLL(DListNode head) {
@@ -116,9 +148,11 @@ public class Class1_LinkedList {
 			next.prev = null;
 			cur.next = null;
 
+			// set the new pointer
 			next.next = cur;
 			cur.prev = next;
 
+			// update cur
 			cur = next;
 		}
 		return cur;
@@ -146,7 +180,6 @@ public class Class1_LinkedList {
 				break;
 			}
 		}
-
 		return prev; // can also return the head.
 	}
 
@@ -331,17 +364,78 @@ public class Class1_LinkedList {
 	}
 
 	/*
-	 * task6 determine if a list is palindrome 1 mid node 2 reverse second half
-	 * 3 ... 4 reverse back second half and connect with the frist half.
+	 * task6 determine if a list is palindrome 
+	 * 1 mid node 
+	 * 2 reverse second half
+	 * 3 ... 
+	 * 4 reverse back second half and connect with the frist half.
 	 */
+	
 
 	/*
-	 * task7.1 单个链表， k 个分组，分别反转 0 -> 1 -> 2 ->3 ->4 ->5 ->6 ->7 k = 3 2 -> 1 ->
-	 * 0 ->5 ->4 ->3 ->7 ->6
+	 * task7 单个链表， k 个分组，分别反转 0 -> 1 -> 2 ->3 ->4 ->5 ->6 ->7 
+	 * k = 3 2 -> 1 -> 0 ->5 ->4 ->3 ->7 ->6
+	 * 
+	 * task7.1  单个链表， 2个分组， 反转
 	 */
-	public static ListNode task7_1_reverseKNode(ListNode head) {
+	
+	public static void test7_1() {
+		ListNode n1 = new ListNode(1);
+		ListNode n2 = new ListNode(2);
+		ListNode n3 = new ListNode(3);
+		ListNode n4 = new ListNode(4);
+		ListNode n5 = new ListNode(5);
+		ListNode n6 = new ListNode(6);
+		ListNode n7 = new ListNode(7);
+		ListNode n8 = new ListNode(8);
+		n1.next = n2;
+		n2.next = n3;
+		n3.next = n4;
+		n4.next = n5;
+		n5.next = n6;
+		n6.next = n7;
+		n7.next = n8;
+		
+		Debug.printLinkedList(n1);
+		ListNode h1 = task7_1_reverseKNode_group2(n1);
+		Debug.printLinkedList(h1);
+	}
+	
+	public static ListNode task7_1_reverseKNode_group2(ListNode head) {
+		// sanity check
+		if (head == null || head.next == null) {
+			return head;
+		}
+		ListNode cur = head;
+		ListNode next = cur.next;
+		ListNode nnext = next.next;
+		
+		cur.next = task7_1_reverseKNode_group2(nnext);
+		next.next = cur;
+		
+		return next;
+	}
+	public static ListNode task7_1_reverseKNode_group3(ListNode head) {
+		// sanity check
+		if (head == null || head.next == null || head.next.next == null) {
+			return head;
+		}
+		
+		ListNode cur = head;
+		ListNode next = cur.next;
+		ListNode nnext = next.next;
+		ListNode nnnext = nnext.next;
+		cur.next = task7_1_reverseKNode_group3(nnnext);
+		nnext.next = next;
+		next.next = cur;
+		
+		return nnext;
+	}
+	
+	public static ListNode task7_1_reverseKNode_groupk(ListNode head, int k) {
 		return null;
 	}
+ 	
 	
 	
 	/*
@@ -349,7 +443,7 @@ public class Class1_LinkedList {
 	 * 
 	 * 2 ->1 ->0 ->3 ->4 ->5 ->7 ->6
 	 */
-	public static void test7_1() {
+	public static void test7_2() {
 		ListNode n1 = new ListNode(1);
 		ListNode n2 = new ListNode(2);
 		ListNode n3 = new ListNode(3);
@@ -358,10 +452,10 @@ public class Class1_LinkedList {
 		ListNode n6 = new ListNode(6);
 
 		n1.next = n2;
-//		n2.next = n3;
-//		n3.next = n4;
-//		n4.next = n5;
-//		n5.next = n6;
+		n2.next = n3;
+		n3.next = n4;
+		n4.next = n5;
+		n5.next = n6;
 
 		Debug.printLinkedList(n1);
 		int k = 3;
@@ -399,7 +493,7 @@ public class Class1_LinkedList {
 	/*
 	 * task8 merge k sorted list
 	 * 
-	 * task8.1 merge k sorted list, and deduplicate, the node with same value should only appear once 
+	 * task8.1 merge k sorted list, and de-duplicate , the node with same value should only appear once 
 	 * use minHeap  see Lec.lec21
 	 * 
 	 * 1->2->3
@@ -453,6 +547,7 @@ public class Class1_LinkedList {
 		if (lists == null || lists.size() == 0) {
 			return null;
 		}
+		// define th ecomparator
 		Comparator<ListNode> myComp = new Comparator<ListNode>() {
 			
 			@Override
@@ -464,6 +559,7 @@ public class Class1_LinkedList {
 				return o1.value < o2.value ? -1 : 1;
 			}
 		};
+		
 		PriorityQueue<ListNode> minHeap = new PriorityQueue<ListNode>(lists.size(), myComp);
 		ListNode dummy = new ListNode(Integer.MIN_VALUE);
 		ListNode tail = dummy;
@@ -471,14 +567,15 @@ public class Class1_LinkedList {
 		for(ListNode head: lists) {
 			minHeap.add(head);
 		}
-		
+		// 
 		while(!minHeap.isEmpty()) {
 			ListNode cur = minHeap.poll();
-			
+			// cur.val != tail.val, append it to the linked list
 			if (tail.value != cur.value) {
 				tail.next = cur;
 				tail = tail.next;	
 			}
+			// add cur.next to the minHeap
 			if (cur.next != null) {
 				minHeap.offer(cur.next);
 			}
@@ -516,6 +613,7 @@ public class Class1_LinkedList {
 		while(!minHeap.isEmpty()) {
 			ListNode cur = minHeap.poll();
 			if (duplicate) {
+				// this is duplicate
 				if (!minHeap.isEmpty() && minHeap.peek().value == cur.value) {
 					// do nothing. duplicate still true
 					// duplicate = true;  // still true

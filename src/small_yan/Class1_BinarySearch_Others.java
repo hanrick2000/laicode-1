@@ -147,6 +147,7 @@ public class Class1_BinarySearch_Others {
 	}
 	
 	
+	// there is no need to construct the left2Right and up2Down matrix. 
 	public static ArrayList<Point> task8_getSmallestRect2(char[][] matrix) {
 		// sanity check
 		if (matrix == null || matrix.length == 0 ||matrix[0] == null || matrix[0].length == 0) {
