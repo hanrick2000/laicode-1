@@ -402,7 +402,6 @@ public class Class6_Arrays3 {
 			}
 		}
 		
-		
 		if (array[start] > target) {
 			return start;
 		} else if (array[end] > target) {
@@ -412,10 +411,5 @@ public class Class6_Arrays3 {
 		return -1;
 
 	}
-	
-	
-	
-	
-	
 
 }
