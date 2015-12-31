@@ -252,7 +252,7 @@ public class Class3_BT_BST2  {
 		if (root == null) {
 			return null;
 		}
-		if (root.val <= target) {
+		if (root.val <= target) { // go root.right to find the result
 			return task5_1_smallestLargerThanTarget(root.right, target);
 		} else {
 			// target < root.val, root might be the result, we also need to check in the root.left subtree

@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.w3c.dom.Node;
 
 public class Class1_FirstNonRepeating {
 
@@ -30,12 +29,11 @@ public class Class1_FirstNonRepeating {
 	HashMap<Character, Node> map;
 	private Node head;
 	private Node tail;
-	Set<Character> set;
+
 	
 	// constructor
 	public Class1_FirstNonRepeating() {
-		map = new HashMap<Character, Class1_FirstNonRepeating.Node>();
-		set = new HashSet<Character>();
+		map = new HashMap<Character, Class1_FirstNonRepeating.Node>();		
 	}
 	
 	/*

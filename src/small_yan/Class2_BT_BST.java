@@ -89,16 +89,21 @@ public class Class2_BT_BST {
 		if (current == null) {
 			return null;
 		}
+		// if current.right != null, the inorder successor is the first node in current.right
 		if (current.right != null) {
 			return  firstNodeP(current.right);
 		}
+		
+		// if current.right == null, we need to go up
+		// the first time that cur is NOT cur.parent.right, we break the loop
 		while(current.parent != null && current == current.parent.right) {
-			current = current.parent;
+			current = current.parent; // going up
 		}
 		return current.parent;
 	}
 	
 	/*
+	 * BST
 	 * search from root. 
 	 * (1) if target.right != null, use firstNode()
 	 * (2) if target.right == null, we need to search from root. 
@@ -106,20 +111,20 @@ public class Class2_BT_BST {
 	 *                 if target.val > root.val, root.go right
 	 *                 if target.val == root.val, we find target node, break the while loop. 
 	 */ 
-	public static TreeNode inOrderSuccessor(TreeNode root, TreeNode target) {
+	public static TreeNode inOrderSuccessor(TreeNode node, TreeNode target) {
 		if (target.right != null) {
 			return firstNode(target.right);
 		}
 		TreeNode successor = null;
-		while(root != null) {
-			if(target.val < root.val) {
+		while(node != null) {
+			if(target.val < node.val) {
 				// root might be the inorder successor
-				successor = root;
+				successor = node;
 				// go left
-				root = root.left;
-			} else if (target.val > root.val) {
+				node = node.left;
+			} else if (target.val > node.val) {
 				// go right 
-				root = root.right;
+				node = node.right;
 			} else {
 				// target.val == root.val
 				// we find the target
@@ -230,6 +235,7 @@ public class Class2_BT_BST {
 		Tree.inOrder(newroot);
 	}
 	
+	
 	/*
 	 * 5 Binary Tree/Binary Search Tree serialization/deserialization
 	 * 5.1 binary search tree, pre/post order, reconstruct.
@@ -327,6 +333,8 @@ public class Class2_BT_BST {
 			return null;
 		}
 		StringTokenizer stoken = new StringTokenizer(str, " ");
+
+		// debug
 		/*
 		while(stoken.hasMoreTokens()) {
 			System.out.println(stoken.nextToken());

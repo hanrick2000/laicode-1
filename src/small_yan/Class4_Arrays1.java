@@ -9,7 +9,9 @@ public class Class4_Arrays1 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		test3();
+//		test2();
+//		test3();
+		test2_2();
 	}
 	
 	/*
@@ -30,6 +32,7 @@ public class Class4_Arrays1 {
 				count ++;
 			} else {
 				if (count == 0) {
+					// update candidate
 					candidate = cur;
 					count ++;
 				} else {
@@ -185,9 +188,6 @@ public class Class4_Arrays1 {
 				System.out.println(entry.getKey());
 			}
 		}
-		
-	
-		
 	}
 	
 	
@@ -195,21 +195,37 @@ public class Class4_Arrays1 {
 	 * task2
 	 * Partition Array
 	 */
-	public static void task2_partition(int[] a, int left, int right) {
+	public static void test2() {
+		int[] a = {4,2,5,9,0,8,1,6};
+		System.out.println(Arrays.toString(a));
+		int left = 0, right = a.length - 1;
+		task2_partition(a, left, right);
+		System.out.println(Arrays.toString(a));
+		
+	}
+	
+	
+	public static int task2_partition(int[] a, int left, int right) {
 		int start = left, end = right;
 		int pivot = a[end];
-		while (start < end) {
-			while (start < end && a[start] < pivot) {
-				start++;
+		
+		while (start <= end) {
+			if (a[start] < pivot) {
+				start ++;
+			} else if (a[end] >= pivot) {
+				end --;
+			} else {
+				swap(a, start, end);
+				start ++;
+				end --;
 			}
-			while (start < end && a[end] >= pivot) {
-				end--;
-			}
-			swap(a, start, end);
 		}
+		
 		System.out.println("start = " + start);
 		System.out.println("end = " + end);
 		swap(a, start, right);
+		// start is the pivot position
+		return start;
 	}
 
 	public static void swap(int[] a, int x, int y) {
@@ -223,6 +239,56 @@ public class Class4_Arrays1 {
 	 * task2.2
 	 * quick sort, partition
 	 */
+	public static void test2_2() {
+		int[] array = {1,3,5,8,2,1,0};
+		System.out.println(Arrays.toString(array));
+		quickSort(array);
+		System.out.println(Arrays.toString(array));
+	}
+	public static void quickSort(int[] array) {
+		// sanity check
+		if (array == null || array.length <= 1) {
+			return ;
+		}
+		quickSortHelper(array, 0, array.length - 1);
+	}
+	
+	public static void quickSortHelper(int[] a, int left, int right) {
+		if (left >= right) {
+			return ;
+		}
+		int pivotIndex = partition(a, left, right);
+		quickSortHelper(a, left, pivotIndex - 1);
+		quickSortHelper(a, pivotIndex + 1, right);
+		
+	}
+	
+	public static int getPivotIndex(int left, int right) {
+		int pivotIndex = left + (int)(Math.random() *(right -left + 1));
+		return pivotIndex;
+	}
+	
+	public static int partition(int[] array, int left, int right) {
+		int pivotIndex = getPivotIndex(left, right);
+		int pivot = array[pivotIndex];
+		swap(array, pivotIndex, right);
+		
+		int start = left, end = right;
+		while(start <= end) {
+			if (array[start] < pivot) {
+				start ++;
+			} else if (array[end] >= pivot) {
+				end --;
+			} else {
+				swap(array, start, end);
+				start ++;
+				end --;
+			}
+		}
+		swap(array, start, right);
+		return start;	
+	}
+	
 	
 	
 	/*
@@ -302,6 +368,8 @@ public class Class4_Arrays1 {
 			}
 			swap(a, left, right);
 		}
+		
+		
 		System.out.println("left = " + left + ": " + a[left]);
 		System.out.println("right = " + right + ": " + a[right]);
 		// left is the first element > pivot
