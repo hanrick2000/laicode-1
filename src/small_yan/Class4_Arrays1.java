@@ -11,7 +11,8 @@ public class Class4_Arrays1 {
 		// TODO Auto-generated method stub
 //		test2();
 //		test3();
-		test2_2();
+//		test2_2();
+		test6_1();
 	}
 	
 	/*
@@ -514,6 +515,12 @@ public class Class4_Arrays1 {
 	 * 
 	 */
 	
+	
+	/*
+	 * =========================================================================================
+	 */
+	
+	
 	/*
 	 * task6
 	 * Find the subarray, the sum = 0.
@@ -543,7 +550,74 @@ public class Class4_Arrays1 {
 	 * Time: O(n log n) 
 	 * 
 	 */
+	public static class Node implements Comparable<Node>{
+		int val;
+		int index;
+		public Node(int v, int i) {
+			this.val = v;
+			this.index = i;
+		}
+		@Override
+		public int compareTo(Node other) {
+			// TODO Auto-generated method stub
+			if (this.val == other.val) {
+				return 0;
+			}
+			return this.val < other.val ? -1 : 1;
+		}
+	}
 	
+	public static void test6_1() {
+		int[] array = {4,9,7,2,3};
+		task6_1_subarray_closest0(array);
+	}
+	public static void task6_1_subarray_closest0(int[] array) {
+		// sanity check
+		if (array == null || array.length == 0) {
+			return ;
+		}
+		int n = array.length;
+		int[] preSum = new int[n];
+		for(int i = 0; i < n; i ++) {
+			if (i == 0) {
+				preSum[i] = array[i];
+			} else {
+				preSum[i] = array[i] + preSum[i - 1];
+			}
+		}
+		System.out.println(Arrays.toString(preSum));
+		
+		// now, we have the preSum array
+		ArrayList<Node> list = new ArrayList<Class4_Arrays1.Node>();
+		for(int i = 0; i < n; i ++) {
+			Node node = new Node(preSum[i], i);
+			list.add(node);
+		}
+		Collections.sort(list);
+		// for debug
+		for(int i = 0; i < list.size(); i ++) {
+			System.out.print(list.get(i).val + " ");	
+		}
+		System.out.println();
+		for(int i = 0; i < list.size(); i ++) {
+			System.out.print(list.get(i).index + " ");
+		}
+		System.out.println();
+		int minDiff = Integer.MAX_VALUE;
+		int start = -1;
+		int end = -1;
+		for(int i = 0; i < list.size() - 1; i ++) {
+			if (minDiff > list.get(i + 1).val - list.get(i).val) {
+				minDiff = list.get(i + 1).val - list.get(i).val;
+				start = Math.min(list.get(i + 1).index, list.get(i).index) + 1;
+				end = Math.max(list.get(i + 1).index, list.get(i).index);
+			}
+		}
+		System.out.println("start = " + start);
+		System.out.println("end = " + end);
+		System.out.println("minDiff = " + minDiff);
+		
+	}
 	
 	/*
 	 * task6.2
@@ -561,7 +635,8 @@ public class Class4_Arrays1 {
 	 */
 	
 	// in this task, we just return one subarray if exist
-	public static int[] test6_2_subarray_sumK(int[] array, int k) {
+	// this is also a function that find a subarray that sum == 0
+	public static int[] test6_2_subarray_sum0(int[] array, int k) {
 		if (array == null || array.length == 0) {
 			return new int[0];
 		}

@@ -12,7 +12,8 @@ public class Class6_Arrays3 {
 		// TODO Auto-generated method stub
 //		test1();
 //		test6_2();
-		test6_4();
+//		test6_4();
+		test9();
 	}
 	
 	/*
@@ -68,6 +69,8 @@ public class Class6_Arrays3 {
 	 * 1). A[j] ­- A[i] = k
 	 * 2). A[j] + A[i] = k
 	 * 
+	 * 2 Sum
+	 * 
 	 * unsorted array: HashMap<Integer, Integer>
 	 * 
 	 * sorted array:
@@ -103,7 +106,7 @@ public class Class6_Arrays3 {
 	
 	/*
 	 * task5
-	 * From 2 arrays, pick one element from each of them, sum = k.
+	 * From 2 sorted arrays, pick one element from each of them, sum = k.
 	 * A = {1, 3, 6, 10} 
 	 * B = {2, 7, 8, 12} 
 	 * k = 10
@@ -119,6 +122,7 @@ public class Class6_Arrays3 {
 	 *    else // A[i] == B[j]
 	 *       we get it.  
 	 */
+	
 	
 	
 	/*
@@ -237,7 +241,10 @@ public class Class6_Arrays3 {
 			@Override
 			public int compare(Item61 o1, Item61 o2) {
 				// TODO Auto-generated method stub
-				return o1.val - o2.val;
+				if (o1.val == o2.val) {
+					return 0;
+				}
+				return o1.val < o2.val ? -1 : 1;
 			}
 		};
 		PriorityQueue<Item61> minHeap = new PriorityQueue<Item61>(2*k, mycomp);
@@ -277,7 +284,8 @@ public class Class6_Arrays3 {
 	 * 
 	 * Item(value, type).  type: 1 => A, 2=>B, 3=>C
 	 * merge
-	 * find the consecutive element. if all the three elements are in different, calculate the  |x­-y|+ |y­-z| + |z­-x|.
+	 * find the consecutive element. 
+	 * if all the three elements are in different, calculate the  |x­-y|+ |y­-z| + |z­-x|.
 	 * 
 	 *!!!!! this doesn't work well. Wrong idea
 	 */
@@ -336,7 +344,7 @@ public class Class6_Arrays3 {
 	
 	
 	/*
-	 * task8
+	 * task9
 	 * 1 unsorted array, no duplicate values
 	 * find 
 	 * 1) number of all pairs
@@ -344,14 +352,65 @@ public class Class6_Arrays3 {
 	 * that the sum of the two number is greater /smaller than a give number k
 	 * 
 	 *  (1) sort the array
-	 *  (2) for each a[i], find the maximum j for i is x, then we knokw for i + 1, the maximum j is <=x
+	 *  (2) for each a[i], find the maximum j for i is x, then we know for i + 1, the maximum j is <=x
 	 *  
 	 *   
 	 *  
 	 */
-	
-	public static int task8_numberOfAllPairs(int[] array) {
+	public static void test9() {
+		int[] array = {1,2,3,4,5};
+		int k = 3;
+		int counter = task9_numberOfAllPairsGreaterThanK(array, k);
+		System.out.println("counter = " + counter);
+		
+	}
+	public static int task9_numberOfAllPairsGreaterThanK(int[] array, int k) {
+		if (array == null || array.length == 0) {
+			return 0;
+		}
+		int n = array.length;
+		Arrays.sort(array);
+		int counter = 0;
+		
+		for(int i = 0; i < n; i ++) {
+			int firstElem = array[i];
+			int target = k - firstElem;
+			
+			int j = task9_indexOfSmallestLargerThan(array, i + 1, n - 1, target);
+			System.out.println(" i = " + i + " j = " + j  + " array[i] = " + array[i]);
+			if (j != -1) {
+				counter += (n - j);
+			}
+		}
+		return counter;
+	}
+	public static int task9_indexOfSmallestLargerThan(int[] array, int left, int right, int target) {
+		if (left > right) {
+			return -1;
+		}
+		int start = left, end = right;
+		
+		while(start + 1 < end) {
+			int mid = start + (end - start)/2;
+			
+			if (array[mid] == target) {
+				start = mid;
+			} else if (target < array[mid]) {
+				end = mid;
+			} else {
+				start = mid;
+			}
+		}
+		
+		
+		if (array[start] > target) {
+			return start;
+		} else if (array[end] > target) {
+			return end;
+		}
+		
 		return -1;
+
 	}
 	
 	

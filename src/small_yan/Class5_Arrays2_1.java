@@ -6,7 +6,8 @@ public class  Class5_Arrays2_1 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		test3();
+//		test3();
+		test2();
 	}
 	
 	/*
@@ -95,6 +96,38 @@ public class  Class5_Arrays2_1 {
 	 *     Space: O(2* n)  = O(n) avoid to use divide, avoid for overflow
 	 */
 	
+	public static void test2() {
+		int[] array = {1,2,3,4,5};
+		task2_replace_element_with_multiplication(array);
+		System.out.println(Arrays.toString(array));
+	}
+	
+	public static int[] task2_replace_element_with_multiplication(int[] array) {
+		// sanity check
+		int n = array.length;
+		int[] leftProduct = new int[n];
+		int[] rigthProdcut = new int[n];
+		for(int i = 0; i < n; i ++) {
+			if (i == 0) {
+				leftProduct[i] = 1;
+				rigthProdcut[n - 1 - i] = 1;
+			} else {
+				leftProduct[i] = leftProduct[i - 1] * array[i - 1];
+				rigthProdcut[n - 1 - i] = rigthProdcut[n - i] * array[n - i];
+			}
+		}
+		
+		for(int i = 0; i < n; i ++) {
+			if (i == 0) {
+				array[i] = rigthProdcut[i];
+			} else if (i == n - 1) {
+				array[i] = leftProduct[i];
+			} else {
+				array[i] = leftProduct[i] * rigthProdcut[i];
+			}
+		}
+		return array;
+	}
 	
 	/*
 	 * task3
@@ -153,9 +186,11 @@ public class  Class5_Arrays2_1 {
 			leftMax = Math.max(array[i], leftMax);
 			rightMax = Math.max(array[j], rightMax);
 			if (leftMax < rightMax) {
+				// we leftMax is shorter
 				sum += Math.min(leftMax, rightMax) - array[i];
 				i ++;
 			} else {
+				// right is shorter
 				sum += Math.min(leftMax, rightMax) - array[j];
 				j --;
 			}
@@ -174,8 +209,6 @@ public class  Class5_Arrays2_1 {
 	 * min heap maintain the current minimum height. get the min from the heap, DFS/BFS.
 	 * insert 4 to the heap.
 	 * }
-	 * 
-	 * 
 	 */
 	
 	
@@ -233,15 +266,12 @@ public class  Class5_Arrays2_1 {
 	 * rightMax[]
 	 * traverse the leftMin[i] and rightMax[i]. if leftMin[i] < array[i] < rightMax[i]
 	 * 
-<<<<<<< HEAD
 	 * 
 	 * geeksforgeeks array/P7
 	 * Find a sorted subsequence of size 3 in linear time
-=======
 	 * follow up
 	 * find the k sorted sequence in array
 	 * refer geeks4geeks  arrays.P7_array.task4
->>>>>>> cfb8c5017abdf98a7d17ff2589a3c3ebf7d902f6
 	 */
 	public static void task5_find3Sorted(int[] a) {
 		int n = a.length;
