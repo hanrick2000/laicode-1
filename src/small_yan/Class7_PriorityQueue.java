@@ -15,7 +15,10 @@ public class Class7_PriorityQueue {
 		// TODO Auto-generated method stub
 //		test4();
 //		test2();
-		test1();
+//		test1();
+//		test2_3();
+//		test4();
+		test5();
 	}
 	
 	/*
@@ -307,6 +310,61 @@ public class Class7_PriorityQueue {
 	 * 3 kth smallest sum of pair from two arrays
 	 * 4 the k points in 3-d space closest to point to (0,0,0)
 	 */
+	public static void test2_3() {
+		int[] array1 = {1,2,3};
+		int[] array2 = {4,5,6};
+		int k = 3;
+		int rev = task2_3_kthSmallestSumPairFromTwoArrays(array1, array2, k);
+		System.out.println("rev = " + rev);
+	}
+	
+	
+	public static int task2_3_kthSmallestSumPairFromTwoArrays(int[] array1, int [] array2, int k) {
+		// sanity check
+		if (array1 == null || array1.length == 0 || array2 == null || array2.length == 0) {
+			return 0;
+		}
+		PriorityQueue<Item2> minHeap = new PriorityQueue<Class7_PriorityQueue.Item2>(2*k);
+		int len1 = array1.length;
+		int len2 = array2.length;
+		boolean[][] visited = new boolean[len1][len2];
+		minHeap.add(new Item2(0, 0, array1[0] + array2[0]));
+		visited[0][0] = true;
+		while(k > 1) {
+			Item2 cur = minHeap.poll();
+			if (cur.x + 1 < len1 && !visited[cur.x + 1][cur.y]) {
+				Item2 elem = new Item2(cur.x + 1, cur.y, array1[cur.x + 1] + array2[cur.y]);
+				minHeap.add(elem);
+			}
+			if (cur.y + 1 < len2 && !visited[cur.x][cur.y + 1]) {
+				Item2 elem = new Item2(cur.x, cur.y + 1, array1[cur.x] + array2[cur.y + 1]);
+				minHeap.add(elem);
+			}
+			k --;
+		}
+		
+		return minHeap.peek().val;
+		
+	}
+	
+	public static class Item2 implements Comparable<Item2>{
+		int x;
+		int y;
+		int val;
+		public Item2(int _x, int _y, int _v) {
+			this.x = _x;
+			this.y = _y;
+			this.val = _v;
+		}
+		@Override
+		public int compareTo(Item2 o) {
+			// TODO Auto-generated method stub
+			if (this.val == o.val) {
+				return 0;
+			}
+			return this.val < o.val ? -1 : 1;
+		}
+	}
 	
 	
 	/*
@@ -327,11 +385,13 @@ public class Class7_PriorityQueue {
 	 * A' = {1,2,3,4,5,6}
 	 */
 	public static void test4() {
-		int[] A = {3,2,1,5,4,6};
-		Debug.printArray(A);
-		int k = 2;
-		task4_kdiff_sort(A, k);
-		Debug.printArray(A);
+//		int[] A = {3,2,1,5,4,6};
+//		Debug.printArray(A);
+//		int k = 2;
+//		task4_kdiff_sort(A, k);
+//		Debug.printArray(A);
+		ArrayList<Integer> list = new ArrayList<Integer>(3);
+		System.out.println(list.size());
 	}
 	
 	public static void task4_kdiff_sort(int[] a, int k) {
@@ -367,14 +427,130 @@ public class Class7_PriorityQueue {
 	 * Generate Rule:
 	 *   (index1, index2, index3, ..., indexk)
 	 *  
-	 * for the deduplication, we can use an k-d matrix. 
+	 * deduplication, use overwrite equals and hashCode in Item5 class
 	 * 
 	 */
-	public static int task5_kth_smallestSum(ArrayList<ArrayList<Integer>> input) {
-		int k = input.size();
+	public static class Item5 implements Comparable<Item5>{
+		int[] indexArray;
+		int val;
+		public Item5(int k, int val) {
+			this.indexArray = new int[k];
+			this.val = val;
+		}
 		
-		return -1;
+		public Item5(int[] array, int val) {
+			this.indexArray = Arrays.copyOf(array, array.length);
+			this.val = val;
+		}
+		
+		@Override
+		public int compareTo(Item5 o) {
+			// TODO Auto-generated method stub
+			if (this.val == o.val) {
+				return 0;
+			}
+			return this.val < o.val ? -1 : 1;
+		}
+		
+		public boolean equals(Object obj) {
+			if (obj == this) {
+				return true;
+			}
+			if (!(obj instanceof Item5)) {
+				return false;
+			}
+			Item5 another = (Item5) obj;
+			for(int i = 0; i < this.indexArray.length; i ++) {
+				if (this.indexArray[i] != another.indexArray[i]) {
+					return false;
+				}
+			}
+			return true;
+		}
+		public int hashCode() {
+			int k = this.indexArray.length;
+			int hscode = 0;
+			for(int i = 0; i < k; i ++) {
+				hscode = hscode * 31 + this.indexArray[i];
+			}
+			return hscode;
+		}
+		
 	}
+	
+	public static void test5() {
+		ArrayList<Integer> list1 = new ArrayList<Integer>();
+		ArrayList<Integer> list2 = new ArrayList<Integer>();
+		ArrayList<Integer> list3 = new ArrayList<Integer>();
+		list1.add(1);
+		list1.add(2);
+		list1.add(3);
+		
+		list2.add(4);
+		list2.add(5);
+		list2.add(6);
+		
+		list3.add(7);
+		list3.add(8);
+		list3.add(9);
+		
+		ArrayList<ArrayList<Integer>> input = new ArrayList<ArrayList<Integer>>();
+		input.add(list1);
+		input.add(list2);
+		input.add(list3);
+		int k = 20;
+		int rev = task5_kth_smallestSum(input, k);
+		
+		System.out.println("rev = " + rev);
+		
+	}
+	
+	public static int task5_kth_smallestSum(ArrayList<ArrayList<Integer>> input, int k) {
+		int size = input.size();
+		
+		PriorityQueue<Item5> minHeap = new PriorityQueue<Class7_PriorityQueue.Item5>(2*k);
+		
+		int[] array1 = new int[size];
+		int sum = getSum(array1, input);
+		
+		Item5 item = new Item5(array1, sum);
+		minHeap.offer(item);
+		
+		while(k > 1) {
+			Item5 cur = minHeap.poll();
+			System.out.println("--------------------");
+			System.out.println("cur.val = " + cur.val);
+			printCombination(cur.indexArray, input);
+			System.out.println("--------------------");
+			for(int i = 0; i < size; i ++) {
+				if (cur.indexArray[i] + 1 < input.get(i).size()) {
+					int[] newArray = Arrays.copyOf(cur.indexArray, cur.indexArray.length);
+					newArray[i] = newArray[i] + 1;
+					int newSum = getSum(newArray, input);
+					Item5 newItem = new Item5(newArray, newSum);
+					minHeap.offer(newItem);
+				}
+			}
+			k --;
+		}
+		return minHeap.peek().val;
+	}
+	
+	public static int getSum(int[] indexArray, ArrayList<ArrayList<Integer>> input) {
+		int sum = 0;
+		for(int i = 0; i < indexArray.length; i ++) {
+			sum += input.get(i).get(indexArray[i]);
+		}
+		return sum;
+	}
+	
+	public static void printCombination(int[] indexArray, ArrayList<ArrayList<Integer>> input) {
+		for(int i = 0; i < indexArray.length; i ++) {
+			System.out.print(input.get(i).get(indexArray[i]) + " | ");
+		}
+		System.out.println();
+	}
+
 	
 	/*
 	 * task6
@@ -383,12 +559,14 @@ public class Class7_PriorityQueue {
 	 * 1 median = 50%, similar to median, maintain two heaps
 	 */
 	
+	
 	/*
 	 * task7
 	 * kth smallest of stream data flow
 	 * keep a k size maxHeap. 
 	 * every time, peek maxHeap.peek()
 	 */
+	
 	
 	/*
 	 * task8
@@ -400,21 +578,30 @@ public class Class7_PriorityQueue {
 	 * 5, E, 40
 	 * Find the max score in O(1) Update the score in O(logn).
 	 * 
-	 * Priority Queue + HashMap   
+	 * maintain a maxHeap. 
+	 * Priority Queue + HashMap  
+	 * 
+	 * HashHeap
 	 */
+	
+	
+	
+	
 	
 	/*
 	 * task9
 	 * data structure: support median, insert(), remover() operation
 	 * 
 	 * Priority Queue + hashMap
+	 * 
+	 * 2 HashHeap
 	 */
 	
 	/*
 	 * task10
-	 * skyline problem, list of buildings with (start, end, height), what is the skyline? 
-	 * 
+	 * Skyline problem, list of buildings with (start, end, height), what is the skyline? 
 	 */
+	
 	
 	/*
 	 * task11

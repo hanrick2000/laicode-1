@@ -13,10 +13,12 @@ public class Class19_Intervals {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 //		test();
-		test1_2();
+//		test1_2();
 //		test2();
 //		test3();
 //		test4_1();
+//		test4_4();
+		test5();
 	}
 	
 	public static class Interval{
@@ -40,13 +42,19 @@ public class Class19_Intervals {
 		list.add(new Interval(0, 3));
 		list.add(new Interval(2, 5));
 		list.add(new Interval(6, 7));
+		list.add(new Interval(10, 15));
 		
-		List<Interval> result = task1_merge(list);
-		System.out.println(result);
+//		List<Interval> result = task1_merge(list);
+//		System.out.println(result);
 		
 		// test task2
-		int length = task1_1_intervals_covered_length(list);
-		System.out.println("length = " + length);
+//		int length = task1_1_intervals_covered_length(list);
+//		System.out.println("length = " + length);
+		
+		// task3
+		Interval interval = new Interval(1, 2);
+		boolean rev = task1_3_intervals_covered_by_intervals(list, interval);
+		System.out.println("rev = " + rev);
 	}
 	
 	/*
@@ -75,13 +83,16 @@ public class Class19_Intervals {
 		Interval last = list.get(0);
 		for(int i = 1; i < list.size();i ++) {
 			Interval cur = list.get(i);
-			if (cur.start <= last.end) {//intersect
+			if (cur.start <= last.end) {
+				//intersect cur.start <= last.end, there is intersection
 				last.end = Math.max(last.end, cur.end);
 			} else {
+				// there is no intersection, insert into result
 				result.add(last);
 				last = cur;
 			}
 		}
+		// don't forget to add the last interval
 		result.add(last);
 		return result;
 	} 
@@ -93,15 +104,18 @@ public class Class19_Intervals {
 	public static int task1_1_intervals_covered_length(List<Interval> list) {
 		Collections.sort(list, myComp);
 		int length = 0;
-		Interval last = list.get(0);
-		int start = last.start;
-		int end = last.end;
+		
+		int start = list.get(0).start;
+		int end = list.get(0).end;
 		for(int i = 1; i < list.size(); i ++) {
 			Interval cur = list.get(i);
-			if (cur.start <= last.end) {
-				end = Math.max(cur.end, last.end);
+			if (cur.start <= end) { 
+				// cur.start <= last.end, there is intersect
+				end = Math.max(cur.end, end);
 			} else {
+				// update length 
 				length += end - start;
+				// update start and end
 				start = cur.start;
 				end = cur.end;
 			}
@@ -207,6 +221,36 @@ public class Class19_Intervals {
 	 *   O(n)
 	 * 2 tree-> segment tree. O(log n)
 	 */
+	public static boolean task1_3_intervals_covered_by_intervals(List<Interval> lists, Interval interval) {
+		// sanity check
+		if (lists == null || lists.size() == 0) {
+			return false;
+		}
+		// sort the intervals
+		Collections.sort(lists, myComp);
+		
+		Interval last = lists.get(0);
+		for(int i = 1; i < lists.size(); i++) {
+			Interval cur = lists.get(i);
+			if (cur.start <= last.end) {
+				last.end = Math.max(last.end, cur.end);
+			} else {
+				// no intersection
+				// check
+				if (last.start <= interval.start && last.end >= interval.end) {
+					return true;
+				}
+				last = cur;
+			}
+		}
+		
+		// check the last one
+		if (last.start <= interval.start && last.end >= interval.end) {
+			return true;
+		}
+		return false;
+	}
+	
 	
 	/*
 	 * task2
@@ -323,6 +367,9 @@ public class Class19_Intervals {
 	 * 
 	 * 分清楚几种情况就好，画图
 	 * 
+	 * 1 fix the start
+	 * 2 fix the end
+	 * 
 	 */
 	public static void test3() {
 		Interval i1 = new Interval(0, 5);
@@ -334,13 +381,17 @@ public class Class19_Intervals {
 	public static List<Interval> task3_subtract(Interval i1, Interval i2) {
 		List<Interval> res = new ArrayList<Class19_Intervals.Interval>();
 		if (i1.start < i2.start) {
+			// fix the start
 			res.add(new Interval(i1.start, Math.min(i2.start, i1.end)));
 		}
 		if (i1.end > i2.end) {
+			// fix the end
 			res.add(new Interval(Math.max(i2.end, i1.start), i1.end));
 		}
 		return res;
 	}
+	
+	
 	
 	
 	/*
@@ -408,14 +459,14 @@ public class Class19_Intervals {
 		int i = 0, j = 0;
 		int counter = 0;
 		int globalMax = Integer.MIN_VALUE;
-		while(i < start.size() && j < end.size()) {
-			if (start.get(i) < end.get(j)) {
+		while(i < start.size() || j < end.size()) {
+			if (i < start.size() && start.get(i) < end.get(j)) {
 				counter ++;
 				i ++;
 				if (globalMax < counter) {
 					globalMax = counter;
 				}
-			} else {
+			} else if (j < end.size()) {
 				counter --;
 				j ++;
 			}
@@ -503,21 +554,17 @@ public class Class19_Intervals {
 	
 	
 	
-	/*
-	 * task4.3
-	 * 给出一堆人,然后你知道他们每个人的meeting schedule,返回所有人前三个共同的meeting schedule,
-	 * 已经知道的方法:public ​List<Timeslot>​getSchedule(String person){},
-	 * 自己 要完成的方法:public ArrayList<Timeslot> getFirstThreeCommonSlot(List<String>people){}
-	 */
+
 	
 	/*
-	 * task4.4
-	 * 4.3 a lot of people, each person has a birth year and dead year, what is the year with most people alive?
+	 * task4.3 a lot of people, each person has a birth year and dead year, 
+	 * what is the year with most people alive?
 	 * <start_time, end_time, 1>
+	 * the same with task4_1
 	 */
 	
 	/*
-	 * task4.5
+	 * 
 	 * 
 	 * 4.4 <start_time, end_time, value>
 	 * 比如有一组数据: 1, 3, 100
@@ -529,11 +576,89 @@ public class Class19_Intervals {
 	 * start_time : globalValue +=value 
 	 * end_time: globalValue ­=value
 	 */
+	public static void test4_4() {
+		Interval3 n1 = new Interval3(2, 4, 300);
+		Interval3 n2 = new Interval3(5, 6, 300);
+		Interval3 n3 = new Interval3(1, 3, 100);
+		
+		List<Interval3> list = new ArrayList<Class19_Intervals.Interval3>();
+		list.add(n1);
+		list.add(n2);
+		list.add(n3);
+		
+		int rev = task4_4_maxValue(list);
+		System.out.println("rev = " + rev);
+	}
+	
+	public static class Interval3{
+		int start_time;
+		int end_time;
+		int value;
+		public Interval3(int _start, int _end, int _value) {
+			this.start_time = _start;
+			this.end_time = _end;
+			this.value = _value;
+		}
+	}
+	
+	public static class Item3 implements Comparable<Item3>{
+		int time;
+		int value;
+		int type;
+		public Item3(int _time,  int _value, int _type) {
+			// TODO Auto-generated constructor stub
+			this.time = _time;
+			this.value = _value;
+			this.type = _type;
+		}
+		@Override
+		public int compareTo(Item3 o) {
+			// TODO Auto-generated method stub
+			if (this.time == o.time) {
+				return 0;
+			}
+			return this.time < o.time ? -1 : 1;
+		}
+	}
+	public static int task4_4_maxValue(List<Interval3> input) {
+		List<Item3> list = new ArrayList<Class19_Intervals.Item3>();
+		for(int i = 0; i < input.size(); i ++) {
+			Interval3 cur = input.get(i);
+			Item3 start = new Item3(cur.start_time,  cur.value, START);
+			Item3 end = new Item3(cur.end_time, cur.value, END);
+			list.add(start);
+			list.add(end);
+		}
+		
+		Collections.sort(list);
+		int max = Integer.MIN_VALUE;
+		int curVal = 0;
+		for(int i = 0; i < list.size(); i ++) {
+			Item3 curItem = list.get(i);
+			if (curItem.type == START) {
+				curVal += curItem.value;
+			}
+			if (curItem.type == END) {
+				curVal -= curItem.value;
+			}
+			max = Math.max(max, curVal);
+		}
+		return max;
+	}
+	
+	/*
+	 * task4.5
+	 * 给出一堆人,然后你知道他们每个人的meeting schedule,返回所有人前三个共同的meeting schedule,
+	 * 已经知道的方法:public ​List<Timeslot>​getSchedule(String person){},
+	 * 自己 要完成的方法:public ArrayList<Timeslot> getFirstThreeCommonSlot(List<String>people){}
+	 */
+	
+	
 	
 	
 	/*
 	 * task5
-	 * skyline （求轮廓，求面积）
+	 * Skyline （求轮廓，求面积）
 	 * 
 	 * Given n houses on the ground with each house represented by a rectangle. 
 	 * The i­th rectangleisrepresentedas​[start_i,end_i,height_i],​
@@ -581,16 +706,33 @@ public class Class19_Intervals {
 		}
 	}
 	
+	
 	public static class HeightComparator implements Comparator<Building> {
-
 		@Override
 		public int compare(Building o1, Building o2) {
 			// TODO Auto-generated method stub
 			if (o1.height == o2.height) {
 				return 0;
 			}
-			return o1.height < o2.height? -1 : 1;
+			return o1.height > o2.height? -1 : 1;
 		}
+	}
+	
+	
+	public static void test5() {
+		Building b1 = new Building(0, 4, 2);
+		Building b2 = new Building(1, 3, 4);
+		Building b3 = new Building(2, 5, 3);
+		Building b4 = new Building(6, 9, 2);
+		Building b5 = new Building(7, 9, 5);
+		Building b6 = new Building(4, 5, 5);
+		
+		Building[] buildings = {b1, b2,b3,b4,b5, b6};
+		int area = totalArea(buildings);
+		System.out.println("area = " + area);
+		
+		ArrayList<Position> result = skyLine(buildings);
+		System.out.println(result);
 	}
 	
 	public static int totalArea(Building[] buildings) {
@@ -631,6 +773,86 @@ public class Class19_Intervals {
 			maxHeap.offer(cur);
 		}
 		return area;
+		
+	}
+	
+	
+	public static class Position{
+		int index;
+		int height;
+		public Position(int _index, int _height) {
+			this.index = _index;
+			this.height = _height;
+		}
+		
+		public String toString() {
+			return "["  + index + ":" + height + "]";
+			
+		}
+	} 
+	
+	
+	// this doesn't work well
+	public static ArrayList<Position> skyLine(Building[] buildings) {
+		// sanity check
+		if (buildings == null || buildings.length == 0) {
+			return null;
+		}
+		ArrayList<Position> result = new ArrayList<Class19_Intervals.Position>();
+		Arrays.sort(buildings,new StartComparator());
+		PriorityQueue<Building> maxHeap = new PriorityQueue<Building>(2*buildings.length, new HeightComparator());
+		
+		Building fakeLast = new Building(Integer.MAX_VALUE, Integer.MAX_VALUE, 0);
+		int left = 0;
+		
+		// swipe the buildings one by one
+		for(int i = 0; i <= buildings.length; i ++) {
+			Building cur = i < buildings.length ? buildings[i] : fakeLast;
+			while(!maxHeap.isEmpty() && maxHeap.peek().end <= cur.start) {
+				// maxHeap.peek().end <= cur.start. there is maxHeap.peek() contour cannot cover the cur.start
+				
+				Building top = maxHeap.poll();
+				// update left if needed and calculate the area				
+				if (top.end > left) {
+					Position p1 = new Position(top.end, top.height);
+					Position p2 = null;
+					if (maxHeap.isEmpty()) {
+						p2 = new Position(top.end, 0);
+					} else {
+						
+						p2 = new Position(top.end, maxHeap.peek().height);
+					}
+					result.add(p1);
+					result.add(p2);
+					left = Math.max(top.end, left);
+					
+				}
+				
+				
+				
+				
+				
+			}
+			if (maxHeap.isEmpty()) {
+				left = cur.start;
+				Position p1 = new Position(cur.start, 0);
+				Position p2 =new Position(cur.start, cur.height);
+				result.add(p1);
+				result.add(p2);
+			} else {
+				if (maxHeap.peek().height < cur.height) {
+					Position p1 = new Position(cur.start, maxHeap.peek().height);
+					Position p2 = new Position(cur.start, cur.height);
+					result.add(p1);
+					result.add(p2);
+					left = cur.start;
+				}
+			}
+			maxHeap.offer(cur);
+		}
+		
+		return result;
+		
 		
 	}
 	

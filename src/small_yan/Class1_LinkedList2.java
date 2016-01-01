@@ -312,9 +312,6 @@ public class Class1_LinkedList2 {
 	
 	
 	
-	
-	
-	
 	/*
 	 * task9.2
 	 * First Non-Repeating Character In Stream
