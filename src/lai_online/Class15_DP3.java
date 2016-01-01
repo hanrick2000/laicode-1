@@ -67,7 +67,7 @@ public class Class15_DP3 {
 	 */
 	
 	public static void test1_2() {
-		int[] array = {-1, -3, -4, -2, -5};
+		int[] array = {-1, -3, 4, -2, 5};
 		int[] result = task1_2_largestSumArray(array);
 		System.out.println(Arrays.toString(result));
 	}
@@ -79,7 +79,9 @@ public class Class15_DP3 {
 		int sum = 0;
 		int maxSum = Integer.MIN_VALUE;
 		for(int i= 0; i < array.length; i ++ ) {
+			// add the array[i] to sum
 			sum += array[i];
+			// if sum < 0, set sum = 0 and update start
 			if (sum < 0) {
 				sum = 0;
 				start = i + 1;
@@ -101,10 +103,8 @@ public class Class15_DP3 {
 				}
 			}
 		}
-		
 		// copyOfRange(Array, start, end + 1)  copies : array[start..end]
 		return Arrays.copyOfRange(array, start, end + 1);
-		
 	}
 	
 	
@@ -132,7 +132,7 @@ public class Class15_DP3 {
 	 * 
 	 *  }
 	 * 
-	 * the largest submatrix sum is (-1) + 4 + 1 + 1 + (-1) + 1 + 1 + 1 = 7.
+	 * the largest subMatrix sum is (-1) + 4 + 1 + 1 + (-1) + 1 + 1 + 1 = 7.
 	 * 
 	 * 
 	 * Method1: O(n^3)
@@ -142,13 +142,11 @@ public class Class15_DP3 {
 		int[][] matrix = { 
 				{ 1, -2, -1, 4 },
 				{ 1, -1, 1, 1 },
-				{ 0, -1, -1, 1 },
+				{ 0, -1, 0, 1 },
 				{ 0, 0, 1, 1 } 
 		};
 		int maxSum = task1_3_largest(matrix);
-		
 		int maxSum2 = task1_3_maxSubMatrix_method2(matrix);
-		
 	}
 	
 	public static int task1_3_largest(int[][] matrix) {
@@ -160,8 +158,10 @@ public class Class15_DP3 {
 		int start_x = -1, start_y = -1;
 		int end_x = -1, end_y = -1;
 		for(int leftBound = 0;  leftBound < cLen; leftBound ++) {
+		
 			int[] curSum = new int[rLen];
 			for(int rightBound = leftBound; rightBound < cLen; rightBound ++) {
+				
 				for(int i = 0; i < rLen; i ++) {
 					curSum[i] += matrix[i][rightBound];
 				}
@@ -201,6 +201,7 @@ public class Class15_DP3 {
 		}
 	}
 	
+	// return the maxSum Of SubArray's start, end, and maxSum
 	public static Wrapper task1_3_largestSumSubArray(int[] array) {
 		int start = 0, end = -1;
 		int maxSum = Integer.MIN_VALUE;
@@ -228,10 +229,14 @@ public class Class15_DP3 {
 			}
 		}
 		return new Wrapper(start, end, maxSum);
-		
 	}
 	
 
+	// M[i][j] is the sum of subMatrix ending in [i][j]
+	// a subMatrix starting with (x1, y1) and ending with (x2, y2) is: 
+	// M[x2][y2] - M[x2][y1 - 1] - M[x1][y2 - 1] + M[x1- 1][y1 - 1]
+	// don't forget to do the sanity before query M[xi][yi]
+	
 	public static int task1_3_maxSubMatrix_method2(int[][] matrix) {
 		int rLen = matrix.length;
 		int cLen = matrix[0].length;
@@ -246,7 +251,7 @@ public class Class15_DP3 {
 		}
 		
 		for(int i = 1; i < rLen; i ++) {
-			int curSumInThisRow = matrix[i][0];  // !!! here
+			int curSumInThisRow = matrix[i][0];  // !!! here, get from matrix[i][0]
 			for(int j = 1; j < cLen; j ++) {
 				curSumInThisRow += matrix[i][j];
 				M[i][j] = M[i - 1][j] + curSumInThisRow;
@@ -287,8 +292,15 @@ public class Class15_DP3 {
 		}
 		System.out.println("-------------");
 		
-		for(int i = final_x1; i < final_x2; i ++) {
-			for(int j = final_y1; j < final_y2; j ++) {
+		System.out.println("=============");
+		System.out.println("x1 = " + final_x1);
+		System.out.println("y1 = " + final_y1);
+		System.out.println("x2 = " + final_x2);
+		System.out.println("y2 = " + final_y2);
+		System.out.println("=============");
+		
+		for(int i = final_x1; i <= final_x2; i ++) {
+			for(int j = final_y1; j <= final_y2; j ++) {
 				System.out.print(matrix[i][j] + " ");
 			}
 			System.out.println();
@@ -470,11 +482,11 @@ public class Class15_DP3 {
 				{0,1,1,1},
 				{1,0,1,1}
 		};
-		int rev = task3_2_largest(matrix);
+		int rev = task3_2_largestCorssOfX(matrix);
 		System.out.println("rev = "+ rev );		
 	}
 
-	public static int task3_2_largest(int[][] matrix) {
+	public static int task3_2_largestCorssOfX(int[][] matrix) {
 		// write your solution here
 
 		if (matrix == null || matrix.length == 0 || matrix[0] == null
@@ -578,7 +590,6 @@ public class Class15_DP3 {
 		Debug.printMatrix(M4);
 
 		return lenOfLargestCross;
-
 	}
 
 	/*
@@ -647,11 +658,14 @@ public class Class15_DP3 {
 			int cStart = 0;
 			int rIndex = rStart;
 			int cIndex = cStart;
+			// first, going up
 			while (rIndex >= 0 && rIndex <= rLast && cIndex >= 0
 					&& cIndex <= cLast) {
 				if (cIndex == cStart) {
+					// the first column
 					M[rIndex][cIndex] = matrix[rIndex][cIndex];
 				} else {
+					
 					if (matrix[rIndex][cIndex] == 1) {
 						M[rIndex][cIndex] = M[rIndex - 1][cIndex - 1] + 1;
 					} else {
@@ -662,6 +676,7 @@ public class Class15_DP3 {
 				cIndex++;
 			}
 		}
+		// then, going right
 		for (int cStart = 1; cStart <= cLast; cStart++) {
 			int rStart = 0;
 			int rIndex = rStart;
@@ -669,7 +684,7 @@ public class Class15_DP3 {
 
 			while (rIndex >= 0 && rIndex <= rLast && cIndex >= 0
 					&& cIndex <= cLast) {
-				if (rIndex == rStart) {
+				if (rIndex == rStart) {// the first row
 					M[rIndex][cIndex] = matrix[rIndex][cIndex];
 				} else {
 					if (matrix[rIndex][cIndex] == 1) {
@@ -823,7 +838,7 @@ public class Class15_DP3 {
 			int rIndex = rStart;
 			int cIndex = cStart;
 			while (rIndex >= 0 && rIndex <= rLast && cIndex >= 0
-					&& cIndex <= cLast) {
+					&& cIndex <= cLast) { // do a general sanity check
 				if (cIndex == cStart) { // cIndex == cLast
 					M[rIndex][cIndex] = matrix[rIndex][cIndex];
 				} else {
@@ -840,4 +855,8 @@ public class Class15_DP3 {
 		// Debug.printMatrix(M);
 		return M;
 	}	
+	
+	
+	
+	
 }

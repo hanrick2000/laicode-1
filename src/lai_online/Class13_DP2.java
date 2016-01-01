@@ -11,12 +11,16 @@ public class Class13_DP2 {
 	}
 
 	/*
-	 * task1 Array Hopper II, Jump Game II task2 Array Hopper III task3
-	 * Dictionary Word I task4 Edit Distance task5 Largest Square Of 1s
+	 * task1 Array Hopper II, Jump Game II 
+	 * task2 Array Hopper III 
+	 * task3 Dictionary Word I 
+	 * task4 Edit Distance 
+	 * task5 Largest Square Of 1s
 	 */
 
 	/*
-	 * task1 Array Hopper II get the minimum steps from the start to the end
+	 * task1 Array Hopper II 
+	 * get the minimum steps from the start to the end
 	 * Given an array A of non-negative integers, you are initially positioned
 	 * at index 0 of the array. A[i] means the maximum jump distance from index
 	 * i (you can only jump towards the end of the array). Determine the minimum
@@ -29,8 +33,7 @@ public class Class13_DP2 {
 
 	// M[i] stands the minimum jump steps to reach array[n-1]
 	// base case: M[n-1] = 0;
-	// induction rule: M[i] = 1 + min{M[j]} is all elements that can be reached
-	// by 1 jump from i
+	// induction rule: M[i] = 1 + min{M[j]} is all elements that can be reached by 1 jump from i
 	public static int task1_minJump(int[] array) {
 		// write your solution here
 		if (array == null) {
@@ -59,6 +62,7 @@ public class Class13_DP2 {
 				if (curMin != Integer.MAX_VALUE) {
 					M[i] = 1 + curMin;
 				} else {
+					// we the min == INT_MAX
 					M[i] = Integer.MAX_VALUE;
 				}
 			}
@@ -131,15 +135,19 @@ public class Class13_DP2 {
 	 * 
 	 * Assumptions The given word is not null and is not empty The given
 	 * dictionary is not null and is not empty and all the words in the
-	 * dictionary are not null or empty Examples Dictionary: {“bob”, “cat”,
-	 * “rob”} Word: “robob” return false Word: “robcatbob” return true since it
-	 * can be composed by "rob", "cat", "bob"
+	 * dictionary are not null or empty 
+	 * Examples Dictionary: 
+	 * {“bob”, “cat”, “rob”} 
+	 * Word: “robob” return false 
+	 * Word: “robcatbob” return true since it can be composed by "rob", "cat", "bob"
 	 */
 
 	/*
 	 * M[i] stands for the first i characters ending with input.charAt(i - 1) is
-	 * in dict base case: M[0] = true induction rule: M[i] = if there exist one
-	 * j, j>= 0 && j < i, M[j] && input.sub(i - j, i) in the dict is True
+	 * in dict 
+	 * base case: M[0] = true 
+	 * induction rule: M[i] = true 
+	 * if there exist one j, j>= 0 && j < i, M[j] && input.sub(i - j, i) in the dict is True
 	 */
 
 	public boolean task3_canBreak(String input, String[] dict) {
@@ -168,11 +176,16 @@ public class Class13_DP2 {
 		return M[n];
 	}
 
+
+	
 	/*
 	 * task4 Edit Distance
 	 * 
 	 * Given two strings of alphanumeric characters, determine the minimum
-	 * number of Replace, Delete, and Insert operations needed to transform one
+	 * number of 
+	 * Replace, 
+	 * Delete, and 
+	 * Insert operations needed to transform one
 	 * string into the other.
 	 * 
 	 * Assumptions Both strings are not null Examples string one: “sigh”, string
@@ -183,7 +196,8 @@ public class Class13_DP2 {
 	/*
 	 * M[i][j] stands that the minimum distance between the first i characters
 	 * in one, which is one[0, i - 1] and the first j characters in two, which
-	 * is two[0, j - 1] base case: M[0][0] = 0 M[i][0] = i; M[0][j] = j;
+	 * is two[0, j - 1] 
+	 * base case: M[0][0] = 0 M[i][0] = i; M[0][j] = j;
 	 * induction rule: 
 	 * M[i][j] = one.charAt(i - 1) == two.charAt(j - 1) M[i-1][j - 1] 
 	 *         else min(M[i-1][j], M[i][j - 1], M[i-1][j-1]) + 1 
@@ -227,6 +241,25 @@ public class Class13_DP2 {
 
 		return M[m][n];
 	}
+	
+	public static int editDistance(String word1, String word2) {
+		if (word1.isEmpty()) {
+			return word2.length();
+		}
+		if (word2.isEmpty()) {
+			return word1.length();
+		}
+		int nothing = Integer.MAX_VALUE;
+		if (word1.charAt(0) == word2.charAt(0)) {
+			nothing = editDistance(word1.substring(1), word2.substring(1));
+		}
+		int replace = 1 + editDistance(word1.substring(1), word2.substring(1));
+		int delete = 1 + editDistance(word1.substring(1), word2);
+		int insert = 1 + editDistance(word1, word2.substring(1));
+		
+		return Math.min(Math.min(nothing, replace), Math.min(delete, insert));
+	}
+	
 
 	/*
 	 * task5 棋盘类
@@ -237,12 +270,20 @@ public class Class13_DP2 {
 	 * only contains 0 and 1), return the length of the largest square.
 	 * 
 	 * Assumptions The given matrix is not null and guaranteed to be of size N *
-	 * N, N >= 0 Examples { {0, 0, 0, 0}, {1, 1, 1, 1}, {0, 1, 1, 1}, {1, 0, 1,
-	 * 1} } the largest square of 1s has length of 2
+	 * N, N >= 0 Examples { 
+	 * {0, 0, 0, 0}, 
+	 * {1, 1, 1, 1}, 
+	 * {0, 1, 1, 1}, 
+	 * {1, 0, 1, 1} 
+	 * } 
+	 * the largest square of 1s has length of 2
 	 */
 
 	public static void test5() {
-		int[][] matrix = { { 0, 0, 0, 0 }, { 1, 1, 1, 1 }, { 0, 1, 1, 1 },
+		int[][] matrix = { 
+				{ 0, 0, 0, 0 }, 
+				{ 1, 1, 1, 1 }, 
+				{ 0, 1, 1, 1 },
 				{ 1, 0, 1, 1 } };
 		int rev = task5_largest(matrix);
 		System.out.println("rev = " + rev);
@@ -250,7 +291,10 @@ public class Class13_DP2 {
 
 	/*
 	 * M[i][j] the max Length of Squares that ending with [i,j] 
-	 * M[i][j] = min(M[i - 1][j - 1], M[i - 1][j], M[i][j - 1]) + 1
+	 * M[i][j] = min(M[i - 1][j - 1], M[i - 1][j], M[i][j - 1]) + 1 IF matrix[i][j] == 1
+	 * 
+	 * initialize: 
+	 * first column, first row
 	 */
 	public static int task5_largest(int[][] matrix) {
 		// write your solution here
