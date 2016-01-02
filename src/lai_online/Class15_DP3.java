@@ -9,8 +9,9 @@ public class Class15_DP3 {
 		// TODO Auto-generated method stub
 //		test1_2();
 //		test3_2();
-		test1_3();
+//		test1_3();
 //		test2_2();
+		test4();
 	}
 	
 	/*
@@ -28,8 +29,8 @@ public class Class15_DP3 {
 	 * task3.3: Largest X With All "1"s
 	 * task3.4: Given a matrix where every element is either 0 or 1, fine the largest 
 	 * 		  subSquare surrounded by '1'
-	 * task6: Largest SubMatrix Sum
-	 * task7: Cutting Wood I
+	 * 
+	 * task4: Cutting Wood I
 	 * 
 	 */
 	
@@ -855,6 +856,113 @@ public class Class15_DP3 {
 		// Debug.printMatrix(M);
 		return M;
 	}	
+	
+	/*
+	 * task3.4 
+	 * Given a matrix where every element is either 0 or 1
+	 * find the largest subSquare surrounded by '1'
+	 */
+	public static int task3_4_larget(int[][] matrix) {
+		if (matrix == null || matrix.length == 0 || matrix[0] == null || matrix[0].length == 0) {
+			return 0;
+		}
+		int result = 0;
+		int M = matrix.length;
+		int N = matrix[0].length;
+		int[][] left = new int[M + 1][N + 1];
+		int[][] up = new int[M + 1][N + 1];
+		
+		for(int i = 0;i < M; i ++) {
+			for(int j = 0; j < N; j ++) {
+				if (matrix[i][j] == 1) {
+					left[i + 1][j + 1] = left[i + 1][j] + 1;
+					up[i + 1][j + 1] = up[i][j + 1] + 1;
+					for(int maxLen = Math.min(left[i + 1][j + 1], up[i +1][j + 1]); maxLen >= 1; maxLen --) {
+						if (left[i + 2 - maxLen][j + 1] >= maxLen &&
+								up[i + 1][j + 2 - maxLen] >= maxLen) {
+							result = Math.max(result, maxLen);
+							break;
+						}
+					}
+				}
+			}
+		}
+		return result;
+	}
+	
+	
+	/*
+	 * task4: Cutting Wood I
+	 * There is a wooden stick with length L >= 1, we need to cut it into pieces, 
+	 * where the cutting positions are defined in an int array A. 
+	 * The positions are guaranteed to be in ascending order in the range of [1, L - 1]. 
+	 * The cost of each cut is the length of the stick segment being cut. 
+	 * Determine the minimum total cost to cut the stick into the defined pieces.
+	 * Examples
+	 * L = 10, A = {2, 4, 7}, the minimum total cost is 10 + 4 + 6 = 20 
+	 * (cut at 4 first then cut at 2 and cut at 7)
+	 */
+	
+	// M[i][j] stands minimum cost cutting [i, j]
+	  // base case: M[1] = 0;
+	  // induction rule: 
+	  // M[i][j] = min{ M[i - j]M[j], (i - j) * j}
+	public static void test4() {
+		int[] cuts = {2,4,7};
+		int length = 10;
+		int rev = minCost(cuts, length);
+		System.out.println("rev = " + rev);
+	}
+	
+	public static int minCost(int[] cuts, int length) {
+		// write your solution here
+		if (length <= 1) {
+			return 0;
+		}
+
+		// modify cuts, add position 0 and cuts.length - 1
+		int[] helper = new int[cuts.length + 2];
+		for (int i = 0, j = 0; i < helper.length; i++) {
+			if (i == 0) {
+				helper[i] = 0;
+			} else if (i == helper.length - 1) {
+				helper[i] = length;
+			} else {
+				helper[i] = cuts[j];
+				j++;
+			}
+		}
+		
+		int n = helper.length;
+		int[][] M = new int[n][n];
+		// initialize
+		// size == 1, we cannot cut. cost == 0
+		for (int i = 0; i < n - 1; i++) {
+			M[i][i + 1] = 0;
+		}
+		System.out.println("n = " + n);
+		
+		for(int j = 1; j < helper.length; j ++) {
+			for(int i = j - 1; i >= 0; i --) {
+				if (i + 1 == j) {
+					M[i][j] = 0;
+				} else {
+					int curMin = Integer.MAX_VALUE;
+					for(int k = i +1; k <= j - 1; k ++) {
+						curMin = Math.min(curMin, M[i][k] + M[k][j]);
+					}
+					M[i][j] = helper[j] - helper[i] + curMin;
+				}
+			}
+		}
+		
+		Debug.printMatrix(M);
+
+		return M[0][n - 1];
+	}
+	
+	
+
 	
 	
 	
