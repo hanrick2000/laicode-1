@@ -903,10 +903,22 @@ public class Class15_DP3 {
 	 * (cut at 4 first then cut at 2 and cut at 7)
 	 */
 	
-	// M[i][j] stands minimum cost cutting [i, j]
-	  // base case: M[1] = 0;
-	  // induction rule: 
-	  // M[i][j] = min{ M[i - j]M[j], (i - j) * j}
+	
+	/*
+	 * M[i][j]  the left border of the wood is at A[i] and the right border of the wood ar A[j]
+	 * 
+	 * where there are two subsections of wood
+	 * M[0][2] = A[2] - A[0] + M[0][1] + M[1][2]
+	 *          ------------   -----------------
+	 *          cost of cutting     sub-problem's solution 
+	 *          at A[1]
+	 *          
+	 * when there are three subsections of wood
+	 * M[0][3] 
+	 *       case1 : first cut is put on A[1], then the wood will be cut into half M[0][1] + M[1][3]
+	 *       case2 : first cut is put on A[2], then the wood will be cut into half M[0][2] + M[2][3]
+	 *  
+	 */
 	public static void test4() {
 		int[] cuts = {2,4,7};
 		int length = 10;
@@ -937,9 +949,7 @@ public class Class15_DP3 {
 		int[][] M = new int[n][n];
 		// initialize
 		// size == 1, we cannot cut. cost == 0
-		for (int i = 0; i < n - 1; i++) {
-			M[i][i + 1] = 0;
-		}
+		
 		System.out.println("n = " + n);
 		
 		for(int j = 1; j < helper.length; j ++) {

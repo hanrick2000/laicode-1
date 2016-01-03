@@ -1,5 +1,8 @@
 package small_yan;
 
+import java.util.Arrays;
+import java.util.Comparator;
+
 import debug.Debug;
 
 public class Class8_DPI {
@@ -18,8 +21,6 @@ public class Class8_DPI {
 	 * Longest Increasing XXX
 	 * task1.1 longest Increasing SubArray
 	 * task1.2 longest Increasing SubSequence
-	 * 
-	 * 
 	 */
 	
 	
@@ -43,9 +44,61 @@ public class Class8_DPI {
 	
 	/*
 	 * task1.5
-	 *  
+	 * we has a lists of records, each record has (start, end, weight), find a subset of the 
+	 * records, such that there is no overlap and the sum of weight is maximized
 	 * 
+	 * sort the intervals according to the start
+	 * M[i] the sum ending with interval[i], there is no overlapped with the previous
+	 * 
+	 * after create M[], find get the maximum
 	 */
+	public static class Interval8{
+		int start;
+		int end;
+		int weight; 
+		public Interval8(int _start, int _end, int _weight) {
+			this.start = _start;
+			this.end = _end;
+			this.weight = _weight;
+		}
+	}
+	public static int task1_5_maxSum(Interval8[] input) {
+		int n = input.length;
+		int[] M = new int[n];
+		Comparator<Interval8> myComp = new Comparator<Class8_DPI.Interval8>() {
+
+			@Override
+			public int compare(Interval8 o1, Interval8 o2) {
+				// TODO Auto-generated method stub
+				if (o1.start == o2.start) {
+					return o1.end - o2.end;
+				}
+				return o1.start < o2.start ? -1 : 1;
+			}
+		};
+		Arrays.sort(input, myComp);
+		for(int i= 0; i < n; i ++) {
+			if (i == 0) {
+				M[i] = input[i].weight;
+			} else {
+				int preMaxSum = Integer.MIN_VALUE;
+				for(int j = 0; j < i; j ++) {
+					Interval8 prev = input[j];
+					if (prev.end < input[i].start) {
+						preMaxSum = Math.max(preMaxSum, M[j]);
+					}
+				}
+				M[i] = preMaxSum + input[i].weight;
+			}
+		}
+		
+		// 
+		int max = Integer.MIN_VALUE;
+		for(int i = 0;i < M.length; i ++) {
+			max = Math.max(max, M[i]);
+		}
+		return max;
+	}
 	
 	/*
 	 * task2
@@ -80,15 +133,20 @@ public class Class8_DPI {
 		int incl = array[0];
 		int excl = 0;
 		for(int i = 1; i < array.length; i ++) {
-			// incl
+			// if we don't include the current, get the max from the previous excl and incl
 			int excl_new = Math.max(excl, incl);
 			
+			// include current
 			incl = excl + array[i];
+			// exclude current
 			excl = excl_new;
 		
 		}
 		return Math.max(incl, excl);
 	}
+	
+	
+	
 	
 	/*
 	 * task2.1 
@@ -109,13 +167,14 @@ public class Class8_DPI {
 	 * task4
 	 * Paint House
 	 *
-	 * state[i][X] paint the hoiuse from 1 to i, the ith house is painted with color X, 
+	 * state[i][X] paint the house from 1 to i, the ith house is painted with color X, 
 	 * which is the minimum cost. 
 	 * 
 	 * state[i][X] = R: min(state[i - 1][G], state[i - 1][B]) + cost[i][R]
 	 *               G: min(state[i - 1][R], state[i - 1][B]) + cost[i][G]
 	 *               B: min(state[i - 1][R], state[i - 1][G]) + cost[i][B]
 	 * return min(state[n][X])  S = R, G, B
+	 * 
 	 */
 	public static final int R = 0;
 	public static final int G = 1;
@@ -213,6 +272,7 @@ public class Class8_DPI {
 			}
 			System.out.println();
 		}
+		// 
 		
 		int result = Integer.MAX_VALUE;
 		for(int j = 0; j < numColors; j ++ ) {
@@ -432,6 +492,7 @@ public class Class8_DPI {
 	 * Time: O(n^3)
 	 * 
 	 * method2
+	 * O(n^2)
 	 * state(i, j) substring(i,j) least # of insertion
 	 * state(i,j) = if s[i] == s[j]  state(i+ 1, j - 1)
 	 *              else  min(state (i + 1, j), state(i, j - 1)) + 1
