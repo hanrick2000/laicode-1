@@ -14,7 +14,8 @@ public class Class9_DP2 {
 	/*
 	 * task1
 	 * Given an array of characters. 
-	 * Find words in the array. a character cannot be part of 2 words. Maximize the number of characters used.
+	 * Find words in the array. a character cannot be part of 2 words. 
+	 * Maximize the number of characters used.
 	 * 
 	 * [​d o g | ​a b | ​c a t | ​​m i c e]​ {dog, cat, mice} ­ dictionary 
 	 * Answer = 3 + 3 + 4 = 10

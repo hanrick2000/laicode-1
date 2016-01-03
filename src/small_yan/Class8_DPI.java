@@ -291,7 +291,8 @@ public class Class8_DPI {
 	 * task5
 	 * N casino 30 day max profit, 每个赌场每天的盈利情况不一样,每天只能在一个赌场, 第二天只能跳跃到相邻的赌场
 	 * 
-	 * state[i][j]   i 表示赌场， j 表示天数
+	 * state[i][j]   i 表示赌场， j 表示天数, the maximum profit that the guy in ith 赌场 in jth day
+	 * 
 	 * state[i][j] = max(state[i - 1][j - 1], state[i + 1][j - 1]) + profit[i][j]
 	 *                   from 赌场 i - 1       from 赌场 i + 1
 	 * 
@@ -314,27 +315,30 @@ public class Class8_DPI {
 		
 		for(int j = 0; j < numDays; j ++) {
 			for(int i = 0; i < numCasinos; i ++) {
-				if (j == 0) {
+				if (j == 0) { // the 0th day
 					state[i][j] = profit[i][j];
 				} else {
+					// if in the first casino
 					if (i == 0) {
 						state[i][j] = state[i + 1][j - 1] + profit[i][j];
 					} else if (i == numCasinos - 1) {
+						// if in the last casino
 						state[i][j] = state[i - 1][j - 1] + profit[i][j];
 					} else {
+						// otherwise
 						state[i][j] = Math.min(state[i + 1][j - 1], state[i -1][j - 1]) + profit[i][j];
 					}
 				}
 			}
 		}
-		
+		// traverse the state[i][numDays - 1], get the max
 		int result = 0;
 		for(int i = 0; i < numCasinos; i ++) {
 			result = Math.min(result, state[i][numDays - 1]);
 		}
-		
 		return result;
 	}
+	
 	
 	
 	/*
@@ -392,6 +396,7 @@ public class Class8_DPI {
 		return max;
 	}
 	
+	// this doesn't work well
 	public static int task6_2maxSubarrayProduct2(int[] array) {
 		if (array == null || array.length == 0) {
 			return 0;
@@ -426,6 +431,7 @@ public class Class8_DPI {
 	 * 
 	 */
 	
+	
 	/*
 	 * task7 
 	 * number of square in a graph
@@ -451,10 +457,11 @@ public class Class8_DPI {
 	}
 	
 	public static int task7_numSquare(Node[][] graph) {
-		
+		// sanity check
 		if (graph == null || graph.length == 0) {
 			return 0;
 		}
+		
 		int counter = 0;
 		for(int i = 1; i < graph.length; i ++) {
 			for(int j = 1; j < graph[0].length; j ++) {
@@ -536,8 +543,4 @@ public class Class8_DPI {
 		return state[0][n - 1];
 	}
 	
-	
-	
-	
-
 }
