@@ -51,6 +51,7 @@ public class Class9_DP2 {
 		int n = array.length;
 		int[][] state = new int[n][n];
 		// base case
+		// len == 1
 		for(int i = 0; i < n; i ++) {
 			String curString = new String(Arrays.copyOfRange(array, i, i + 1));
 			if (dict.contains(curString)) {
@@ -60,7 +61,7 @@ public class Class9_DP2 {
 		
 		for(int len = 2; len <= array.length; len ++) {
 			for(int i = 0; i <= n - len ;i ++) {
-				int j = i + len - 1;  
+				int j = i + len - 1;   // i + len - 1 <= n - 1  so i <= n - len  
 				String cur = new String(Arrays.copyOfRange(array, i, j + 1));
 				if (dict.contains(cur)) {
 					state[i][j] = j - i + 1;
@@ -75,12 +76,13 @@ public class Class9_DP2 {
 		}
 		Debug.printMatrix(state);
 		return state[0][n - 1];
-	}
+	} // Time: O(n^2)
+	
 	
 	/*
 	 * method2
 	 * state[i]  substring[0..i], max # of chars used
-	 * state[i] == substring[0..i] in the dictionary, i + 1
+	 * state[i] == if substring[0..i] in the dictionary, i + 1
 	 *            else
 	 *              max (state[k] +  (i - k)if subarray[k + 1.. i] in the dictionary) 0 < k < i
 	 * base state[0] substring[0..0] in the dictionary: 1, otherwise, 0;   
