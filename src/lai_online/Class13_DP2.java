@@ -1,6 +1,8 @@
 package lai_online;
 
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 public class Class13_DP2 {
@@ -16,6 +18,7 @@ public class Class13_DP2 {
 	 * task3 Dictionary Word I 
 	 * task4 Edit Distance 
 	 * task5 Largest Square Of 1s
+	 * task6 Largest Rectangle of 1s
 	 */
 
 	/*
@@ -346,5 +349,68 @@ public class Class13_DP2 {
 		}
 		return maxLen;
 	}
+	
+	/*
+	 * task6 Largest Rectangle of 1s
+	 */
+	
+	public static int task6_maximumRectangle(char[][] matrix) {
+		// check
+		if (matrix == null || matrix.length == 0 || matrix[0] == null
+				|| matrix[0].length == 0) {
+			return 0;
+		}
+		int rLen = matrix.length;
+		int cLen = matrix[0].length;
+		int[][] sumMatrix = new int[rLen][cLen];
+		
+		for (int j = 0; j < cLen; j++) {
+			for (int i = 0; i < rLen; i++) {
+				if (i == 0 || matrix[i][j] == '0') {
+					sumMatrix[i][j] = matrix[i][j] - '0';
+				} else {
+					if (matrix[i - 1][j] == '0') {
+						sumMatrix[i][j] = matrix[i][j] - '0';
+					} else {
+						sumMatrix[i][j] = sumMatrix[i - 1][j]
+								+ (matrix[i][j] - '0');
+					}
+				}
+			}
+		}
+
+		int maxArea = 0;
+		for (int i = 0; i < rLen; i++) {
+			int curArea = task6_largestRectangleArea(sumMatrix[i]);
+			maxArea = Math.max(maxArea, curArea);
+		}
+		
+		return maxArea;
+	}
+	
+	public static int task6_largestRectangleArea(int[] height) {
+		if (height == null || height.length == 0) {
+			return 0;
+		}
+		LinkedList<Integer> stack = new LinkedList<Integer>();
+		// increasing stack
+		int i = 0;
+		int maxArea = 0;
+		while(i <= height.length) {
+			int curHeight = i < height.length ? height[i] : -1;
+			while(!stack.isEmpty() &&  curHeight < height[stack.peekFirst()]) {
+				int h = height[stack.pollFirst()];
+				int w = stack.isEmpty() ? i : i - stack.peekFirst() - 1;
+				int area = h * w;
+				maxArea = Math.max(maxArea, area);
+			}
+			stack.offerFirst(i);
+			i ++;
+		}
+		
+		return maxArea;
+		
+	}
+	
 
 }
