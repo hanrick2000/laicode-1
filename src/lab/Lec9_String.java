@@ -5,7 +5,8 @@ public class Lec9_String {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 //		test1();
-		test2();
+//		test2();
+		test3();
 	}
 	
 	
@@ -64,7 +65,28 @@ public class Lec9_String {
 		
 		System.out.println(s1);
 		System.out.println(s2);
+	
+	}
+	
+	public static void test3() {
+		System.out.println("abc".compareTo("abe"));  // -2
+		System.out.println("abc".compareTo("abc")); // 0
+		System.out.println("abc".compareTo("abdefg")); // -1
+		System.out.println("abc".compareTo("abcdefg")); // -4
 		
+		/*
+		 * if they have different characters at one or more index positions, let k be the smallest such index
+		 * in this case, compareTo returns the difference of the two character value at potition k in the two string
+		 * that is :
+		 * this.charAt(k) - another.charAt(k)
+		 * 
+		 * if there is no index position at which they differ, 
+		 * then the shorter string lexicographically precedes the longer string. 
+		 * In this case, compareTo returns the difference of the lengths of the strings. 
+		 * that is:
+		 * this.length() - anotherString.length()
+		 * 
+		 */
 	}
 
 }
