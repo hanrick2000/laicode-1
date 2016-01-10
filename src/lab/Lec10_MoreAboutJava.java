@@ -8,8 +8,15 @@ public class Lec10_MoreAboutJava {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 //		test1();
-		test2();
+//		test2();
+		test3();
 	}
+	
+	/*
+	 * Content:
+	 * 1 Generics
+	 * 2 Java Concepts
+	 */
 
 	
 	
@@ -93,13 +100,63 @@ public class Lec10_MoreAboutJava {
 		// Box<Object> objBox = strBox; // compile error here
 		String str = strBox.get();
 		
+		// next a few lines
+		// objBox.set(1);
+		// oops, what should we do here? String str = strBox.get();
+		
 		/*
 		 * Give two concrete type A and B (for example, Object and String), 
 		 * MyClass<A> has no relationship to MyClass<B>, regardless of whether or not A and B are related. 
 		 * The common parent of MyClass<A> and MyClass<B> is Object
+		 * 
+		 * inheritance 对于type 是没有直接关系的
+		 * 
+		 * 
+		 * So long as the type argument is not varied, the subtyping relationship is preserved.
+		 * 
+		 * Collection<String>
+		 *        |
+		 *    List<String>
+		 *        |
+		 *  ArrayList<String>
+		 *  
+		 *  type argument 必须是相同， 完全一样
+		 *  
 		 */
-		
 	}
+	
+	/*
+	 * another example
+	 */
+	public static void test3() {
+		int[] input = {1,2,3,4};
+		List<List<Integer>> result = subsets(input);
+		System.out.println(result);
+	}
+	public static List<List<Integer>> subsets(int[] input) {
+		List<List<Integer>> result = new ArrayList<List<Integer>>();
+		List<Integer> temp = new ArrayList<Integer>();
+		dfs(result, temp, input, 0);
+		return result;
+	}
+	
+	public static void dfs(List<List<Integer>> result, List<Integer> temp, int[] input, int index) {
+		if (index == input.length) {
+			result.add(new ArrayList<Integer>(temp));
+			return ;
+		}
+		dfs(result, temp, input, index + 1);
+		temp.add(input[index]);
+		dfs(result, temp, input, index + 1);
+		temp.remove(temp.size() - 1);
+	}
+	
+	
+	
+	/*
+	 * Java Concept
+	 * 
+	 */
 }
 
 
