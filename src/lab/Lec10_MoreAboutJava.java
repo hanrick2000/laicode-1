@@ -135,6 +135,7 @@ public class Lec10_MoreAboutJava {
 	}
 	public static List<List<Integer>> subsets(int[] input) {
 		List<List<Integer>> result = new ArrayList<List<Integer>>();
+		
 		List<Integer> temp = new ArrayList<Integer>();
 		dfs(result, temp, input, 0);
 		return result;
@@ -151,12 +152,90 @@ public class Lec10_MoreAboutJava {
 		temp.remove(temp.size() - 1);
 	}
 	
+	/*
+	 * E - element
+	 * T - type
+	 * K - key
+	 * V - value
+	 */
+	
 	
 	
 	/*
 	 * Java Concept
-	 * 
 	 */
+	/*
+	 * Difference between java & C++
+	 * (1) Platform compatible, write once, run everywhere on JVM
+	 *     a) What is JVM ? Java Virtural Machine
+	 *     b) JRE vs JDK
+	 *        - JRE is the JVM program, Java application need to run on JRE
+	 *        - JDK contains the tools for developing Java programs running on JRE, for
+	 *          example, it provides the compiler 'javac'
+	 * JVM - The Java Virtual Machine (JVM) is an abstract computing machine. 
+	 *       The JVM is a program that looks like a machine to the programs written to 
+	 *       execute in it. 
+	 * 
+	 * Compile/Interpret language: 
+	 * 1) Java source code -> JVM readable byte code (.java -> .class)
+	 * 2) JVM interpret the Java bytecode to pre-compiled routine on machine code. 
+	 * or
+	 * 3) Just-in-time(JIT) compilation to compile to bytecode to native instructions.
+	 * 
+	 * 7) Pointers vs References
+	 *     a) no pointer arithmetics
+	 *  Difference between pointer in C++ and references in Java
+	 *      -- references in Java are strong typed
+	 *      -- there is no pointer arithmetic on references
+	 *  pointers in C++ are much more powerful but also more dangerous. 
+	 *  
+	 * 8) No operator overloading. "+" "-"
+	 * 9) Garbage Collection. 
+	 *    a) 
+	 * 10) Classes/Objects are always allocated on the Heap
+	 * 11) Single inheritance, multiple inheritance only be done by implementing muliple interface. 
+	 * 
+	 * Java enforce single inheritance to eliminate this kind of problems 
+	 * and to make the class hierarchy much cleaner and easier to maintain.
+	 * Allowing multiple implementation of different interfaces to 
+	 * provide similar support of “multiple inheritance”.
+	 * 
+	 * 12) ......  
+	 */
+	
+	/*
+	 * Garbage Collection
+	 * 
+	 * More efficiently manage dynamic memory allocation. 
+	 * 
+	 * 
+	 * How do we solve the problem ? How does the GC work in Java? 
+	 * Key points:
+	 * (1) What is GC component
+	 * (2) Steps to finish the job
+	 * (3) How to determine what objects can be collected
+	 * (4) Generational mechanism, why
+	 */
+	
+	
+	/*
+	 * How to find if an object can be GCed or NOT ? 
+	 * - reference counter. 
+	 * 
+	 * - graph of dependency of reference and objects
+	 * - from a set of the root references/objects, 
+	 *     find all the objects reachable through the path on the dependency, 
+	 *     other ones are not needed and can be GCed.
+	 * There are four kinds of GC roots in Java:
+	 * 1 Local variables are kept alive by the stack of a thread. 
+	 * 2 Active Java threads are always considered live objects and are therefore GC roots.
+	 * 3 Static variables are referenced by their glasses. 
+	 * 4 JNI References
+	 */
+	
+	
+	
+	
 }
 
 
