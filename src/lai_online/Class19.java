@@ -26,6 +26,7 @@ public class Class19 {
 	 * For each group of elements with the same value keep only one of them. Do this in-place, 
 	 * using the left side of the original array and maintain the relative order of the elements of the array. 
 	 * Return the array after deduplication.
+	 * sorted
 	 */
 	public int[] task1_dedup(int[] array) {
 		// write your solution here
@@ -53,6 +54,8 @@ public class Class19 {
 	 * The given array is not null
 	 * Examples
 	 * {1, 2, 2, 3, 3, 3} → {1, 2, 2, 3, 3}
+	 * 
+	 * sorted
 	 */
 	
 	public int[] task2_dedup(int[] array) {

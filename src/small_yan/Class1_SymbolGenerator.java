@@ -1,7 +1,5 @@
 package small_yan;
 
-import java.util.Random;
-
 public class Class1_SymbolGenerator {
 
 	public static void main(String[] args) {

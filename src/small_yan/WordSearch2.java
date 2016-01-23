@@ -13,8 +13,11 @@ public class WordSearch2 {
 	}
 
 	public static void test() {
-		char[][] board = { { 'd', 'o', 'a', 'f' }, { 'a', 'g', 'a', 'i' },
-				{ 'd', 'c', 'a', 'n' } };
+		char[][] board = { 
+				{ 'd', 'o', 'a', 'f' }, 
+				{ 'a', 'g', 'a', 'i' },
+				{ 'd', 'c', 'a', 'n' } 
+				};
 		String[] str = { "dog", "dad", "dgdg", "can" };
 		ArrayList<String> words = new ArrayList<String>();
 		for (String s : str) {

@@ -61,7 +61,6 @@ public class Class1_FirstNonRepeating {
 		return head.key;
 	}
 	
-	
 	/*
 	 * addNode(char ch)
 	 * add Node(ch) to the tail of DDL and update map

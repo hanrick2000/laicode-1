@@ -249,7 +249,7 @@ public class Class10_dfs_bfs {
 	/*
 	 * task8
 	 * 一个球从起点开始滚， 看能不能滚到终点
-	 * 
+	 * see BFS_ball_reach_another
 	 */
 	
 	

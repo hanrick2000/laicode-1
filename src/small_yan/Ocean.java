@@ -100,6 +100,7 @@ public class Ocean {
 			
 			for(Pair nei: neighbors) {
 				if (nei.height >= cur.height) {
+					// if nei.height >= cur.height, the neight can reach the specific ocean
 					minHeap.add(nei);
 					visited1[nei.x][nei.y] = true;
 					reachPacific[nei.x][nei.y] = true;
