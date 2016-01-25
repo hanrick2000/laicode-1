@@ -14,7 +14,8 @@ public class  Class5_Arrays2 {
 	
 	/*
 	 * task1
-	 * for an int array, swap the elements to make it as: the element on odd index >= the two neighbors on even index.
+	 * for an int array, swap the elements to make it as: 
+	 * the element on odd index >= the two neighbors on even index.
 	 * {1,2,3,4,5,6} --> {1,3,2,6,4,5}
 	 * 
 	 * for i = 0.. n-1

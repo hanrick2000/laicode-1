@@ -374,7 +374,8 @@ public class Class7_PriorityQueue {
 	
 	/*
 	 * task4
-	 * k-diff sorted array(each of the element has at most k as distance to its sorted position), how to sorted it efficiently
+	 * k-diff sorted array(each of the element has at most k as distance to its sorted position), 
+	 * how to sorted it efficiently
 	 * 1 naive: jsut sorted
 	 * 2 maintain k+1 sized minHeap.
 	 *   for each index, poll(), offer()
