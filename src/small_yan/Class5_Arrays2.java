@@ -1,6 +1,9 @@
 package small_yan;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.PriorityQueue;
 
 
@@ -9,7 +12,9 @@ public class  Class5_Arrays2 {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 //		test3();
-		test3_2d();
+//		test3_2d();
+//		test5_4();
+		test5_3();
 	}
 	
 	/*
@@ -435,7 +440,123 @@ public class  Class5_Arrays2 {
 	 * Example, {​1,​​3,​0,​6,​4, 2} 
 	 * i = 1, j = 5, j - i = 4
 	 * 
+	 * {4,3,5, 2, 1, 3, 2,3}
+	 * 
+	 * index: 0 1 2 3 4 5 6 7
+	 * value: 4,3,5,2,1,3,2,3
+	 * 
+	 * sort:  
+	 * index:  0 1 2 3 4 5 6 7
+	 * value:  1 2 2 3 3 3 4 5
+	 * oIndex: 4 3 6 1 5 7 0 2
+	 * lkupTb: 
 	 */
+	public static void test5_3() {
+		int[] array = {1,3,0,6,4,2};
+		int rev1 = task5_3_distance_max_sort(array);
+		int rev2 = task5_3_distance_max_linear(array);
+		
+	}
+	
+	/*
+	 * Time: O(n * log n)
+	 */
+	public static int task5_3_distance_max_sort(int[] array) {
+		// check
+		if (array == null || array.length == 0) {
+			return -1;
+		}
+		int len = array.length;
+		ArrayList<Element> list = new ArrayList<Class5_Arrays2.Element>();
+		for(int i = 0; i < len; i ++) {
+			list.add(new Element(array[i], i));
+		}
+		Comparator<Element> myComp = new Comparator<Class5_Arrays2.Element>() {
+
+			@Override
+			public int compare(Element o1, Element o2) {
+				// TODO Auto-generated method stub
+				if (o1.value == o2.value) {
+					return o1.index - o2.index;
+				}
+				return o1.value > o2.value ? -1 : 1;
+			}
+		};
+		
+		// sort the list
+		Collections.sort(list, myComp);
+		
+		for(int i = 0; i < list.size(); i ++) {
+			System.out.println(list.get(i).value + " : " + list.get(i).index);
+		}
+		
+		
+		// get the lookUpTable
+		int[] table = new int[len];
+		for(int i = len - 1; i >= 0; i--) {
+			if (i == len - 1) {
+				table[i] = list.get(i).index;
+			} else {
+				table[i] = Math.max(list.get(i).index, table[i + 1]);
+			}
+		}
+		int global_max = Integer.MIN_VALUE;
+		for(int i = 0; i < len; i ++) {
+			int startIdx = list.get(i).index;
+			int endIdx = table[i];
+			
+			if (array[startIdx] > array[endIdx]) {
+				global_max = Math.max(global_max, endIdx - startIdx);
+			}
+		}
+		System.out.println("global_max = " + global_max);
+		return global_max;
+		
+	}
+	
+	/*
+	 * O(n)
+	 */
+	public static int task5_3_distance_max_linear(int[] array) {
+		// check 
+		if (array == null || array.length == 0) {
+			return -1;
+		}
+		int len = array.length;
+		ArrayList<Integer> increase = new ArrayList<Integer>();
+		increase.add(0);
+		for(int i = 1; i < len; i ++) {
+			int lastElemIdx = increase.get(increase.size() - 1);
+			if (array[i] > array[lastElemIdx]) {
+				increase.add(i);
+			}
+		}
+		
+		int startIdx = increase.size() - 1;
+		int start = increase.get(startIdx);
+		int end = array.length - 1;
+		int global_max = Integer.MIN_VALUE;
+		while(start >= 0 && end > start) {
+			if (array[start] > array[end]) {
+				global_max = Math.max(global_max, end - start);
+				// we update start
+				startIdx --;
+				if (startIdx >= 0 && startIdx < increase.size()) {
+					// startIdx with bound
+					start = increase.get(startIdx);
+				} else {
+					// startIdx out of bound
+					break;
+				}
+			} else {
+				// update end
+				end --;
+			}
+		}
+		
+		System.out.println("2 : global_max = " + global_max);
+		return global_max;
+	}
 	
 	
 	
@@ -470,21 +591,72 @@ public class  Class5_Arrays2 {
 				}
 			}
 		}
+		System.out.println("1: global_max = " + global_max);
 		return global_max;
 	}
 	
 	// use sorting
 	/*
+	 * sort the array according to its value. 
+	 * Once sorted, we can fin the maximum distance in O(n) time. 
 	 * 
+	 * Total: O(n * log n)
 	 */
+	public static void test5_4() {
+		int[] array = {4,3,5,2,1,3,2,3};
+		int rev2 = task5_4_distance_max_2(array);
+		int rev1 = task5_4_distance_max_1(array);
+		int rev3 = task5_4_distance_max_3(array);
+	}
+	
 	public static int task5_4_distance_max_2(int[] array) {
+		// check 
+		if (array == null || array.length == 0) {
+			return -1;
+		}
+		ArrayList<Element> list = new ArrayList<Element>();
+		for(int i = 0; i < array.length; i ++) {
+			list.add(new Element(array[i], i));
+		}
+		// sort the list according element's value
+		Collections.sort(list);
 		
-		return -1;
+		// lookUpTable[i] store the rightmost index, its element.value >= curVal
+		int[] lookUpTable = new int[array.length];
+		
+		// get the lookUp table
+		for(int i = array.length - 1; i >= 0; i --) {
+			if (i == array.length - 1) {
+				lookUpTable[i] = list.get(i).index;
+			} else {
+				lookUpTable[i] = Math.max(lookUpTable[i + 1], list.get(i).index);
+			}
+		}
+		System.out.println(Arrays.toString(lookUpTable));
+		
+		int global_max = Integer.MIN_VALUE;
+		
+		for(int i = 0; i < array.length ; i ++) {
+			int start = list.get(i).index;
+			int end = lookUpTable[i];
+			// here, we need to check array[end] > array[start]
+			if (array[end] > array[start]) {
+				global_max = Math.max(global_max, end - start);
+			}
+			// here, we can also do some optimization for the duplicates. 
+			// finish later. 
+		}
+		System.out.println("global_max = " + global_max);
+		return global_max;
 	}
 	
 	public static class Element implements Comparable<Element>{
 		int value;
 		int index;
+		public Element(int _v, int _i) {
+			this.value = _v;
+			this.index = _i;
+		}
 		@Override
 		public int compareTo(Element o) {
 			// TODO Auto-generated method stub
@@ -493,12 +665,73 @@ public class  Class5_Arrays2 {
 			}
 			return this.value < o.value ? -1 : 1;
 		}
-		
 	}
 	
+	
+	/*
+	 * index: 0 1 2 3 4 5 6 7
+	 * value: 4 3 5 2 1 3 2 3
+	 * 
+	 * Assume that choosing index b as the starting point, the max distance is j - b, where A[j] > A[b]
+	 * Now, if we have a and a < b and A[a] is not greater than A[b], then, A[j] > A[a]
+	 * we can form a farther distance by choosing "a" as the starting index
+	 * Therefore, we cannot choose b as the starting point as this forms a contradiction. 
+	 * 
+	 * Generally, we want to choose only starting points with no such lines that are shorter to its left side. 
+	 * So, from the 0, we compose a no-increasing index array. as the above example, is [0,1,3,4]
+	 * 
+	 * Once we gather all valid starting points by scanning from left to right, we are able to obtain maximum distance
+	 * by scanning backwards. 
+	 * 
+	 * if ending point is less than the shortest starting point, 
+	 * then it will NOT be a valid solution for all other starting point.
+	 * 
+	 * Therefore, we scan from right to left until we meet the first ending point that satisfies the condition. 
+	 * Then we proceed to the next shortest starting point, and continue from the previous ending point. 
+	 * 
+	 * Using this strategy, we would guarantee that we are able to find the maximum distance in O(n) 
+	 * 
+	 */
 	public static int task5_4_distance_max_3(int[] array) {
+		// check
+		if (array == null || array.length == 0) {
+			return -1;
+		}
+		ArrayList<Integer> decrease = new ArrayList<Integer>();
+		decrease.add(0);
+		for(int i = 1; i < array.length; i ++) {
+			if (array[i] <= array[decrease.get(decrease.size() - 1)]) {
+				decrease.add(i);
+			}
+		}
 		
-		return -1;
+		
+		int startIndex = decrease.size() - 1;
+		int start = decrease.get(startIndex);
+		int end = array.length - 1;
+		int global_max = Integer.MIN_VALUE;
+		while(end > start && start >= 0) {
+			if (array[end] > array[start]) {
+				global_max = Math.max(global_max, end - start);
+				// update start
+				startIndex --;
+				if (startIndex >= 0 && startIndex < decrease.size()) {
+					// make sure that startIndex is within bound
+					start = decrease.get(startIndex);
+				} else {
+					// if out of bound, break
+					break;
+				}
+			} else {
+				// array[end] <= array[start]
+				// update end
+				end --;
+			}
+		}
+		System.out.println("3  global_max " + global_max);
+		return global_max;
+		
+		
 	}
 	
 	
