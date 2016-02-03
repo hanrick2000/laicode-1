@@ -451,6 +451,59 @@ public class  Class5_Arrays2 {
 	
 	
 	/*
+	 * http://articles.leetcode.com/2011/05/a-distance-maximizing-problem.html
+	 * A Distance Maximizing Problem
+	 * Given an array A of integers, find the maximum of j-i subjected to the constraint of A[i] < A[j].
+	 */
+	// brute force method
+	// two loops
+	public static int task5_4_distance_max_1(int[] array) {
+		// check
+		if (array == null || array.length == 0) {
+			return -1;
+		}
+		int global_max = Integer.MIN_VALUE;
+		for(int i = 0; i < array.length; i ++) {
+			for(int j = i + 1; j < array.length; j ++) {
+				if (array[j] > array[i] ) {
+					global_max = Math.max(global_max, j - i);
+				}
+			}
+		}
+		return global_max;
+	}
+	
+	// use sorting
+	/*
+	 * 
+	 */
+	public static int task5_4_distance_max_2(int[] array) {
+		
+		return -1;
+	}
+	
+	public static class Element implements Comparable<Element>{
+		int value;
+		int index;
+		@Override
+		public int compareTo(Element o) {
+			// TODO Auto-generated method stub
+			if (o.value == this.value) {
+				return this.index - o.index;
+			}
+			return this.value < o.value ? -1 : 1;
+		}
+		
+	}
+	
+	public static int task5_4_distance_max_3(int[] array) {
+		
+		return -1;
+	}
+	
+	
+	
+	/*
 	 * task5.5
 	 * array of integers, find the longest subarray, the average of the subarray is < k
 	 * (1) a'[i] = a[i] - k  --> sum of the subarray < 0
