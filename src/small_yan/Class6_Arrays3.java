@@ -78,6 +78,7 @@ public class Class6_Arrays3 {
 	 * if a[j] ­- a[i] > k: i++ else j++
 	 */
 	
+	
 	/*
 	 * task4
 	 * Difference between two sorted arrays, (what if not sorted)?

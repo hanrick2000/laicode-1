@@ -46,7 +46,8 @@ public class Class24 {
 	 * A = {2, 4, 2, 1}, target = 4, return true (2 + 2 = 4)
 	 * A = {2, 4, 1}, target = 4, return false
 	 */
-	public boolean existSum(int[] array, int target) {
+	
+	public boolean task1_existSum(int[] array, int target) {
 		// write your solution here
 		if (array == null || array.length == 0) {
 			return false;
@@ -61,6 +62,13 @@ public class Class24 {
 				set.add(array[i]);
 			}
 		}
+		return false;
+	}
+	
+	/*
+	 * sort the array and then use two pointers.
+	 */
+	public boolean task1_existSum2(int[] array, int target) {
 		return false;
 	}
 	
