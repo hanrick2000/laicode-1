@@ -14,6 +14,7 @@ public class Class06_dfs {
 //		test10();
 //		test10_1();
 		test13();
+//		test12();
 	}
 	
 	/*
@@ -377,7 +378,11 @@ public class Class06_dfs {
 	 * Examples
 	 * l = 1, m = 1, n = 0, all the valid permutations are ["()[]", "([])", "[()]", "[]()"]
 	 */
-	
+	public static void test12() {
+		int l = 1, m = 1, n = 1;
+		List<String> result = validParentheses(l, m, n);
+		System.out.println(result);
+	}
 	public static List<String> validParentheses(int l, int m, int n) {
 		// write your solution here
 		final char[] PS = { '(', ')', '[', ']', '{', '}' };
@@ -442,9 +447,11 @@ public class Class06_dfs {
 	 * task13
 	 * Combinations Of Coins
 	 * Fair Recursion
-	 * Given a number of different denominations of coins (e.g., 1 cent, 5 cents, 10 cents, 25 cents), get all the possible ways to pay a target number of cents.
+	 * Given a number of different denominations of coins (e.g., 1 cent, 5 cents, 10 cents, 25 cents), 
+	 * get all the possible ways to pay a target number of cents.
 	 * Arguments
-	 * coins - an array of positive integers representing the different denominations of coins, there are no duplicate numbers and the numbers are sorted by descending order, eg. {25, 10, 5, 2, 1}
+	 * coins - an array of positive integers representing the different denominations of coins, 
+	 * there are no duplicate numbers and the numbers are sorted by descending order, eg. {25, 10, 5, 2, 1}
 	 * target - a positive integer representing the target number of cents, eg. 99
 	 * Assumptions
 	 * coins is not null and is not empty, all the numbers in coins are positive
@@ -466,8 +473,11 @@ public class Class06_dfs {
 		int[] coins = {2,1};
 		int target = 4;
 		List<List<Integer>> result = task13_combinationCoins2(target, coins);
+		List<List<Integer>> result2 = task13_combinationCoins2(target, coins);
 		
 		System.out.println(result);
+		System.out.println("--------");
+		System.out.println(result2);
 	}
 	public static List<List<Integer>> task13_combinations(int target, int[] coins) {
 		// write your solution here

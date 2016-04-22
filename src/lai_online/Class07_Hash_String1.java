@@ -1,7 +1,6 @@
 package lai_online;
 
 import java.util.*;
-import java.util.Map.Entry;
 public class Class07_Hash_String1 {
 
 	public static void main(String[] args) {
