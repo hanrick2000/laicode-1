@@ -82,5 +82,11 @@ public class Class8 {
 	 * task3 
 	 * Right shift
 	 */
+	
+	
+	/*
+	 * task4
+	 * 
+	 */
 
 }
