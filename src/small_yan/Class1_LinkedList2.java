@@ -140,8 +140,6 @@ public class Class1_LinkedList2 {
 		
 		int max = task5_longest_sublist_no_duplicate(n1);
 		System.out.println("max = " + max);
-		
-		
 	}
 	
 	public static int task5_longest_sublist_no_duplicate(ListNode head) {
@@ -212,12 +210,10 @@ public class Class1_LinkedList2 {
 	 *  
 	 *  get the tail of the first level, in the above example, the ptr points to 11
 	 *  start from the first level, process all nodes one by one, if a node has a child, 
-	 *  then we append the child to tail and update the tail, otherwise, we don't do anyting. 
+	 *  then we append the child to tail and update the tail, otherwise, we don't do anything. 
 	 *  
 	 *   After the first level is processed, all the next level nodes will be appended after first level. 
 	 *   Same process of the append nodes
-	 * 
-	 * 
 	 */
 	
 	public static void test8_2() {

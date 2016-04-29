@@ -1,10 +1,8 @@
 package small_yan;
 
-import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
 
-import linkedlist.LinkedList;
 
 /*
  * HashMap with Double LinkedList

@@ -3,9 +3,8 @@ package small_yan;
 import java.util.ArrayList;
 import java.util.Collections;
 
-
 public class Class10_dfs_bfs {
-
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 //		test1();
@@ -39,7 +38,6 @@ public class Class10_dfs_bfs {
 		task1_helper_better(num, path, result);
 		return result;
 	}
-	
 	
 	public static void task1_helper(int num, ArrayList<Integer> path, ArrayList<ArrayList<Integer>> result) {
 		if (num == 1) {
