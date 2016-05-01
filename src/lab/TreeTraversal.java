@@ -1,5 +1,6 @@
 package lab;
 
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Stack;
 
@@ -38,6 +39,41 @@ public class TreeTraversal {
 			}
 		}
 	}
+	
+	public static void preOrderIter2(TreeNode root) {
+		if (root == null) {
+			return ;
+		}
+		Deque<TreeNode> stack = new LinkedList<TreeNode>();
+		TreeNode cur = null;
+		while(cur != null || !stack.isEmpty()) {
+			if (cur != null) {
+				System.out.print(cur.val + " ");
+				stack.offerFirst(cur);
+				cur = cur.left;
+			} else {
+				// cur == null
+				cur = stack.pollFirst();
+				cur = cur.right;
+			}
+		}
+	}
+	
+	public static void test_pre() {
+		TreeNode n1 = new TreeNode(1);
+		TreeNode n2 = new TreeNode(2);
+		TreeNode n3 = new TreeNode(3);
+		TreeNode n4 = new TreeNode(4);
+		TreeNode n5 = new TreeNode(5);
+		n1.left = n2;
+		n1.right = n3;
+		n2.left = n4;
+		n2.right = n5;
+		
+		
+		
+	}
+	
 	
 	
 	// InOrder
@@ -186,6 +222,7 @@ public class TreeTraversal {
 				System.out.println(cur.val + " ");
 				st.pop();
 			}
+			// update prev
 			prev = cur;
 		}
 	}
