@@ -132,7 +132,6 @@ public class Class11_Graph_topological_sort {
 		}
 		
 		visited.add(node);
-		
 	}
 	
 
@@ -146,9 +145,6 @@ public class Class11_Graph_topological_sort {
 	public static boolean task4_determineUndirectedGraphIsTree(int n, int[][] adjacentMatrix) {
 		return false;
 	}
-	
-	
-	
 	
 	
 	public static void test4_1() {
@@ -214,7 +210,9 @@ public class Class11_Graph_topological_sort {
 	 * task5 Topological Sort
 	 * 
 	 * graph: list of nodes L <- Empty list that will contain the topological
-	 * order ofthe nodes S <- Set of all nodes with no incoming edges
+	 * order of the nodes 
+	 * 
+	 * S <- Set of all nodes with no incoming edges
 	 * 
 	 * while (S is NOT empty) do remove a node n from S add n to tail of L for
 	 * each node m with an edge e from n to m (n -> m) do remove edge e from the
