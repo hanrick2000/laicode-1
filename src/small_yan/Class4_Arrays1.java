@@ -10,9 +10,9 @@ public class Class4_Arrays1 {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 //		test2();
-//		test3();
+		test3();
 //		test2_2();
-		test6_1();
+//		test6_1();
 	}
 	
 	/*
@@ -310,7 +310,6 @@ public class Class4_Arrays1 {
 	 * i = 0, j = 0
 	 * k = n - 1
 	 * 
-	 * 
 	 */
 	
 	public static void sortColor(int[] a) {
@@ -340,6 +339,7 @@ public class Class4_Arrays1 {
 	/*
 	 * task3
 	 * Interleaving Positive and Negative Numbers
+	 * guarantee that # of positive >= # of negative numbers
 	 * 
 	 * {1,-3, 2,-2,4,-1,3} -> {1,-2, 2, -3, 3, -1,4}
 	 * 
@@ -358,33 +358,35 @@ public class Class4_Arrays1 {
 	public static int task3_partition(int[] a, int pivot) {
 		int left = 0, right = a.length - 1;
 		while(left <= right) {
-			while(left < right && a[left] < pivot) {
+			if (a[left] < pivot) {
 				left ++;
-			}
-			while(left < right && a[right] > pivot) {
+			} else if (a[right] >= pivot) {
+				right --;
+			} else {
+				swap(a, left, right);
+				left ++;
 				right --;
 			}
-			if (left == right) {
-				break;
-			}
-			swap(a, left, right);
 		}
-		
-		
+		System.out.println(Arrays.toString(a));
 		System.out.println("left = " + left + ": " + a[left]);
 		System.out.println("right = " + right + ": " + a[right]);
+
 		// left is the first element > pivot
 		return left;
 	}
 	
+	// neg 走两步， pos 走一步
 	public static void task3_interleaving_positive_negative(int[] a) {
 		if (a == null || a.length <=1) {
 			return ;
 		}
+		
 		int neg = 0;
 		int pos = task3_partition(a, 0);
 	
 		while(neg < pos && pos < a.length && a[neg] < 0) {
+			// make sure that a[neg] < 0
 			swap(a, neg, pos);
 			neg += 2;
 			pos ++;
@@ -448,8 +450,6 @@ public class Class4_Arrays1 {
 	 * Array Re­Order Reverse
 	 */
 	
-	
-	
 	/*
 	 * task3.4
 	 * Rotation/Shift
@@ -479,9 +479,10 @@ public class Class4_Arrays1 {
 	 *   
 	 */
 	
+	
 	/*
 	 * task5
-	 * 2­sum, 3­sum, 4­sum, 3­sum closest
+	 * 2­sum, 3­sum, 4­sum, k sum 
 	 * 
 	 * refer to lai_online.Class24.java
 	 * 
@@ -489,6 +490,15 @@ public class Class4_Arrays1 {
 	 * (2) Use hashmap/hashSet, O(n), extra space O(n)
 	 * 
 	 */
+	
+	
+	
+	
+	/*
+	 * task5.0 
+	 * 3­sum closest
+	 */
+	
 	/*
 	 * task5.1 
 	 * 2­sum, how many pairs sum to target, with/without duplicates?

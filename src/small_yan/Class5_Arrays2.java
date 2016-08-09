@@ -89,6 +89,12 @@ public class  Class5_Arrays2 {
 		}
 	}
 	
+	/*
+	 * Follow up 
+	 * leetcode 324 
+	 * Wiggle Sort II
+	 * https://leetcode.com/problems/wiggle-sort-ii/
+	 */
 	
 	/*
 	 * task2

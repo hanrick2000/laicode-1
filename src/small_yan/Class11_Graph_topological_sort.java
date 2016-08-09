@@ -9,8 +9,9 @@ public class Class11_Graph_topological_sort {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 //		test5();
-//		test4_1();
-		test4_0();
+		test4_1();
+//		test4_0();
+//		test4_2();
 	}
 
 	/*
@@ -44,17 +45,73 @@ public class Class11_Graph_topological_sort {
 	 * task4 DFS 
 	 * continiued 
 	 * 1 deep copy a directed/undirected graph DFS/BFS 
-	 * 2 how to determine if an directed graph is a tree? root-node tree: from
-	 * root, there in only one path DFS- a node is visited only once, we can not
+	 */
+	
+	/* 2 how to determine if an directed graph is a tree? 
+	 * root-node tree: 
+	 * from root, there in only one path DFS- a node is visited only once, we can not
 	 * visit it again
-	 * 
-	 * 3 how to determine if an directed graph does not have circle? 
+	 */
+	public static void test4_2() {
+		GraphNode n1 =new GraphNode(1);
+		GraphNode n2 =new GraphNode(2);
+		GraphNode n3 =new GraphNode(3);
+		GraphNode n4 =new GraphNode(4);
+		
+		n1.neighbors.add(n2);
+		n1.neighbors.add(n3);
+		n2.neighbors.add(n4);
+//		n3.neighbors.add(n4);
+		
+		List<GraphNode> graph = new ArrayList<GraphNode>();
+		graph.add(n1);
+		graph.add(n2);
+		graph.add(n3);
+		graph.add(n4);
+		
+		boolean rev = task4_2_directed_graph_is_tree(graph, n1);
+		System.out.println("result = " + rev);
+		
+	}
+	
+	public static boolean task4_2_directed_graph_is_tree(List<GraphNode> graph, GraphNode root) {
+		if (graph == null || graph.size() == 0 || !graph.contains(root)) {
+			return false;
+		}
+		HashMap<GraphNode, Boolean> map = new HashMap<GraphNode, Boolean>();
+		for(GraphNode node: graph) {
+			map.put(node, false);
+		}
+		return task4_2_helper(root, map);
+	}
+	public static boolean task4_2_helper(GraphNode node, HashMap<GraphNode, Boolean> map) {
+		// for debug
+		System.out.println("current node value : " + node.key);
+		if (map.get(node) == true) {
+			return false;
+		} 
+		// if this is a leaf node, return true
+		if (node.neighbors == null || node.neighbors.size() == 0) {
+			return true;
+		}
+		boolean result = false;
+		// mark current node as true
+		map.put(node, true);
+		
+		for(GraphNode nei: node.neighbors) {
+			result |= task4_2_helper(nei, map);
+		}
+		return result;
+	}
+	
+	/* 3 how to determine if an directed graph does not have circle? 
 	 * method 1: for each of the nodes in the graph, do DFS -> only mark current path
 	 * visit 
-	 * method 2: We will need two markers - visiting: we are visiting the
-	 * node now, but not finished visiting:: after all the neighbors of node are
+	 * method 2: We will need two markers 
+	 * - visiting: we are visiting the node now, but not finished visiting:: after all the neighbors of node are
 	 * visited, we can mark the node visited, before that, the node is in
-	 * visiting status. -visited: we finish the visiting node
+	 * visiting status. 
+	 * -visited: we finish the visiting node
 	 * 
 	 * dfs(GrapohNode node) 
 	 * { 
@@ -90,7 +147,7 @@ public class Class11_Graph_topological_sort {
 		List<GraphNode> graph = new ArrayList<GraphNode>();
 		graph.add(n1);
 		graph.add(n2);
-		graph.add(n3);
+	 	graph.add(n3);
 		
 		
 		GraphNode n4 = new GraphNode(4);
@@ -162,8 +219,8 @@ public class Class11_Graph_topological_sort {
 		System.out.println("hasCycle = " + hasCycle);
 	}
 	public static boolean task4_undirectedGraphHasCycle(int n, int[][] adjacentMatrix) {
-		if (adjacentMatrix == null || adjacentMatrix.length == 0 || adjacentMatrix[0] == null || 
-				adjacentMatrix[0].length == 0) {
+		if (adjacentMatrix == null || adjacentMatrix.length == 0 || 
+				adjacentMatrix[0] == null || adjacentMatrix[0].length == 0) {
 			return false;
 		}
 		boolean[] visited = new boolean[n];
@@ -174,7 +231,7 @@ public class Class11_Graph_topological_sort {
 		visited[n] = true;
 		
 		for(int i = 0; i < adjacentMatrix[n].length; i ++) {
-			if (adjacentMatrix[n][i] == 1) {
+			if (adjacentMatrix[n][i] == 1) { // i is n's neighbor
 				if (visited[i] == true) {
 					// here we need to introduce parent. 
 					// 1 -> 2, we visited 1, visited[1] = true
