@@ -45,11 +45,14 @@ class Consumer implements Runnable{
 class Q{
 	int limit = 10;
 	Queue<Integer> queue = new LinkedList<Integer>();
-	
 	public synchronized void put(int i) {
 		while(queue.size() == limit) {
 			// wait
 			try {
+				/*
+				 * causes the current to wait until another thread invokes the notify() method or 
+				 * the notifyAll() method for this object 
+				 */
 				this.wait();
 			} catch (InterruptedException e) {
 				// TODO: handle exception

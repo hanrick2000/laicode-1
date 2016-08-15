@@ -260,7 +260,6 @@ public class Class5 {
 	 */
 	
 	
-	
 	/*
 	 * task5.4
 	 * array of integers, find the index pair(i, j) with the largest j - i, such that , i < j and a[i] < a[j]

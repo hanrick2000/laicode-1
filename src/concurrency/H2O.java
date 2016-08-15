@@ -12,8 +12,6 @@ public class H2O {
 			th2.start();
 			
 		}
-		
-		
 	}
 	
 	/*
@@ -27,15 +25,18 @@ public class H2O {
 	 */
 	
 	int cntH = 0, cntO = 0;
+	
 	public synchronized void O(int i) {
 		if (cntH == 2 && cntO == 1) {
 			cntO -= 1;
 			cntH -= 2;
 			System.out.println("gen H2O : O");
 		}
+		
 		while (cntO >= 1) {
 			// there are still O thread, wait for 2 more H threads
 			try {
+				System.out.println("O wait");
 				wait();
 			} catch (InterruptedException ex) {
 				// TODO: handle exception
@@ -58,6 +59,7 @@ public class H2O {
 		}
 		while(cntH >= 2) {
 			try {
+				System.out.println("H wait");
 				wait(); 
 			} catch (InterruptedException e) {
 				// TODO: handle exception

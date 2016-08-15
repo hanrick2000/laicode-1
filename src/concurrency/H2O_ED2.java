@@ -8,7 +8,13 @@ public class H2O_ED2 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
+		H2O_ED2 h2o = new H2O_ED2();
+		for(int i = 0; i < 10; i ++) {
+			Thread t1 = new Thread(h2o.new OTherad());
+			Thread t2 = new Thread(h2o.new HThread());
+			t1.start();
+			t2.start();
+		}
 	}
 	
 	Lock lock = new ReentrantLock();
@@ -29,8 +35,10 @@ public class H2O_ED2 {
 		}
 		hCount ++;  // how many h thread are running now
 		if (hCount == 2 && oCount == 1) {
+			System.out.println("H = " + hCount + "  O = " + oCount);
 			hCount = 0;
 			oCount = 0;
+			System.out.println("Gen H2O <- H");
 			oCondition.signalAll();
 		}
 		lock.unlock();
@@ -48,11 +56,27 @@ public class H2O_ED2 {
 		
 		oCount ++;
 		if (hCount == 2 && oCount == 1) {
+			System.out.println("H = " + hCount + "  O = " + oCount);
 			hCount = 0;
 			oCount = 0;
+			System.out.println("Gen H2O <- O");
 			hCondition.signalAll();
 		}
 		lock.unlock();
+	}
+	
+	class OTherad implements Runnable{
+	
+		public void run() {
+			O();
+		}
+	}
+	
+	class HThread implements Runnable{
+		
+		public void run() {
+			H();
+		}
 	}
 
 }

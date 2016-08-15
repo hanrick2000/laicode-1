@@ -94,7 +94,70 @@ public class  Class5_Arrays2 {
 	 * leetcode 324 
 	 * Wiggle Sort II
 	 * https://leetcode.com/problems/wiggle-sort-ii/
+	 * 
+	 * Given an unsorted array nums, reorder it such that nums[0] < nums[1] > nums[2] < nums[3]....
+	 * Example:
+	 * (1) Given nums = [1, 5, 1, 1, 6, 4], one possible answer is [1, 4, 1, 5, 1, 6]. 
+	 * (2) Given nums = [1, 3, 2, 2, 3, 1], one possible answer is [2, 3, 1, 3, 1, 2].
 	 */
+	public static void wiggleSort2(int[] nums) {
+		// check
+		if (nums == null || nums.length <= 1) {
+			return ;
+		}
+		if (nums.length == 2) {
+			if (nums[0] > nums[1]) {
+				swap(nums, 0, 1);
+			}
+		}
+		int len = nums.length;
+		// get median and medianIndex
+		getKthLargest(nums, 0, len - 1, (len - 1)/2);
+		int median = nums[(len - 1)/2];
+		int medianIndex = (len - 1)/2;
+		
+		int start = 1;
+		int end = medianIndex + 1;
+		while(start < end ) {
+			
+		}
+		
+		
+		
+	} 
+	public static void getKthLargest(int[] nums, int left, int right, int k) {
+		int pivotIndex = partition(nums, 0, nums.length - 1);
+		if (pivotIndex == k) {
+			return ;
+		} else if (pivotIndex > k) {
+			// k is in 0..pivotIndex - 1.
+			getKthLargest(nums, left, pivotIndex - 1, k);
+		} else {
+			// pivotIndex < k
+			// k is in pivotIndex + 1, right 
+			getKthLargest(nums, pivotIndex + 1, right, k);
+		}
+		
+	}
+	public static int partition(int[] nums, int left, int right) {
+		int pivot = nums[right];
+		int start = left, end = right - 1;
+		while(start <= end) {
+			if (nums[start] < pivot) {
+				start ++;
+			} else if (nums[end] >= pivot) {
+				end --;
+			} else {
+				swap(nums, start, end);
+				start ++;
+				end --;
+			}
+		}
+		
+		swap(nums, start, right);
+		return start;
+	}
+	
 	
 	/*
 	 * task2
