@@ -7,9 +7,9 @@ public class Class10_dfs_bfs {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-//		test1();
+		test1();
 //		test2();
-		test3();
+//		test3();
 	}
 	
 	/*
@@ -27,6 +27,7 @@ public class Class10_dfs_bfs {
 	public static void test1() {
 		int num = 12;
 		ArrayList<ArrayList<Integer>> result = task1_divide(num);
+		System.out.println("result is ");
 		System.out.println(result);
 	}
 	
@@ -49,7 +50,7 @@ public class Class10_dfs_bfs {
 			}
 			return ;
 		}
-		System.out.println("num = " + num);
+//		System.out.println("num = " + num);
 		for(int i = num; i > 1; i --) {
 			if (num %i == 0) {
 				path.add(i);
@@ -71,20 +72,19 @@ public class Class10_dfs_bfs {
 	 */
 	public static void task1_helper_better(int num, ArrayList<Integer> path, ArrayList<ArrayList<Integer>> result) {
 		if (num == 1) {
-			ArrayList<Integer> copy = new ArrayList<Integer>(path);
-			result.add(copy);
+			result.add(new ArrayList<Integer>(path));
 			return ;
 		}
-		
-		System.out.println("num = " + num);
 		for(int i = num; i > 1; i --) {
-			if (!path.isEmpty() && i < path.get(path.size() - 1) ) {
+			if (!path.isEmpty() && i > path.get(path.size() - 1) ) {
+				// if i > path[lastIndex], continue
+				// 每个序列都是严格非递增的就可以了，下一层最大可以选的数是上一层选的数
+				// 下一层的数不能比上一层的数大
 				continue;
 			}
 			if (num %i == 0) {
 				path.add(i);
-				System.out.println(path);
-				task1_helper(num/i, path, result);
+				task1_helper_better(num/i, path, result);
 				path.remove(path.size() - 1);
 			}
 		}
@@ -113,12 +113,15 @@ public class Class10_dfs_bfs {
 		return result;
 	}
 	
+	// this is a helper function to get the result
+	// ArrayList<Integer> path is used to store temporary result
 	public static void task2_helper(int n, ArrayList<ArrayList<Integer>> result, ArrayList<Integer> path) {
 		if (n < 0) {
 			return ;
 		}
 		if (n == 0) {
 			result.add(new ArrayList<Integer>(path));
+			// get a result, return 
 			return ;
 		}
 		for(int i = 1; i <=n; i ++) {
@@ -135,6 +138,7 @@ public class Class10_dfs_bfs {
 	 * Ocean
 	 * see Ocean in the same file
 	 */
+	
 	
 	/*
 	 * task4
@@ -165,9 +169,11 @@ public class Class10_dfs_bfs {
 		
 		boolean result = task3_exist_string(matrix, str);
 		System.out.println("result = " + result);
-		
 	}
 	
+	/*
+	 * this function returns whether we can find the str in char matrix
+	 */
 	public static boolean task3_exist_string(char[][] matrix, String str) {
 		if (matrix == null || matrix.length == 0 || matrix[0] == null || matrix[0].length == 0) {
 			return false;
@@ -180,6 +186,7 @@ public class Class10_dfs_bfs {
 		
 		boolean[][] visited = new boolean[rLen][cLen];
 		
+		// start from every position(i, j)
 		for(int i = 0; i < matrix.length; i ++) {
 			for(int j = 0; j < matrix[0].length; j ++) {
 				if (task3_helper(matrix, str, visited, 0, i, j)) {
@@ -189,12 +196,19 @@ public class Class10_dfs_bfs {
 		}
 		return false;
 	}
+	
+	/*
+	 * this is a helper function to search from position(rowIdx, colIdx) to check whether 
+	 * we can find str 
+	 */
 	public static boolean task3_helper(char[][] matrix, String str, boolean[][] visited, 
 			int index, int rowIndex, int colIndex) {
+		// base case, we reach out of str
 		if (index == str.length()) {
 			return true;
 		}
-		
+		// index out of bound or already visited or matrix[rowIdx][colIdx] != str.charAt(idx)
+		// return false
 		if (rowIndex < 0 || rowIndex >= matrix.length ||
 				colIndex < 0 || colIndex >= matrix[0].length ||
 				visited[rowIndex][colIndex] || matrix[rowIndex][colIndex] != str.charAt(index)) {
