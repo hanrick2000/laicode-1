@@ -416,6 +416,7 @@ public class Class1_09202014 {
 		String input = "(2(4(6)))";
 		int rev = task11_getSum(input);
 		System.out.println("rev = " + rev);
+		
 	}
 	
 	public static int task11_getSum(String input) {

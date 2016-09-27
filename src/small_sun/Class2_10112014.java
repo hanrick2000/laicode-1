@@ -17,9 +17,9 @@ public class Class2_10112014 {
 	 * please shuffle the input integer array, 
 	 * such that the output integer array satisfy this condition: 
 	 * between each two i's, they are exactly i integers 
+	 * 
 	 * (for example: between the two 1s, there is one number, between the two 2's there are two numbers) 
 	 * example n = 3, input 1, 1, 2, 2, 3, 3 output 2, 3, 1, 2, 1, 3
-	 * 
 	 * 
 	 * !!! 
 	 * add first element of the array to result 
@@ -47,6 +47,7 @@ public class Class2_10112014 {
 		if (found) {
 			return;
 		} else {
+			
 			if (result.size() == array.length) {
 				finalResult.add(new ArrayList<Integer>(result));
 				found = true;
@@ -69,6 +70,7 @@ public class Class2_10112014 {
 						// the second element
 						if (array[i] <= result.size() - 1 && 
 								array[i] == result.get(result.size() - 1 - array[i])) {
+							// 
 							visit[i] = true;
 							result.add(array[i]);
 							
@@ -182,8 +184,10 @@ public class Class2_10112014 {
 	 * 
 	 * method2:
 	 * http://www.geeksforgeeks.org/find-smallest-value-represented-sum-subset-given-array/
-	 * More reasearching
+	 * More researching
 	 */
+ 
+	
 	
 	
 	

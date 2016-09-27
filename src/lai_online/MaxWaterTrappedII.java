@@ -73,8 +73,21 @@ public class MaxWaterTrappedII {
 		return result;
 	}
 
+	public int[] dx = {-1, 1, 0, 0};
+	public int[] dy = {0, 0, -1 ,1};
+	
 	private List<Pair> neis(Pair cur, boolean[][] visited) {
 		List<Pair> neis = new ArrayList<Pair>();
+		int rLen = visited.length;
+		int cLen = visited[0].length;
+		
+		for(int i = 0; i < 4; i ++) {
+			int nextX = cur.x + dx[i];
+			int nextY = cur.y + dy[i];
+			if (nextX >= 0 && nextX < rLen) {
+				
+			}
+		}
 		if (cur.x + 1 < visited.length) {
 			neis.add(new Pair(cur.x + 1, cur.y, 0));
 		}

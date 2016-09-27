@@ -70,10 +70,8 @@ public class Class05_bfs {
 	 * task1_2
 	 * Follow up
 	 * Get Keys In Binary Tree Layer By Layer Zig-Zag Order
-	 * 
+	 * use deque
 	 */
-
-	
 
 	
 	/*
@@ -245,7 +243,8 @@ public class Class05_bfs {
 	 * 
 	 * 
 	 * Method:
-	 * using hashMap<GraphNode, Integer> to store the sign of node. and mark whether the node is visited or not.
+	 * using hashMap<GraphNode, Integer> to store the sign of node. 
+	 * and mark whether the node is visited or not.
 	 * 
 	 * to every node, we do a BFS. 
 	 * 
@@ -274,7 +273,8 @@ public class Class05_bfs {
 	
 	public static boolean Q3_BFS(GraphNode node, HashMap<GraphNode, Integer> map) {
 		if (map.containsKey(node)) {
-			// this node has already been expanded.do nothing with this node.
+			// this node has already been expanded/marked
+			// do nothing with this node.
 			return true;
 		}
 		Queue<GraphNode> q = new LinkedList<GraphNode>();
@@ -285,6 +285,9 @@ public class Class05_bfs {
 			GraphNode cur = q.poll();
 			int curSign = map.get(cur);
 			int neighSign = curSign == 0 ? 1 : 0;
+			
+			// get neighbors and assign the sign to them, or check whether the sign of neighbor is 
+			// different with the curSign.
 			for(GraphNode nei : cur.neighbors) {
 				if (!map.containsKey(nei)) {
 					// the nei hasn't been generated
@@ -358,6 +361,7 @@ public class Class05_bfs {
 		
 		int len = matrix.length;
 		int clen = matrix[0].length;
+		// create a minHeap
 		PriorityQueue<Item> minHeap = new PriorityQueue<Item>(k, new Comparator<Item>() {
 			@Override
 			public int compare(Item o1, Item o2) {
@@ -370,6 +374,8 @@ public class Class05_bfs {
 		});
 		
 		boolean[][] visited = new boolean[len][clen];
+		// to avoid duplicate
+		
 		int result = Integer.MIN_VALUE;
 		visited[0][0] = true;
 		minHeap.offer(new Item(0, 0, matrix[0][0]));
@@ -395,7 +401,9 @@ public class Class05_bfs {
 	/*
 	 * Q5:
 	 * Kth Smallest With Only 2, 3 As Factors
-	 * Find the Kth smallest number s such that s = 2 ^ x * 3 ^ y, x >= 0 and y >= 0, x and y are all integers.
+	 * Find the Kth smallest number s 
+	 * such that s = 2 ^ x * 3 ^ y, x >= 0 and y >= 0, x and y are all integers.
+	 * 
 	 * Assumptions
 	 * K >= 1
 	 * Examples
@@ -409,9 +417,7 @@ public class Class05_bfs {
 	 * Expand / Generate rule:
 	 *         <i, j> => <i + 1, j> and <i, j + 1>
 	 * Termination: the kth time to pop out from priority queue 
-	 * 
 	 * using a hashset to avoid generating more then once.
-	 * 
 	 * !!! the result might out of bound. transfer this to Long. Discuss with the Interviewer. 
 	 */
 	
@@ -529,14 +535,16 @@ public class Class05_bfs {
 		return result;
 	}
 	
+	
+	
 	/*
 	 * Q7: 
-	 *
-	 * 
 	 * Place To Put The Chair I
 	 * Given a gym with k pieces of equipment and some obstacles.  
 	 * We bought a chair and wanted to put this chair into the gym 
 	 * such that  the sum of the shortest path cost from the chair to the k pieces of equipment is minimal. 
+	 * 
+	 * 
 	 * The gym is represented by a char matrix, 
 	 * ‘E’ denotes a cell with equipment, 
 	 * ‘O’ denotes a cell with an obstacle, 
@@ -684,23 +692,21 @@ public class Class05_bfs {
 		return true;
 	}
 	
+	public static int[] dx = {-1, 1, 0, 0};
+	public static int[] dy = {0, 0, -1, 1};
+	
+	
 	private static List<Pair> Q5_getNeighbors(Pair cur, char[][] gym, int len) {
 		List<Pair> neighbors = new ArrayList<Pair>();
-
-		if (cur.x + 1 < len && gym[cur.x + 1][cur.y] != 'O') {
-			neighbors.add(new Pair(cur.x + 1, cur.y));
-		}
-
-		if (cur.x - 1 >= 0 && gym[cur.x - 1][cur.y] != 'O') {
-			neighbors.add(new Pair(cur.x - 1, cur.y));
-		}
-
-		if (cur.y + 1 < len && gym[cur.x][cur.y + 1] != 'O') {
-			neighbors.add(new Pair(cur.x, cur.y + 1));
-		}
-
-		if (cur.y - 1 >= 0 && gym[cur.x][cur.y - 1] != 'O') {
-			neighbors.add(new Pair(cur.x, cur.y - 1));
+		int rLen = gym.length;
+		int cLen = gym[0].length;
+		for(int i = 0; i < 4; i ++) {
+			int nextX = cur.x + dx[i];
+			int nextY = cur.y + dy[i];
+			if (nextX >= 0 && nextX < rLen && nextY >= 0 && 
+				nextY < cLen && gym[nextX][nextY] !='O') {
+				neighbors.add(new Pair(nextX, nextY));
+			}
 		}
 		return neighbors;
 	}
@@ -885,7 +891,8 @@ public class Class05_bfs {
 	 * we should put the chair at (1, 1), 
 	 * so that the sum of cost from the chair to the two equipments is 2 + 0 + 2 = 4, which is minimal.
 	 * 
-	 * (1)Run Dijkstra's for every empty cell, calculate the shortest path from this empty cell to every equipment.
+	 * (1)Run Dijkstra's for every empty cell, 
+	 * calculate the shortest path from this empty cell to every equipment.
 	 *    Time: n^2 log(n)
 	 * (2) Run Dijkstra's for every equipment, 
 	 *  

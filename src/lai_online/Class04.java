@@ -352,6 +352,21 @@ public class Class04 {
 	 * task3
 	 * Check if Binary Tree is balanced
 	 */
+	public static boolean task3_isBalanced(TreeNode root) {
+		return task3_getHeight(root) != -1;
+	}
+	
+	public static int task3_getHeight(TreeNode node) {
+		if (node == null) {
+			return 0;
+		}
+		int leftH = task3_getHeight(node.left);
+		int rightH = task3_getHeight(node.right);
+		if (leftH == -1 || rightH == -1 || Math.abs(leftH - rightH) > 1) {
+			return -1;
+		}
+		return Math.max(leftH, rightH) + 1;
+	}
 	
 	
 	/*

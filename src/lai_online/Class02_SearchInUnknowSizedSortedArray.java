@@ -41,7 +41,8 @@ public class Class02_SearchInUnknowSizedSortedArray {
 		}
 		
 		public Integer get(int index) { // !!! note the return type
-		    // key: if index >= array.length, then return null;NOT throw an exception. 
+		    // key: if index >= array.length, then return null;
+			// NOT throw an exception. 
 			if (array == null || index >= array.length) {
 				return null;
 			}

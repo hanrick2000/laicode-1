@@ -1,6 +1,7 @@
 package small_sun;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.TreeMap;
 
 import ds.TreeNode;
@@ -9,8 +10,8 @@ public class Class4_10252014 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-//		test1();
-		test2();
+		test1();
+//		test2();
 		
 	}
 	/*
@@ -20,9 +21,19 @@ public class Class4_10252014 {
 	 * (1) level order
 	 * (2) like the preOrder traverse recursion.
 	 * 
-	 * set a golbal variable, maxLevel, 
+	 * set a global variable, maxLevel, 
 	 * root, root.right, root.left
 	 * every time, if level > maxLevel, it's the first time to visit this level, print the right most node's value
+	 * 
+	 *        1
+	 *     / 	\
+	 *    2   	 3
+	 *   / \    / \ 
+	 *  4   5  6   7
+	 *  
+	 *  the right view of the binary tree is 1 3 7
+	 *  
+	 *  set a global variable, maxLevel. 
 	 *  
 	 */
 	public static void test1() {
@@ -35,9 +46,13 @@ public class Class4_10252014 {
 		n1.right = n3;
 		n3.left = n4;
 		n4.left = n5;
-		
 		task1_printRightView(n1);
+		
+		System.out.println("\n------------------");
+		
+		task1_printRightViewLevelOrder(n1);
 	}
+	
 	public static class MaxLevel {
 		public int value;
 		public MaxLevel(int v) {
@@ -64,6 +79,33 @@ public class Class4_10252014 {
 		}
 		task1_helper(node.right, level + 1, maxLevel);
 		task1_helper(node.left, level + 1, maxLevel);
+	}
+	
+	/*
+	 * do a level order traversal.print the right most element in every layer 
+	 */
+	public static void task1_printRightViewLevelOrder(TreeNode root) {
+		if (root == null) {
+			return ;
+		}
+		LinkedList<TreeNode> q = new LinkedList<TreeNode>();
+		q.offer(root);
+		while(!q.isEmpty()) {
+			int size = q.size();
+			for(int i = 0; i < size; i ++) {
+				TreeNode cur = q.poll();
+				if (i == size - 1) {
+					// print out
+					System.out.print(cur.val + " ");
+				}
+				if (cur.left != null) {
+					q.offer(cur.left);
+				}
+				if (cur.right != null) {
+					q.offer(cur.right);
+				}
+			}
+		}
 	}
 	
 	
@@ -114,6 +156,10 @@ public class Class4_10252014 {
 		}
 	}
 	
+	/*
+	 * hdist: is horizontal distance to root
+	 * TreeMap<hdist, list of value of nodes in that vertical layer>
+	 */
 	public static void task2_getMap(TreeNode node, TreeMap<Integer, ArrayList<Integer>>map, int hdist) {
 		if (node == null) {
 			return ;
@@ -129,9 +175,6 @@ public class Class4_10252014 {
 		task2_getMap(node.left, map, hdist - 1);
 		task2_getMap(node.right, map, hdist + 1);
 	}
-	
-	
-	
 	
 	
 	/*

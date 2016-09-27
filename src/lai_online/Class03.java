@@ -1,10 +1,15 @@
 package lai_online;
 
+import debug.Debug;
+import ds.ListNode;
+
+
 public class Class03 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
+//		test1();
+		test3();
 	}
 	/*
 	 * list
@@ -12,6 +17,16 @@ public class Class03 {
 	 * 2 reverse linked list
 	 * 3 middle of list node
 	 * 4 
+	 */
+	
+	/*
+	 * 什么问题要往Stack 上考虑？
+	 * Anwser: 从左到右linear scan 一个array/string时, 如果要不断回头看左边最新的元素时，往往要用到stack
+	 * 1. Histogram 中找最大的长方形
+	 * 2. reverse polish notation 逆波兰表达式的计算   a * (b+c)  →  abc+*
+	 * 1*(2+3)  →  1 2 3 + *5           stack|| 5
+	 * 3. String的repeatedly deduplication.  cabba → caa → c 
+	 * 
 	 */
 
 	/*
@@ -39,7 +54,55 @@ public class Class03 {
 	 * L = null, return null L = 1 -> null, return 1 -> null L = 1 -> 2 -> 3 ->
 	 * null, return 3 -> 2 -> 1 -> null
 	 */
+	public static ListNode reverse(ListNode head) {
+		if (head == null || head.next == null) {
+			return head;
+		}
+		ListNode next = head.next;
+		ListNode newHead = reverse(next);
+		head.next = null;
+		next.next = head;
+		return newHead;
+	}
+	/*
+	 *      1 -> 2 -> 3 -> 4 -> 5
+	 *  p   c
+	 */
+	public static ListNode reverseIter(ListNode head) {
+		if (head == null || head.next == null) {
+			return head;
+		}
+		ListNode prev = null;
+		ListNode cur = head;
+		while(cur != null) {
+			// store the cur.next
+			ListNode next = cur.next;
+			cur.next = prev;
+			// update prev
+			prev = cur;
+			// update cur
+			cur = next;
+		}
+		return prev;
+	}
 	
+	public static void test1() {
+		ListNode n1 = new ListNode(1);
+		ListNode n2 = new ListNode(2);
+		ListNode n3 = new ListNode(3);
+		ListNode n4 = new ListNode(4);
+		ListNode n5 = new ListNode(5);
+		
+		n1.next = n2;
+		n2.next = n3;
+		n3.next = n4;
+		n4.next = n5;
+		
+		Debug.printLinkedList(n1);
+		ListNode r = reverseIter(n1);
+		System.out.println("-------------");
+		Debug.printLinkedList(r);
+	}
 	
 
 	/*
@@ -54,6 +117,35 @@ public class Class03 {
 	 * 1 L = 1 -> 2 -> 3 -> null, return 2 L = 1 -> 2 -> 3 -> 4 -> null, return
 	 * 2
 	 */
+	public static void test3() {
+		ListNode n1 = new ListNode(1);
+		ListNode n2 = new ListNode(2);
+		ListNode n3 = new ListNode(3);
+		ListNode n4 = new ListNode(4);
+		ListNode n5 = new ListNode(5);
+		ListNode n6 = new ListNode(6);
+		
+		n1.next = n2;
+		n2.next = n3;
+		n3.next = n4;
+		n4.next = n5;
+		n5.next = n6;
+		
+		ListNode mid = task3_mid(n1);
+		System.out.println("mid = " + mid.value);
+		
+	}
+	
+	public static ListNode task3_mid(ListNode head) {
+		ListNode f = head.next; // !!! remember, f = head.next
+		ListNode s = head;
+		while(f != null && f.next != null) {
+			f = f.next.next;
+			s = s.next;
+		}
+		return s;
+	}
+	
 
 	/*
 	 * task4 Check If Linked List Has A Cycle 
@@ -76,6 +168,7 @@ public class Class03 {
 	 * -> null
 	 */
 
+	
 	/*
 	 * task6 Merge Two Sorted Linked Lists Easy Data Structure Merge two sorted
 	 * lists into one large sorted list.

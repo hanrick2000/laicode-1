@@ -123,6 +123,7 @@ public class Class2 {
 				start = mid;
 			}
 		}
+		
 		if (array[start] == target) {
 			return start;
 		} else if (array[end] == target) {
@@ -305,6 +306,8 @@ public class Class2 {
 	    
 	    return result;
 	  }
+	
+	
 	/*
 	 * task7
 	Search In Unknown Sized Sorted Array

@@ -18,6 +18,7 @@ public class Class19 {
 		 test13() ;
 	}
 	
+	
 	/*
 	 * Array Deduplication I
 	 * Easy
@@ -40,8 +41,8 @@ public class Class19 {
 			}
 		}
 		return Arrays.copyOf(array, start + 1);
-
 	}
+	
 	
 	/*
 	 * Array Deduplication II
@@ -130,6 +131,7 @@ public class Class19 {
 		}
 		return Arrays.copyOf(array, start);
 	}
+	
 	
 	/*
 	 * Array Deduplication IV

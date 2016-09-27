@@ -91,7 +91,6 @@ public class Class26 {
 	 * 
 	 * A = {1, 2, 1, 2, 1}, return 1
 	 * 
-	 * 
 	 */
 	public static void test2() {
 		int[] a = {1,2,1,2,1};
