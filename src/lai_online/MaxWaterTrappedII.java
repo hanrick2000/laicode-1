@@ -84,26 +84,14 @@ public class MaxWaterTrappedII {
 		for(int i = 0; i < 4; i ++) {
 			int nextX = cur.x + dx[i];
 			int nextY = cur.y + dy[i];
-			if (nextX >= 0 && nextX < rLen) {
-				
+			if (nextX >= 0 && nextX < rLen && nextY >= 0 && nextY < cLen) {
+				neis.add(new Pair(nextX, nextY, 0));
 			}
-		}
-		if (cur.x + 1 < visited.length) {
-			neis.add(new Pair(cur.x + 1, cur.y, 0));
-		}
-		if (cur.x - 1 >= 0) {
-			neis.add(new Pair(cur.x - 1, cur.y, 0));
-		}
-		if (cur.y + 1 < visited[0].length) {
-			neis.add(new Pair(cur.x, cur.y + 1, 0));
-		}
-		if (cur.y - 1 >= 0) {
-			neis.add(new Pair(cur.x, cur.y - 1, 0));
 		}
 		return neis;
 	}
 
-	static class Pair implements Comparable<Pair> {
+	public static class Pair implements Comparable<Pair> {
 		int x;
 		int y;
 		int height;
