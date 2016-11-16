@@ -283,9 +283,7 @@ public class Lec18 {
 	/*
 	 * Section 2
 	 * Array number comparisons
-	 * 
 	 */
-	
 	/*
 	 * task2.1
 	 * Use the least number of comparisons to find the largest and smallest number
@@ -297,8 +295,6 @@ public class Lec18 {
 	 *     if A[i] > max then max = A[i]
 	 *     if A[i] < min, then min = A[i]
 	 *   # of comparison is : 2 * (n-1)
-	 *
-	 *  
 	 */
 	
 	/*
@@ -469,11 +465,10 @@ public class Lec18 {
 	 * task2.2
 	 * How to use the least number of comparisons to find the largest and second largest number?
 	 * This is a tournament tree problem. 
-	 * 
-	 * 
 	 */
 	/*
-	 * Tournament tree is a from of min(max) heap which is a complete binary tree. Every external node represents a player
+	 * Tournament tree is a from of min(max) heap which is a complete binary tree. 
+	 * Every external node represents a player
 	 * and internal node represents winner. 
 	 * In a tournament tree every internal node contains winner and every leaf node contains one player. 
 	 * 
@@ -545,10 +540,6 @@ public class Lec18 {
 		return max;
 	}
 	
-	
-	
-	
-	
 	/*
 	 * Section 3
 	 * 
@@ -556,7 +547,6 @@ public class Lec18 {
 	/*
 	 * task3.1
 	 * How to print 2D array in spiral order
-	 * 
 	 */
 	public static void sprialPrint(int[][] matrix, int offset, int size, int counter) {
 		
@@ -567,24 +557,18 @@ public class Lec18 {
 	 * task3.2
 	 * How to rotate an N*N matrix clockwise by 90 degree
 	 */
-	
-	
-	
-	
+
 	/*
 	 * Section 4
 	 * BFS print binary tree
 	 * 
 	 */
 	
-	
 	/*
 	 * task 4.1
 	 * classical way to print the tree level by level
 	 */
-	
-	
-	
+		
 	/*
 	 * task4.2
 	 * print tree in zig-zag fashion.

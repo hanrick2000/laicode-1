@@ -7,13 +7,11 @@ import ds.ListNode;
 import ds.TreeNode;
 
 public class Lec21 {
-
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Q1_3_1_test();
 //		Q2_1_2test();
-//		Q4_test();
-		
+//		Q4_test();	
 	}
 	
 	/*
@@ -21,6 +19,11 @@ public class Lec21 {
 	 * skiplist/graph copy problem
 	 * (1) traversal graph/tree/list.
 	 * (2)
+	 * 
+	 * 
+	 * twice traverse
+	 * <1> copy the list
+	 * <2> link the other 
 	 */
 	public static class SkipListNode {
 		public int value;
@@ -37,12 +40,16 @@ public class Lec21 {
 		if (head == null) {
 			return null;
 		}
+		// use hashMap to look up: 1-1 mapping from old list to new list
 		Map<SkipListNode, SkipListNode> map = new HashMap<Lec21.SkipListNode, Lec21.SkipListNode>();
 		SkipListNode newHead = new SkipListNode(head.value);
+		// put head and newHead into map
 		map.put(head, newHead);
  		
 		SkipListNode cur = newHead;
+		// traverse old list
 		while(head != null) {
+			// link head's next
 			if (head.next != null) {
 				if (!map.containsValue(head.next)) {
 					// hasn't been copied over due to other pointer
@@ -51,6 +58,7 @@ public class Lec21 {
 				}
 				cur.next = map.get(head.next);
 			}
+			// link head.other
 			if (head.other != null) {
 				if (!map.containsValue(head.other)) {
 					SkipListNode node = new SkipListNode(head.other.value);
@@ -58,6 +66,7 @@ public class Lec21 {
 				}
 				cur.other = map.get(head.other);
 			}
+			// update head and cur
 			head = head.next;
 			cur = cur.next;
 		}
@@ -113,16 +122,26 @@ public class Lec21 {
 	}
 	
 	// method 2
+	// don't use hashMap
 	// in this way, we need to change the structure of linked list node
+	// 1 -> 2 -> 3 -> 4 ->5 -> 6 -> 7
 	// 
+	
+	// 
+	public static void test1_2() {
+		
+	}
 	public static RandomListNode Q1_2_2DeepCopyListWithRandomPointer(RandomListNode head) {
 		// edge case: 
 		if (head == null) {
 			return null;
 		}
 		
-		
 		RandomListNode cur = head;
+		/*
+		 * 1 -> 2 -> 3 -> 4 -> 5
+		 * 1 -> 1' -> 2 -> 2' -> 3 -> 3' -> 4 -> 4' -> 5 -> 5'
+		 */
 		while(cur != null) {
 			RandomListNode newNode = new RandomListNode(cur.value);
 			// !!! Here, we need to copy the random from cur, then, we will modify it.
@@ -135,10 +154,12 @@ public class Lec21 {
 			// update cur. 
 			cur = cur.next.next;
 		}
+		// update the cur.random
 		cur = head;
 		RandomListNode newHead = cur.next;
 		// link the random pointer
 		while( cur != null) {
+			// 
 			if (cur.next.random != null) {
 				cur.next.random = cur.random.next;
 			}

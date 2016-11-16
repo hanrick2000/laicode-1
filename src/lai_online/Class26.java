@@ -45,6 +45,7 @@ public class Class26 {
 		System.out.println(task1_canMerge(a, b, c));
 	}
 	
+	
 	public static boolean task1_canMerge(String a, String b, String c) {
 	    // write your solution here
 		int aLen = a.length();

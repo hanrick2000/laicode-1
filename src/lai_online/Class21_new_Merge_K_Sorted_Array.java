@@ -46,11 +46,10 @@ public class Class21_new_Merge_K_Sorted_Array {
 			HeapElement cur = q.poll();
 			rev.add(cur.val);
 
-			if (arrayOfArrays[cur.index] != null
-					&& cur.pos < arrayOfArrays[cur.index].length - 1) {
+			if (arrayOfArrays[cur.index] != null && 
+				cur.pos < arrayOfArrays[cur.index].length - 1) {
 				HeapElement elem = new HeapElement(
-						arrayOfArrays[cur.index][cur.pos + 1], cur.index,
-						cur.pos + 1);
+						arrayOfArrays[cur.index][cur.pos + 1], cur.index, cur.pos + 1);
 				q.add(elem);
 			}
 		}

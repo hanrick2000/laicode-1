@@ -239,6 +239,7 @@ public class Class10_dfs_bfs {
 	 * see ShortestDistance2Police in same file
 	 */
 	
+	
 	/*
 	 * task6
 	 * Manhattan Distance

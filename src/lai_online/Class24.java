@@ -2,18 +2,27 @@ package lai_online;
 
 import java.util.*;
 
+import onceagain.Class21.MyComparator;
+import debug.Debug;
+import ds.ListNode;
+import ds.TreeNode;
+
 
 public class Class24 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 //		test2();
-		test3();
+//		test3();
 //		test5();
 //		test5_1();
 //		test6();
 //		test7();
 //		test9();
+//		test10();
+//		test10_2();
+		test10_3();
+		
 	}
 	
 	/*
@@ -701,6 +710,10 @@ public class Class24 {
 		System.out.println("exist = " + exist);
 	}
 	
+	/*
+	 * method 1
+	 * O(n^3)
+	 */
 	public static boolean task9_exist4Sum(int[] array, int target) {
 		// write your solution here
 		if (array == null || array.length == 0) {
@@ -725,6 +738,295 @@ public class Class24 {
 		}
 		return false;
 	}
+	
+	/*
+	 * method2:
+	 * binary reduction
+	 * step1: array2[n^2] stores all sum values of each pair of elements from array[n]
+	 * 		  in the meanwhile, for each value stored in array2, we also need to keep the indices of the 
+	 * 		  two elements that sum up to that elements
+	 * 		  e.g 
+	 * 		  array2[n^2] {Element0, Element1, ELement2, ..., Element n^2 - 1}
+	 *        Element = {
+	 *        	int sum;
+	 *          pair<int, int>; // stores the two indices of the two elements
+	 *        }
+	 *        Time: O(n^2)
+	 * step2: sort array2 -> sorted  O(n^2 log (n^2)) -> O(n^2 * log(n))
+	 * step3: Run 2 Sum on array2, meanwhile, avoid the duplicate of indices
+	 */
+	public static boolean task9_exist4Sum2(int[] array, int target) {
+		if (array == null || array.length <= 3) {
+			return false;
+		}
+		ArrayList<Element> array2 = new ArrayList<Element>();
+		for(int i = 0; i < array.length; i ++) {
+			for(int j = i + 1; j < array.length; j ++) {
+				int sum = array[i] + array[j];
+				Element elem = new Element();
+				elem.setVals(sum, i, j);
+				// add elem into array2
+				array2.add(elem);
+			}
+		}
+
+		// sort the array2
+		Collections.sort(array2, new Comparator<Element>() {
+
+			@Override
+			public int compare(Element o1, Element o2) {
+				// TODO Auto-generated method stub
+				if (o1.sum == o2.sum) {
+					return 0;
+				}
+				return o1.sum < o2.sum ? -1 : 1;
+			}
+		});
+		
+		// step3
+		// use two pointers to find target
+		int p1 = 0, p2 = array2.size() - 1;
+		while(p1 < p2) {
+			Element e1 = array2.get(p1);
+			Element e2 = array2.get(p2);
+			
+			int curSum = e1.getSum() + e2.getSum();
+			if (curSum == target) {
+				boolean hasDup = false;
+				for (Integer e1Idx : e1.getIndices()) {
+					if (e2.getIndices().contains(e1Idx)) {
+						// there is duplicate
+						hasDup = true;
+						break;
+					}
+				}
+				if (!hasDup) {
+					return true;
+				} else {
+					p1 ++;
+				}
+			} else if (curSum < target) {
+				p1 ++;
+			} else {
+				p2 --;
+			}
+		}
+		
+		return false;
+	}
+
+	
+	
+	public static class Element{
+		private int sum;
+		private List<Integer> pair;
+		public Element() {
+			pair = new ArrayList<Integer>();
+		}	
+		
+		// we assume the xIdx < yIdx
+		public void setVals(int s, int xIdx, int yIdx) {
+			if (xIdx > yIdx) {
+				setVals(s, yIdx, xIdx);
+			}
+			this.sum = s;
+			this.pair.add(xIdx);
+			this.pair.add(yIdx);
+		}
+		
+		public int getSum() {
+			return this.sum;
+		}
+		
+		public List<Integer> getIndices() {
+			return pair;
+		}
+	}
+	
+	
+	
+	
+	
+	/*
+	 * task10
+	 * reverse linked list
+	 * 1 -> 2 -> 3 -> 4
+	 * cur  next  
+	 */
+	public static void test10() {
+		ListNode n1 = new ListNode(1);
+		ListNode n2 = new ListNode(2);
+		ListNode n3 = new ListNode(3);
+		ListNode n4 = new ListNode(4);
+		ListNode n5 = new ListNode(5);
+		ListNode n6 = new ListNode(6);
+		
+		n1.next = n2;
+		n2.next = n3;
+		n3.next = n4;
+		n4.next = n5;
+		n5.next = n6;
+		Debug.printLinkedList(n1);
+		
+		ListNode reverse = task10_reverse(n1);
+		Debug.printLinkedList(reverse);
+		
+		
+	}
+	
+	public static ListNode task10_reverse(ListNode head) {
+		if (head == null || head.next == null) {
+			return head;
+		}
+		ListNode next = head.next;
+		ListNode newHead = task10_reverse(head.next);
+		next.next = head;
+		head.next = null;
+		return newHead;
+	}
+	
+	/*
+	 * task10.2
+	 * reverse linked list (pair by pair)
+	 * 1 -> 2 -> 3 -> 4 -> 5 -> 6
+	 * c   next  nnext
+	 */
+	public static void test10_2(){
+		ListNode n1 = new ListNode(1);
+		ListNode n2 = new ListNode(2);
+		ListNode n3 = new ListNode(3);
+		ListNode n4 = new ListNode(4);
+		ListNode n5 = new ListNode(5);
+		ListNode n6 = new ListNode(6);
+		ListNode n7 = new ListNode(7);
+		
+		n1.next = n2;
+		n2.next = n3;
+		n3.next = n4;
+		n4.next = n5;
+		n5.next = n6;
+		n6.next = n7;
+		Debug.printLinkedList(n1);
+		
+		ListNode result = task10_2_reverse_by_pair(n1);
+		Debug.printLinkedList(result);
+	}
+	
+	public static ListNode task10_2_reverse_by_pair(ListNode head) {
+		if (head == null || head.next == null) {
+			return head;
+		}
+		ListNode next = head.next;
+		ListNode nnext = head.next.next;
+		
+		head.next = task10_2_reverse_by_pair(nnext);
+		next.next = head;
+		return next;
+		
+	}
+	
+	/*
+	 * task10.3
+	 * reverse linked list by 3 elements
+	 * 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
+	 * c  next  nn    nnn
+	 */
+	
+	public static ListNode task10_3_reverse_by_3(ListNode head) {
+		if (head == null || head.next == null || head.next.next == null) {
+			return head;
+		}
+		
+		ListNode next = head.next;
+		ListNode nnext = head.next.next;
+		ListNode nnnext = head.next.next.next;
+		
+
+		head.next = task10_3_reverse_by_3(nnnext);
+		nnext.next = next;
+		
+		next.next = head;
+		
+		
+		return nnext;
+	}
+	
+	public static void test10_3() {
+		ListNode n1 = new ListNode(1);
+		ListNode n2 = new ListNode(2);
+		ListNode n3 = new ListNode(3);
+		ListNode n4 = new ListNode(4);
+		ListNode n5 = new ListNode(5);
+		ListNode n6 = new ListNode(6);
+		ListNode n7 = new ListNode(7);
+		
+		n1.next = n2;
+		n2.next = n3;
+		n3.next = n4;
+		n4.next = n5;
+		n5.next = n6;
+		n6.next = n7;
+		Debug.printLinkedList(n1);
+		
+		ListNode result = task10_3_reverse_by_3(n1);
+		Debug.printLinkedList(result);
+	}
+	
+	
+	/*
+	 * task10.4
+	 * reverse a binary tree upside down
+	 * 
+	 *      	1                   1
+	 *    	   / \				   / 
+	 *  	  2   3               2 - 3
+	 *       / \                 /
+	 *      4   5 				4 - 5
+	 *     / \				   /
+	 *    6   7               6 - 7
+	 *    
+	 *    除了subproblem, 我们在当前层需要做： 
+	 *    (1) root->left->left = root->right
+	 *    (2) root->left->right = root;
+	 *    (3) root->left = null
+	 *    (4) root->right = null
+	 */
+	
+	public static TreeNode task10_4_reverseTree(TreeNode root) {
+		if (root == null|| root.left == null) {
+			return root;
+		}
+		
+		TreeNode newRoot = task10_4_reverseTree(root.left);
+		root.left.left = root.right;
+		root.left.right = root;
+		root.left = null;
+		root.right = null;
+		return newRoot;
+	}
+	
+	
+	/*
+	 * task11
+	 * Print all Subsets of a set
+	 * task11.1
+	 * 
+	 */
+	
+	/*
+	 * task11.7
+	 * All subsequence of a string (Subset II)
+	 * Given a sorted string of chars with duplicated chars, return all possible 
+	 * subsequence. The solution set must not contain duplicate subsequence
+	 * e.g
+	 * string input = "ab1b2"
+	 * output:
+	 * a
+	 * b
+	 * ab
+	 * bb
+	 * abb
+	 */
 	
 	
 	

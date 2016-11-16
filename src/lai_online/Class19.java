@@ -9,13 +9,16 @@ public class Class19 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-//		test4();
+//		test1();
+//		test2();
+//		test3();
+		test4();
 //		test7();
 //		test8();
 //		test9();
 //		test10();
 //		test11();
-		 test13() ;
+//		 test13() ;
 	}
 	
 	
@@ -28,19 +31,41 @@ public class Class19 {
 	 * using the left side of the original array and maintain the relative order of the elements of the array. 
 	 * Return the array after deduplication.
 	 * sorted
+	 * 
+	 * 1 2 3 4 5 5 5 5 5 5 5 5 5  X X X X 8 9
+	 *       s                    f
+	 * 
+	 * s = 0, f = 1
+	 * for(f = 1; f < a.length; f ++) {
+	 *    if(a[f] != a[s]) {
+	 *       a[++s] = a[f];
+	 *    }
+	 * }
+	 * return s + 1;
+	 * 
+	 * 
 	 */
-	public int[] task1_dedup(int[] array) {
-		// write your solution here
-		if (array == null || array.length == 0) {
-			return array;
+	public static void test1() {
+		int[] a = {1,2,2,3,3,3,4,5,5,6};
+		int[] rev = task1_dedup1(a);
+		for(int i = 0; i < rev.length; i ++) {
+			System.out.print(rev[i] + " ");
 		}
-		int start = 0;
-		for (int i = 1; i < array.length; i++) {
-			if (array[i] != array[start]) {
-				array[++start] = array[i];
+		System.out.println();
+	}
+	
+	public static int[] task1_dedup1(int[] a){
+		if (a == null || a.length == 0) {
+			return a;
+		}
+		int s = 0, f = 1;
+		for(; f < a.length; f++) {
+			if (a[f] != a[s]) {
+				++s;
+				a[s] = a[f];
 			}
 		}
-		return Arrays.copyOf(array, start + 1);
+		return Arrays.copyOf(a, s + 1);
 	}
 	
 	
@@ -57,7 +82,33 @@ public class Class19 {
 	 * {1, 2, 2, 3, 3, 3} → {1, 2, 2, 3, 3}
 	 * 
 	 * sorted
+	 * 
+	 * 1 2 2 3 3 3 
+	 * 
+	 * 
+	 * 
 	 */
+	public static void test2() {
+		int[] a = {1,2,2,3,3,3,4,4,4};
+		int[] rev = task2_dedup2(a);
+		for(int i = 0; i < rev.length; i ++) {
+			System.out.print(rev[i] + " ");
+		}
+		System.out.println();
+	}
+	public static int[] task2_dedup2(int[] a) {
+		if (a == null || a.length <= 2) {
+			return a;
+		}
+		int s = 2, f = 2;
+		for(f = 2; f < a.length; f ++) {
+			if (a[f] != a[s - 2]) {
+				a[s] = a[f];
+				s ++;
+			}
+		}
+		return Arrays.copyOf(a, s);
+	}
 	
 	public int[] task2_dedup(int[] array) {
 		// write your solution here
@@ -98,38 +149,47 @@ public class Class19 {
 	 * The given array is not null
 	 * Examples
 	 * {1, 2, 2, 3, 3, 3} → {1}
+	 * 
+	 * 
 	 */
-	public int[] task3_dedup(int[] array) {
-		// write your solution here
-		if (array == null || array.length <= 1) {
-			return array;
+	public static void test3() {
+		int[] a = {1,2,2,3,3,3};
+		int[] rev = task3_dedup3(a);
+		for(int i = 0; i < rev.length; i ++) {
+			System.out.print(rev[i] + " ");
 		}
-		int start = 0;
+		System.out.println();
+	}
+	
+	public static int[] task3_dedup3(int[] a) {
+		if (a == null || a.length <= 1) {
+			return a;
+		}
+		int s = 0;
 		boolean flag = false;
-		for (int i = 1; i < array.length; i++) {
-			if (array[i] == array[start]) {
+		for(int f = 1; f < a.length; f ++) {
+			// case1
+			if (a[f] == a[s]) {
 				flag = true;
 			} else {
-				// array[i] != array[start]
 				if (flag == false) {
 					// the candidates doesn't have duplicate
-					// we put the next candidate in next position and set flag
-					// == false
-					array[++start] = array[i];
+					// we put the next candidate in next position and set flag == false
+					// case2: a[f] != a[s]
+					// a[s] doesn't have duplicate
+					++s;
+					a[s] = a[f];
 				} else {
 					// flag == true
 					// the candidates has duplicates.
 					// it can no longer put here. put another candidate, and set
 					// flag == false
-					array[start] = array[i];
+					a[s] = a[f];
 					flag = false;
 				}
 			}
 		}
-		if (flag == false) {
-			start++;
-		}
-		return Arrays.copyOf(array, start);
+		return Arrays.copyOf(a, s);
 	}
 	
 	
@@ -173,17 +233,26 @@ public class Class19 {
 				i++;
 			}
 		}
-		System.out.println(st.size());
+		System.out.println("st.size() == " + st.size());
 		int[] result = new int[st.size()];
 		for (int j = st.size() - 1; j >= 0; j--) {
 			result[j] = st.poll();
 		}
 		System.out.println(result.length);
+		
+		System.out.println("-----------------");
+		for(int k = 0; k < result.length; k++) {
+			System.out.print(result[k] + " ");
+		}
+		System.out.println();
+		System.out.println("-----------------");
 		return result;
 	}
 	
 	
+	
 	/*
+	 * Q2(Array number comparisions)
 	 * task5
 	 * Largest And Smallest
 	 * Fair Data Structure
@@ -244,6 +313,7 @@ public class Class19 {
 					if (p1.second <= p2.second) {
 						// p2 win, add p2 to the nextRound
 						nextRound.add(p2);
+						// put p1 into the list of p2 beats
 						// if this
 						if (!map.containsKey(p2.first)) {
 							map.put(p2.first, new ArrayList<Integer>());
@@ -252,7 +322,9 @@ public class Class19 {
 						map.get(p2.first).add(p1.second);
 					} else {
 						// p1 win
+						// put p1 into nextRound
 						nextRound.add(p1);
+						// put p2 into the list of p1 beats
 						if (!map.containsKey(p1.first)) {
 							map.put(p1.first, new ArrayList<Integer>());
 						}
@@ -265,7 +337,6 @@ public class Class19 {
 				}
 			}
 			list = nextRound;
-
 		}
 		int secondMax = max(map.get(list.get(0).first));
 		// System.out.println("secondMax = " + secondMax);
@@ -297,7 +368,8 @@ public class Class19 {
 	 * task7
 	 * Spiral Order Traverse I
 	 * Fair Data Structure
-	 * Traverse an N * N 2D array in spiral order clock-wise starting from the top left corner. Return the list of traversal sequence.
+	 * Traverse an N * N 2D array in spiral order clock-wise starting from the top left corner. 
+	 * Return the list of traversal sequence.
 	 * Assumptions
 	 * The 2D array is not null and has size of N * N where N >= 0
 	 * Examples
@@ -407,7 +479,8 @@ public class Class19 {
 	}
 	
 	/*
-	 * Spiral Order Generate I Fair Data Structure
+	 * Spiral Order Generate I 
+	 * Fair Data Structure
 	 * Generate an N * N 2D array in spiral order clock-wise starting from the top left corner, 
 	 * using the numbers of 1, 2, 3, …, N * N in increasing order.
 	 * Assumptions
@@ -761,17 +834,11 @@ public class Class19 {
 	 * There is no parent pointer for the nodes in the binary tree
 	 * The given two nodes are not guaranteed to be in the binary tree
 	 * Examples
-
         	5
-
       	  /   \
-
      	 9     12
-
    	    /  \      \
-
   	   2    3      14
-
 		The lowest common ancestor of 2 and 14 is 5
 
 		The lowest common ancestor of 2 and 9 is 9
@@ -867,13 +934,6 @@ public class Class19 {
 		}
 		return left != null ? left : right;
 	}
-	
-	
-	
-
-	
-	
-	
 	
 
 }

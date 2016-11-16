@@ -28,6 +28,22 @@ public class Class22 {
 	 * task10: Reconstruct Binary Tree With PostOrder and InOrder
 	 * 
 	 */
+	/*
+	 * Q1: use recursion to return values in a bottom up way in binary tree
+	 * 
+	 * Q1.1 determine whether a binary tree is a balance binary tree 
+	 * balanced: 
+	 * the tree has a minimum possible overall height
+	 * no leaf is too futher away, i.e, 0 or 1, from root than any other leaf
+	 * left and right sub-tree have similar height, i.e, difference is 0 or 1 (balanced height)
+	 * 
+	 * method1: O(n * log n)
+	 * method2: O(n)
+	 */
+	
+	
+	
+	
 	
 	
 	

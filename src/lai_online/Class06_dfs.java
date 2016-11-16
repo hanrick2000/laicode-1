@@ -6,6 +6,7 @@ public class Class06_dfs {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+//		test1_1();
 //		test7();
 //		test7_1();
 //		test8();
@@ -13,8 +14,8 @@ public class Class06_dfs {
 //		test9_1();
 //		test10();
 //		test10_1();
-		test13();
-//		test12();
+//		test13();
+		test12();
 	}
 	
 	/*
@@ -51,8 +52,9 @@ public class Class06_dfs {
 			result.add(sb.toString());
 			return ;
 		}
-		task1_helper(set, index + 1, sb, result);
-		sb.append(set.charAt(index));
+		task1_helper(set, index + 1, sb, result); // dont' choose
+
+		sb.append(set.charAt(index));  // choose
 		task1_helper(set, index + 1, sb, result);
 		sb.deleteCharAt(sb.length() - 1);
 	}
@@ -82,15 +84,16 @@ public class Class06_dfs {
 	public static void task1_1_helper(char[] set, StringBuilder stb, List<String> result, int index) {
 		System.out.println(stb.toString() + " count = " + count ++);
 		// choose what is the index in the original set to pick
-		// maintain the ascending order of the picked indices
+		// maintain the ascending/increasing order of the picked indices
 		result.add(stb.toString());
-		
 		for(int i = index; i < set.length; i ++) {
 			stb.append(set[i]);
+			System.out.println("str is: " + stb.toString());
 			task1_1_helper(set, stb, result, i + 1);
 			stb.deleteCharAt(stb.length() - 1);
 		}
 	}
+	
 	
 	public static void helperII(char[] set, StringBuilder sb, int index, List<String> result) {
 		result.add(sb.toString());
@@ -366,8 +369,6 @@ public class Class06_dfs {
 		}
 	}
 	
-	
-	
 	/*
 	 * task12
 	 * All Valid Permutations Of Parentheses II
@@ -387,17 +388,12 @@ public class Class06_dfs {
 		// write your solution here
 		final char[] PS = { '(', ')', '[', ']', '{', '}' };
 		int[] remaining = { l, l, m, m, n, n };
-
 		// when we add right parentheses, we need to use the stack to make sure
 		// they are in the same type
 		Deque<Character> stack = new LinkedList<Character>();
-
 		StringBuilder cur = new StringBuilder();
-
 		List<String> result = new ArrayList<String>();
-
 		int targetLen = 2 * l + 2 * m + 2 * n;
-
 		task12_helper(remaining, PS, stack, cur, targetLen, result);
 		return result;
 	}
@@ -453,6 +449,7 @@ public class Class06_dfs {
 	 * coins - an array of positive integers representing the different denominations of coins, 
 	 * there are no duplicate numbers and the numbers are sorted by descending order, eg. {25, 10, 5, 2, 1}
 	 * target - a positive integer representing the target number of cents, eg. 99
+	 * 
 	 * Assumptions
 	 * coins is not null and is not empty, all the numbers in coins are positive
 	 * target >= 0
@@ -542,7 +539,7 @@ public class Class06_dfs {
 	 * task14
 	 * N Queens
 	 * Fair Recursion
-	 * Get all valid ways of putting N Queens on an N * N chessboard so that no two Queens threaten each other.
+	 * Get all valid ways of putting N Queens on an N * N chess board so that no two Queens threaten each other.
 	 * Assumptions
 	 * N > 0
 	 * Return
@@ -559,15 +556,15 @@ public class Class06_dfs {
 	 * and the Queen on the fourth row is at y index 1.
 	 */
 	
-	public List<List<Integer>> nqueens(int n) {
+	public List<List<Integer>> task14_nqueens(int n) {
 		// write your solution here
 		List<List<Integer>> result = new ArrayList<List<Integer>>();
 		List<Integer> cur = new ArrayList<Integer>();
-		helper(0, n, cur, result);
+		task14_helper(0, n, cur, result);
 		return result;
 	}
 
-	public void helper(int index, int n, List<Integer> cur,
+	public void task14_helper(int index, int n, List<Integer> cur,
 			List<List<Integer>> result) {
 		if (index == n) {
 			result.add(new ArrayList<Integer>(cur));
@@ -575,15 +572,15 @@ public class Class06_dfs {
 		}
 		for (int i = 0; i < n; i++) {
 			cur.add(i);
-			if (isValid(cur)) {
-				helper(index + 1, n, cur, result);
+			if (task14_isValid(cur)) {
+				task14_helper(index + 1, n, cur, result);
 			}
 			cur.remove(cur.size() - 1);
 		}
 	}
 
 	// check whether add the last element, the cur List is still valid
-	public boolean isValid(List<Integer> cur) {
+	public boolean task14_isValid(List<Integer> cur) {
 		int size = cur.size();
 		for (int i = 0; i < size - 1; i++) {
 			int rowIndex = i;
@@ -601,6 +598,19 @@ public class Class06_dfs {
 		}
 		return true;
 	}
+	
+	/*
+	 * task15
+	 * 输出整数分解的全部解,解要从大到小的输出
+	 * Example:
+	 * input: n = 12
+	 * output:
+	 * 12 
+	 * 6*2 
+	 * 4*3 
+	 * 3*2*2
+	 */
+	
 	
 }
 

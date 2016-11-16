@@ -15,7 +15,8 @@ public class Class25 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		test7();
+		test6();
+//		test7();
 	}
 	
 	
@@ -256,7 +257,7 @@ public class Class25 {
 	
 	/*
 	 * task6 
-	 * Max Water Trapped II 
+	 * Max Water Trapped I
 	 * Fair Data Structure
 	 * Given a non-negative
 	 * integer array representing the heights of a list of adjacent bars.
@@ -271,6 +272,34 @@ public class Class25 {
 	 * index 1, 1 unit of water can be trapped and index 3, 1 unit of water can
 	 * be trapped)
 	 */
+	public static void test6() {
+		int[] array = {2, 1, 3, 2, 4};
+		int maxWater1 = task6_maxWaterI(array);
+		System.out.println("maxWater = " + maxWater1);
+	}
+	
+	public static int task6_maxWaterI(int[] array) {
+		if (array == null || array.length == 0) {
+			return 0;
+		}
+		int leftMax = 0, rightMax = 0;
+		int i = 0, j = array.length - 1;
+		int maxWater = 0;
+		while(i <= j) {
+			// update leftMax if needed
+			leftMax = Math.max(array[i], leftMax);
+			// update rightMax if needed
+			rightMax = Math.max(array[j], rightMax);
+			if (leftMax < rightMax) {
+				maxWater += leftMax - array[i];
+				i ++;
+			} else {
+				maxWater += rightMax - array[j];
+				j --;
+			}
+		}
+		return maxWater;
+	}
 	
 	
 	
@@ -497,7 +526,8 @@ public class Class25 {
 	
 	/*
 	 * task10 
-	 * Largest Product Of Length Hard String Given a dictionary
+	 * Largest Product Of Length Hard String 
+	 * Given a dictionary
 	 * containing many words, find the largest product of two words’ lengths,
 	 * such that the two words do not share any common characters.
 	 * 

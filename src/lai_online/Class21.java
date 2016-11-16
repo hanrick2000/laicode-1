@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.PriorityQueue;
 
+import debug.Debug;
 import ds.*;
 
 public class Class21 {
@@ -14,7 +15,9 @@ public class Class21 {
 		// TODO Auto-generated method stub
 		// test2_5();
 //		test6();
-		test7();
+//		test7();
+		test8();
+//		test2_2();
 	}
 	
 	/*
@@ -87,8 +90,8 @@ public class Class21 {
 
 	/*
 	 * task2 
-	 * Deep Copy Linked List With Random Pointer Fair Data Structure Each
-	 * of the nodes in the linked list has another pointer pointing to a random
+	 * Deep Copy Linked List With Random Pointer Fair Data Structure
+	 * Each of the nodes in the linked list has another pointer pointing to a random
 	 * node in the list or null. Make a deep copy of the original list.
 	 */
 	public static class RandomListNode {
@@ -142,16 +145,51 @@ public class Class21 {
 	/*
 	 * 1 ->2 ->3 ->4 -> 5 1 ->1'->2->2' ->3 -3'
 	 */
+	public static void test2_2() {
+		RandomListNode n1 = new RandomListNode(1);
+		RandomListNode n2 = new RandomListNode(2);
+		RandomListNode n3 = new RandomListNode(3);
+		RandomListNode n4 = new RandomListNode(4);
+		RandomListNode n5 = new RandomListNode(5);
+		RandomListNode n6 = new RandomListNode(6);
+		n1.next = n2;
+		n2.next = n3;
+		n3.next = n4;
+		n4.next = n5;
+		n5.next = n6;
+		
+		n1.random = n3;
+		n4.random = n2;
+		n5.random = n5;
+		
+		RandomListNode newHead = task2_2copyt(n1);
+		// traverse the list
+		RandomListNode cur = newHead;
+		while(cur != null) {
+			System.out.println(cur.value + "  ");
+			if (cur.random != null) {
+				System.out.println("cur.val = " + cur.value + "cur.random.val = " + cur.random.value + " ");
+			}
+			cur = cur.next;
+		}
+		System.out.println();
+		
+		
+		
+	}
 	public static RandomListNode task2_2copyt(RandomListNode head) {
 		if (head == null) {
 			return null;
 		}
 		RandomListNode cur = head;
 		// create the copy node and assert it after cur
+		// 1-> 2 -> 3 -> 4 -> 5
+		// 1 -> 1' -> 2 -> 2' -> 3 -> 3' ->4 ->4' -> 5 -> 5'
 		while (cur != null) {
 			RandomListNode curCopy = new RandomListNode(cur.value);
+			// first initialize the curCopy
 			curCopy.random = cur.random;
-
+			
 			curCopy.next = cur.next;
 			cur.next = curCopy;
 
@@ -181,6 +219,7 @@ public class Class21 {
 		}
 		return newHead;
 	}
+	
 
 	/*
 	 * task2.5 Copy tree with random pointer
@@ -263,9 +302,17 @@ public class Class21 {
 	}
 
 	/*
-	 * 1 / \ 2 3
+	 *   1
+	 *  / \ 
+	 *  2  3
 	 * 
-	 * 1 / \ 1' 3 / \ / 2 3' / 2'
+	 * 		 1 
+	 *	    / \ 
+	 *     1'   3 
+	 *    / \  / 
+	 *   2    3' 
+	 *   / 
+	 *   2'
 	 */
 	public static void restoreTree(RandomTreeNode node, RandomTreeNode cloneNode) {
 		if (node == null) {
@@ -374,25 +421,23 @@ public class Class21 {
 
 	/*
 	 * task4 
-	 * Merge K Sorted Array Fair Data Structure Merge K sorted array into
-	 * one big sorted array in ascending order. Assumptions The input
-	 * arrayOfArrays is not null, none of the arrays is null either.
+	 * Merge K Sorted Array Fair Data Structure 
+	 * Merge K sorted array into one big sorted array in ascending order. 
+	 * Assumptions:  The input arrayOfArrays is not null, none of the arrays is null either.
 	 * 
 	 */
 	/*
 	 * method1 use minHeap, see task21_new_Merge_K_Sorted_Array
 	 */
+	/*
+	 * method2 use binary reduction
+	 */
+ 
 	
-	
-	
-	
-	
-
 	/*
 	 * task5 
-	 * Merge K Sorted Lists Fair Data Structure Merge K sorted lists into
-	 * one big sorted list in ascending order. Assumptions None of the lists is
-	 * null.
+	 * Merge K Sorted Lists Fair Data Structure 
+	 * Merge K sorted lists into one big sorted list in ascending order. Assumptions None of the lists is null.
 	 */
 	public static ListNode task5_mergeKSortedList_minHeap(List<ListNode> lists){
 		// check
@@ -521,7 +566,11 @@ public class Class21 {
 	 * The given root is not null. There are no duplicate keys in the binary
 	 * search tree. Examples:
 	 * 
-	 * 5 / \ 2 11 / \ 6 14
+	 * 				5 
+	 * 			   /  \ 
+	 *            2   11 
+	 *               / \ 
+	 *              6  14
 	 * 
 	 * closest number to 4 is 5
 	 * 
@@ -537,7 +586,11 @@ public class Class21 {
 	 * For Example: The sequence [1, 2, 3, #, #, 4] represents the following
 	 * binary tree:
 	 * 
-	 * 1 / \ 2 3 / 4
+	 *   			1 
+	 *    		   / \ 
+	 *    		  2 3 
+	 *           / 
+	 *          4
 	 */
 
 	public static void test6() {
@@ -583,13 +636,21 @@ public class Class21 {
 	 * a binary search tree, find the node containing the largest number smaller
 	 * than the given target number. If there is no such number, return INT_MIN.
 	 * Assumptions: The given root is not null. There are no duplicate keys in
-	 * the binary search tree. Examples 5 / \ 2 11 / \ 6 14
+	 * the binary search tree. Examples 
+	 * 					5 
+	 *  			   / \ 
+	 *   			  2  11 
+	 *                   / \ 
+	 *                  6  14
 	 * 
 	 * largest number smaller than 1 is null
 	 * 
 	 * largest number smaller than 10 is 6
 	 * 
 	 * largest number smaller than 6 is 5
+	 * 
+	 * 如果当前节点值大于等于x，就向左走curr = curr->left;
+	 * 否则一旦向右走就更新result值，result = curr->val;因为当前节点左边的节点值更小
 	 */
 	public static void test7() {
 		int[] a = {1,2,3,4,7,9, 15, 19};
@@ -634,6 +695,49 @@ public class Class21 {
 	 * L = 10, A = {2, 4, 7}, the minimum total cost is 10 + 4 + 6 = 20 (cut at
 	 * 4 first then cut at 2 and cut at 7)
 	 */
+	public static void test8() {
+		int n = 10;
+		int[] A= {2,4,7};
+		int rev = task8_minCost(n, A);
+		System.out.println("rev = " + rev);
+	}
+	
+	public static int task8_minCost(int n, int[] A) {
+		if (n <= 1) {
+			return n;
+		}
+		int[] B = new int[A.length + 2];
+		B[0] = 0;
+		for(int i = 0; i < A.length; i ++) {
+			B[i + 1] = A[i];
+		}
+		B[B.length - 1] = n;
+		
+		int[][] M = new int[B.length][B.length];
+		// initialize
+		for(int i = 0; i < B.length - 1; i ++) {
+			M[i][i + 1] = 0;
+		}
+		// induction rule
+		for(int len = 2; len <= B.length; len ++) {
+			for(int i = B.length - len - 1; i >= 0; i --) {
+				int j = i + len;
+				System.out.println(" i = " + i + " j = " + j);
+				int curMin = Integer.MAX_VALUE;
+				
+				for(int k = i + 1; k < j; k ++) {
+					curMin = Math.min(curMin, M[i][k] + M[k][j]);
+				}
+				System.out.println("curMin = " + curMin);
+				M[i][j] = B[j] - B[i] + curMin;
+			}
+		}
+
+		Debug.printMatrix(M);
+		
+		return M[0][B.length - 1];
+	}
+	
 	
 	
 	/*
@@ -643,8 +747,15 @@ public class Class21 {
 	
 	/*
 	 * task10
+	 * Binary search insertion
+	 */
+	
+	/*
+	 * task11
 	 * Merge Stones
 	 */
+	
+	
 	
 
 }
