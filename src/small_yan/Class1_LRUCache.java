@@ -5,7 +5,13 @@ import java.util.Map;
 
 
 /*
+ * Design a LRU Cache
  * HashMap with Double LinkedList
+ * 
+ * case1: cache miss, put the new data in the front of the queue, delete the end of the queue
+ * case2: cache hit, put this data hit in the front of the queue. 
+ * e.g
+ * each data cached is a URL
  */
 public class Class1_LRUCache<K,V> {
 

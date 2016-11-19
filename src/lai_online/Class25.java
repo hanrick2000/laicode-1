@@ -15,8 +15,9 @@ public class Class25 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		test6();
+//		test6();
 //		test7();
+		test8();
 	}
 	
 	
@@ -276,8 +277,69 @@ public class Class25 {
 		int[] array = {2, 1, 3, 2, 4};
 		int maxWater1 = task6_maxWaterI(array);
 		System.out.println("maxWater = " + maxWater1);
+		System.out.println(" --------------------- ");
+		int maxWater2 = task6_maxWater1(array);
+		System.out.println("maxWater2 = " + maxWater2);
 	}
 	
+	public static int task6_maxWater1(int[] a) {
+		if (a == null || a.length == 0) {
+			return 0;
+		}
+		int n = a.length;
+		int[] leftMax = new int[n];  // leftMax[i] is the max height on the leftside of i, including i
+		int[] rightMax = new int[n]; // rightMax[i] ...
+		// fill in leftMax
+		for(int i = 0; i < n; i ++) {
+			if (i == 0) {
+				leftMax[i] = a[i];
+			} else {
+				leftMax[i] = Math.max(leftMax[i - 1], a[i]);
+			}
+		}
+		// fill in rigthMax
+		for(int j = n - 1; j >= 0; j --) {
+			if (j == n - 1) {
+				rightMax[j] = a[j];
+			} else {
+				rightMax[j] = Math.max(rightMax[j + 1], a[j]);
+			}
+		}
+		
+		// traverse the array and get maxWater
+		int maxWater = 0;
+		for(int i = 0; i < n; i ++) {
+			maxWater += (Math.min(leftMax[i], rightMax[i]) - a[i]);
+		}
+		return maxWater;
+		
+	}
+	
+	
+	/**
+	 * 
+	 * @param array
+	 * @return
+	 * leftMax is the max height in the leftSide
+	 * rightMax is the max height in the rightSide
+	 * 
+	 * if leftMax < rightMax
+	 * 		maxWater = leftMax - A[i]
+	 * 		i ++
+	 * else  // leftMax > rightMax
+	 * 		maxwater = rightMax - A[j]
+	 * 		j --;
+	 * 
+	 * prove: 
+	 * case1
+	 * if leftMax < rightMax, it's OK to move to i + 1
+	 * case 1.1
+	 * 	  if A[i + 1] < leftMax  leftMax is still valid. water above A[i + 1] is leftMax - A[i + 1]
+	 * case 1.2 
+	 * 	  if A[i + 1] > leftMax  leftMax is NOT valid, we need to update it to A[i + 1]
+	 * 	  water above A[i + 1] is leftMax - A[i + 1] = A[i + 1] - A[i + 1] = 0
+	 * Therefore, it's OK to move to i + 1 if leftMax < rightMax
+	 */
 	public static int task6_maxWaterI(int[] array) {
 		if (array == null || array.length == 0) {
 			return 0;
@@ -482,10 +544,12 @@ public class Class25 {
 	
 	/*
 	 * task8 
-	 * Largest Container Fair Data Structure Given an array of
-	 * non-negative integers, each of them representing the height of a board
+	 * Largest Container 
+	 * Fair Data Structure Given an array of non-negative integers, 
+	 * each of them representing the height of a board
 	 * perpendicular to the horizontal line, the distance between any two
-	 * adjacent boards is 1. Consider selecting two boards such that together
+	 * adjacent boards is 1. 
+	 * Consider selecting two boards such that together
 	 * with the horizontal line they form a container. Find the volume of the
 	 * largest such container.
 	 * 
@@ -495,7 +559,40 @@ public class Class25 {
 	 * 
 	 * { 2, 1, 3, 1, 2, 1 }, the largest container is formed by the two boards
 	 * of height 2, the volume of the container is 2 * 4 = 8.
+	 * 
+	 *       --
+	 *  --         --
+	 *     --   --    --
 	 */
+	
+	
+	public static void test8() {
+		int[] a = {2, 1, 3, 1, 2, 1};
+		int largestContainer = task8_largetContainer(a);
+		System.out.println("largestContainer = " + largestContainer);
+	}
+	
+	public static int task8_largetContainer(int[] a) {
+		if (a == null || a.length == 0) {
+			return 0;
+		}
+		int n = a.length;
+		int i = 0, j = n - 1;
+		
+		int maxContainer = 0;
+		while(i < j) {
+			int curContainer = Math.min(a[i], a[j]) * (j - i);
+			
+			maxContainer = Math.max(maxContainer, curContainer);
+			if (a[i] < a[j]) {
+				i ++;
+			} else {
+				j --;
+			}
+		}
+		return maxContainer;
+	}
+	
 	
 	
 	
@@ -540,6 +637,7 @@ public class Class25 {
 	 * dictionary = [“abcde”, “abcd”, “ade”, “xy”], the largest product is 5 * 2
 	 * = 10 (by choosing “abcde” and “xy”)
 	 */
+	
 	
 	
 	
