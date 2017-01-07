@@ -9,7 +9,7 @@ import ds.TreeNode;
 public class Lec23 {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Q1_1test();
+//		Q1_1test();
 //		Q1_3test();
 //		Q1_2test();
 //		Q1_2_1test();
@@ -20,7 +20,7 @@ public class Lec23 {
 //		Q2_2_1test();
 //		Q2_2_2test();
 //		Q2_4test();
-//		Q2_5test();
+		Q2_5test();
 	}
 	
 	

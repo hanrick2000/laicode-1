@@ -1,8 +1,6 @@
 package small_yan;
 
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 
 
 public class Class1_FirstNonRepeating {
@@ -13,9 +11,40 @@ public class Class1_FirstNonRepeating {
 	}
 	
 	/*
+	 * Given an unlimited stream of characters, find the first non-repeating character from stream
+	 * You need to tell the first non-repeating character in O(1) time at any moment. 
+	 * 
+	 * 			0 1 2 3 4
+	 * 			a b c d a
+	 * output   a a a a b
+	 * 
+	 * 
 	 * HashMap with Double Linked List
+	 * 
+	 * when read a character, 
+	 * case1: it's a new character, put it into the tail of DDL and put an new element in the HashMap
+	 * case2: the second time appearance, delete it from the DDL, 
+	 *        in HashMap, set the value of this character to null
+	 * case3: the third or more time appearance, in HashMap, 
+	 * 		  this character exists, but its value is null, do nothing
 	 */
 	
+	/*
+	 * When we are scanning a new element 'X', what should we do ? 
+	 * case1: X has not been seen yet. (1st time see 'X')
+	 *      1.1 insert X into the tail(right end) of the DDL
+	 *      1.2 insert X into the hashMap
+	 * case2: X has been seen before
+	 * 		2.1 X has been just seen for the 2nd time 
+	 * 			(1) delete X from the DDL
+	 * 			(2) set the value of 'X' in the hash_table to NULL 
+	 * 				(which means the letter 'X' has been seen for 2nd or more times)
+	 * 		2.2 X has been seen for the 3rd or more times(X exists in hashMap, but its value is NULL) 
+	 * 			we do nothing. 
+	 */
+	
+	
+	// defind the Node of Double Linked List
 	public static class Node{
 		char key;
 		Node prev;

@@ -323,6 +323,8 @@ public class Part1_SmallSun {
 		
 	}
 	
+	
+	
 	/*
 	 * task6
 	 * 数组排序, 排成 a1<a2 > a3<a4 > a5 < a6 。。。这种形式。 674523

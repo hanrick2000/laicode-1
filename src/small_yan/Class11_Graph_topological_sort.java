@@ -9,9 +9,10 @@ public class Class11_Graph_topological_sort {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 //		test5();
-		test4_1();
+//		test4_1();
 //		test4_0();
 //		test4_2();
+		test5_2();
 	}
 
 	/*
@@ -85,24 +86,42 @@ public class Class11_Graph_topological_sort {
 		}
 		return task4_2_helper(root, map);
 	}
-	public static boolean task4_2_helper(GraphNode node, HashMap<GraphNode, Boolean> map) {
+	public static boolean task4_2_helper(GraphNode node, HashMap<GraphNode, Boolean> visited) {
 		// for debug
+		System.out.println("---------------------------------");
 		System.out.println("current node value : " + node.key);
-		if (map.get(node) == true) {
+		printMap(visited);
+		System.out.println("=================================");
+		
+		if (visited.get(node) == true) {
+			// this node is already visited, return false
 			return false;
-		} 
+		}
+		
+		// mark current node as true
+		visited.put(node, true);
+		
 		// if this is a leaf node, return true
 		if (node.neighbors == null || node.neighbors.size() == 0) {
 			return true;
 		}
-		boolean result = false;
-		// mark current node as true
-		map.put(node, true);
 		
+		// suppose the current Node is valid
+		boolean result = true;
+		// traverse all its neighbors. if all its neighbors are valid, the current is Valid. 
+		// if one or more of its neighbor is NOT valid, the current node is NOT valid
 		for(GraphNode nei: node.neighbors) {
-			result |= task4_2_helper(nei, map);
+			result = (result & task4_2_helper(nei, visited));
 		}
+		
 		return result;
+	}
+	
+	// for debug
+	public static void printMap(HashMap<GraphNode, Boolean> map) {
+		for(java.util.Map.Entry<GraphNode, Boolean> entry: map.entrySet()) {
+			System.out.println(entry.getKey().key + "   " + entry.getValue());
+		}
 	}
 	
 	/* 3 how to determine if an directed graph does not have circle? 
@@ -144,21 +163,22 @@ public class Class11_Graph_topological_sort {
 		n1.neighbors.add(n2);
 		n2.neighbors.add(n3);
 		n1.neighbors.add(n3);
+		n3.neighbors.add(n1);
 		
 		List<GraphNode> graph = new ArrayList<GraphNode>();
 		graph.add(n1);
 		graph.add(n2);
 	 	graph.add(n3);
 		
-		
-		GraphNode n4 = new GraphNode(4);
-		GraphNode n5 = new GraphNode(5);
-		
-		n4.neighbors.add(n3);
-		n5.neighbors.add(n4);
-		
-		graph.add(n4);
-		graph.add(n5);
+//		
+//		GraphNode n4 = new GraphNode(4);
+//		GraphNode n5 = new GraphNode(5);
+//		
+//		n4.neighbors.add(n3);
+//		n5.neighbors.add(n4);
+//		
+//		graph.add(n4);
+//		graph.add(n5);
 		boolean rev = task4_directedGraphHasCycle(graph);
 		System.out.println("rev = " + rev);
 	}
@@ -176,23 +196,46 @@ public class Class11_Graph_topological_sort {
 	}
 	
 	public static void task4_directed_dfs(GraphNode node, HashSet<GraphNode> visited, HashSet<GraphNode> visiting) {
+		System.out.println("------visited------");
+		printSet(visiting);
+		System.out.println("-------------------");
+		System.out.println("=======visiting====");
+		printSet(visiting);
+		System.out.println("===================");
+		
+		// the node is already visited, exit
 		if (visited.contains(node)) {
 			return ;
 		}
+		// the node in visiting, which means it's being visited via another path. 
+		// if we come here again, from a new path, there must be a cycle. 
 		if (visiting.contains(node)) {
 			directed_graph_has_cycle = true;
 			return ;
 		}
+		// add the node to visiting set
 		visiting.add(node);
-		
+		// visit its neighbors
 		for(GraphNode nei: node.neighbors) {
 			task4_directed_dfs(nei, visited, visiting);
 		}
-		
+		// if all neighbors finished, add to visited
 		visited.add(node);
+		// remove the node from visiting, since its already visited
+		visiting.remove(node);
 	}
 	
+	public static void printSet(HashSet<GraphNode> map) {
+		for(GraphNode n: map) {
+			System.out.print(n.key + " ");
+		}
+		System.out.println();
+	}
 
+	
+	
+	
+	
 	public static boolean task4_determineDirectedGraphIsTree(List<GraphNode> graph) {
 		return false;
 	}
@@ -293,7 +336,7 @@ public class Class11_Graph_topological_sort {
 		n1.neighbors.add(n2);
 		n1.neighbors.add(n3);
 		n2.neighbors.add(n3);
-		n3.neighbors.add(n2);
+//		n3.neighbors.add(n2);
 
 		ArrayList<GraphNode> graph = new ArrayList<GraphNode>();
 		graph.add(n1);
@@ -316,6 +359,66 @@ public class Class11_Graph_topological_sort {
 		System.out.println("\n-----------------");
 
 	}
+	
+	
+	public static void test5_2() {
+		
+		
+		GraphNode n3 = new GraphNode(3);
+		GraphNode n5 = new GraphNode(5);
+		GraphNode n7 = new GraphNode(7);
+		GraphNode n11 = new GraphNode(11);
+		GraphNode n8 = new GraphNode(8);
+		GraphNode n2 = new GraphNode(2);
+		GraphNode n9 = new GraphNode(9);
+		GraphNode n10 = new GraphNode(10);
+		
+		
+		
+		n7.neighbors.add(n11);
+		n7.neighbors.add(n8);
+		
+		n5.neighbors.add(n11);
+		n3.neighbors.add(n8);
+		n3.neighbors.add(n10);
+		
+		n11.neighbors.add(n2);
+		n11.neighbors.add(n9);
+		n11.neighbors.add(n10);
+		
+		n8.neighbors.add(n9);
+		
+		
+
+		ArrayList<GraphNode> graph = new ArrayList<GraphNode>();
+		graph.add(n7);
+		graph.add(n5);
+		graph.add(n3);
+		graph.add(n11);
+		graph.add(n8);
+		graph.add(n2);
+		graph.add(n9);
+		graph.add(n10);
+		
+		ArrayList<GraphNode> topSort = topologicalSort(graph);
+
+		System.out.println("==========top sort1 ===========");
+		for (GraphNode node : topSort) {
+			System.out.print(node.key + "  ");
+		}
+		System.out.println("\n-----------------");
+		
+		
+		System.out.println("==========top sort2 ===========");
+		ArrayList<GraphNode> topSort2 = topologicalSort2(graph);
+		for (GraphNode node : topSort2) {
+			System.out.print(node.key + "  ");
+		}
+		System.out.println("\n-----------------");
+
+	}
+	
+	
 
 	public static ArrayList<GraphNode> topologicalSort(
 			ArrayList<GraphNode> graph) {
@@ -334,12 +437,6 @@ public class Class11_Graph_topological_sort {
 			}
 		}
 
-		// for debug
-//		for (Entry<GraphNode, Integer> entry : map.entrySet()) {
-//			System.out.println(entry.getKey().key + " :  " + entry.getValue());
-//		}
-//		System.out.println();
-
 		// add all in-degree == 0 node into result, they are not in the hashMap
 		// and add them into the queue
 		Queue<GraphNode> queue = new LinkedList<GraphNode>();
@@ -349,15 +446,6 @@ public class Class11_Graph_topological_sort {
 				queue.offer(node);
 			}
 		}
-
-		// for debug
-//		System.out.println("----------print queue -----------");
-//		for (GraphNode n : queue) {
-//			System.out.print(n.key + "   ");
-//			
-//		}
-//		System.out.println();
-//		System.out.println("----------end print queue--------");
 
 		// do BFS
 		while (!queue.isEmpty()) {
@@ -373,26 +461,11 @@ public class Class11_Graph_topological_sort {
 						map.remove(n);
 					}
 				}
-
 			}
-			
 		}
 
 		// check if map.size == 0, if is, then output the result
-		// otherwise, there are still element in the map, so, there are cycle.
-
-		// for debug
-//		System.out.println("map.size = " + map.size());
-
-//		for (Entry<GraphNode, Integer> entry : map.entrySet()) {
-//			System.out.println(entry.getKey().key + " :  " + entry.getValue());
-//		}
-//		System.out.println("-----print result -----");
-//		for (GraphNode n : result) {
-//			System.out.print(n.key + " ");
-//		}
-//		System.out.println("\n--- finish print result ---");
-		
+		// otherwise, there are still element in the map, so, there are cycle.		
 		if (map.size() != 0) {
 			// NOT a DAG
 			return new ArrayList<GraphNode>();
@@ -446,7 +519,8 @@ public class Class11_Graph_topological_sort {
 	
 	public static boolean NOTDAG = false;
 	
-	public static void visit(GraphNode n, HashSet<GraphNode> visited, HashSet<GraphNode> visiting, ArrayList<GraphNode> list) {
+	public static void visit(GraphNode n, 
+			HashSet<GraphNode> visited, HashSet<GraphNode> visiting, ArrayList<GraphNode> list) {
 		if (visited.contains(n)) {
 			return ;
 		}
@@ -460,10 +534,20 @@ public class Class11_Graph_topological_sort {
 			visit(neighbor, visited, visiting, list);
 		}
 		visited.add(n);
+		visiting.remove(n);
 		list.add(n);
+		System.out.println("--------");
+		printList(list);
+		System.out.println("========");
 	}
 	
-	
+	public static void printList(ArrayList<GraphNode> list) {
+		for(GraphNode n: list) {
+			System.out.print(n.key + " ");
+		}
+		System.out.println();
+	}
+		
 	
 	/*
 	 * task7
@@ -473,6 +557,7 @@ public class Class11_Graph_topological_sort {
 	 * see leetcode 207 210  Course Schedule
 	 * 
 	 */
+	
 	
 	/* task8
 	 * given a dictionary, but not knowing how the character sequence order(排序方法 未知),

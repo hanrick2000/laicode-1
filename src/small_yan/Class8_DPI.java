@@ -1,6 +1,7 @@
 package small_yan;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 
 import debug.Debug;
@@ -10,10 +11,11 @@ public class Class8_DPI {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 //		test2();
-		test4();
-		test4_1();
-//		test6_2();
+//		test4();
+//		test4_1();
+		test6_2();
 //		test8();
+//		t6_2_3();
 	}
 	
 	/*
@@ -22,6 +24,7 @@ public class Class8_DPI {
 	 * task1.1 longest Increasing SubArray
 	 * task1.2 longest Increasing SubSequence
 	 */
+	
 	
 	
 	/*
@@ -33,6 +36,7 @@ public class Class8_DPI {
 	 * sorting by x,  longest inscreasing subsequence of y
 	 */
 	
+	
 	/*
 	 * task1.4
 	 * set of boxes, each one has (length, width, height), we want to put them as a stack,
@@ -40,6 +44,7 @@ public class Class8_DPI {
 	 * 
 	 * Longest Increasing Subsequence
 	 */
+	
 	
 	
 	/*
@@ -62,6 +67,11 @@ public class Class8_DPI {
 			this.weight = _weight;
 		}
 	}
+	
+	/*
+	 * Time: O(n^2)
+	 * Space: O(n)
+	 */
 	public static int task1_5_maxSum(Interval8[] input) {
 		int n = input.length;
 		int[] M = new int[n];
@@ -76,7 +86,9 @@ public class Class8_DPI {
 				return o1.start < o2.start ? -1 : 1;
 			}
 		};
+		// sort the input by start
 		Arrays.sort(input, myComp);
+		
 		for(int i= 0; i < n; i ++) {
 			if (i == 0) {
 				M[i] = input[i].weight;
@@ -85,6 +97,7 @@ public class Class8_DPI {
 				for(int j = 0; j < i; j ++) {
 					Interval8 prev = input[j];
 					if (prev.end < input[i].start) {
+						// prev's end < cur.start
 						preMaxSum = Math.max(preMaxSum, M[j]);
 					}
 				}
@@ -99,6 +112,7 @@ public class Class8_DPI {
 		}
 		return max;
 	}
+	
 	
 	/*
 	 * task2
@@ -151,7 +165,7 @@ public class Class8_DPI {
 	/*
 	 * task2.1 
 	 * make the rooms a cycle, what is the max amount we can have? the rule is not changed.
-	 * !!!!
+	 * leetcode 213
 	 */
 
 	
@@ -159,7 +173,6 @@ public class Class8_DPI {
 	 * task3
 	 * page43 encoding 
 	 * 
-	 * finish later
 	 */
 	
 	
@@ -174,6 +187,8 @@ public class Class8_DPI {
 	 *               G: min(state[i - 1][R], state[i - 1][B]) + cost[i][G]
 	 *               B: min(state[i - 1][R], state[i - 1][G]) + cost[i][B]
 	 * return min(state[n][X])  S = R, G, B
+	 * 
+	 * 
 	 * 
 	 */
 	public static final int R = 0;
@@ -207,12 +222,8 @@ public class Class8_DPI {
 			state[i][B] = Math.min(state[i - 1][R], state[i - 1][G]) + cost[i][B];
 		}
 		
-		for(int i = 0; i < numHouse; i ++) {
-			for(int j = 0; j < 3; j ++) {
-				System.out.print(state[i][j] +" ");
-			}
-			System.out.println();
-		}
+		// for debug
+		Debug.printMatrix(state);
 		
 		return Math.min(Math.min(state[numHouse - 1][R], state[numHouse - 1][G]), state[numHouse - 1][B]);
 		
@@ -235,8 +246,16 @@ public class Class8_DPI {
 		};
 		int rev = task4_1_paitHouse(cost);
 		System.out.println("rev = " + rev);
+		
+		int rev2 = task4_1_paitHouse3(cost);
+		System.out.println("rev2 = " + rev2);
 	}
 	
+	
+	/*
+	 * Time: O(numHouses * numColors^2)
+	 * Space: O(numHouses * numColors)
+	 */
 	public static int task4_1_paitHouse(int[][] cost) {
 		if (cost == null || cost.length == 0 || cost[0] == null || cost[0].length == 0) {
 			return 0;
@@ -254,10 +273,10 @@ public class Class8_DPI {
 					int prevMin = Integer.MAX_VALUE;
 					for(int k = 0; k < numColors; k ++) {
 						if (k != j) {
+							// color k != color j
 							prevMin = Math.min(prevMin, state[i - 1][k]);
 						}
 					}
-					
 					state[i][j] = prevMin + cost[i][j];
 				}
 			}
@@ -265,13 +284,7 @@ public class Class8_DPI {
 		
 		// for debug
 		System.out.println("print out the matrix");
-		
-		for(int i = 0; i < numHouses; i ++) {
-			for(int j = 0; j < numColors; j ++) {
-				System.out.print(state[i][j] + " ");
-			}
-			System.out.println();
-		}
+		Debug.printMatrix(state);
 		// 
 		
 		int result = Integer.MAX_VALUE;
@@ -284,7 +297,55 @@ public class Class8_DPI {
 	
 	// follow up: time:O(nk) 
 	// http://www.meetqun.com/thread-10660-1-1.html
+	//每次迭代house i前先计算出dp[i-1][]的最小值和次小值， 
+	// 则递推式简化为dp【i】[j]=(dp[i-1][j] == preMin ? preSecondMin : preMin) + costs【i】[j] 
+	//		如果dp[i-1][j]正好是刷前面所有house的最小值，由于相邻house不能同色，那这次我们就要用次小值（运气好，可能和最小值相等~）
 	
+	public static int task4_1_paitHouse3(int[][] costs) {
+		int numHouses = costs.length;
+		int numColors = costs[0].length;
+		
+		int[][] state = new int[numHouses][numColors];
+		// state[i][j] the min cost to pain house0..house_i - 1 with house_i - 1's color is j - 1
+		// state[i][j] = min
+		
+		for(int j = 0; j < numColors; j ++) {
+			state[0][j] = costs[0][j];
+		}
+		
+		for(int i = 1; i < numHouses; i ++) {
+			// get the preMin and preSecondMin
+			int preMin = Integer.MAX_VALUE;
+			int preSecondMin = Integer.MAX_VALUE;
+			for(int j = 0; j < numColors; j ++) {
+				if (state[i - 1][j] < preMin) {
+					preSecondMin = preMin;
+					preMin = state[i - 1][j];
+				} else if (state[i - 1][j] < preSecondMin) {
+					preSecondMin = state[i - 1][j];
+				}
+			}
+			
+			// calculate state[i][j]
+			for(int j = 0; j < numColors; j++) {
+				if (state[i - 1][j] == preMin) {
+					state[i][j] = costs[i][j] + preSecondMin;
+				} else {
+					state[i][j] = costs[i][j] + preMin;
+				}
+			}
+		}
+		
+		int min = Integer.MAX_VALUE;
+		// get the minimum of state[numHouse - 1][j]
+		for(int j = 0; j < numColors; j ++) {
+			min = Math.min(min, state[numHouses - 1][j]);
+		}
+		
+		Debug.printMatrix(state);
+		
+		return min;	
+	}
 	
 	
 	/*
@@ -336,6 +397,8 @@ public class Class8_DPI {
 		for(int i = 0; i < numCasinos; i ++) {
 			result = Math.min(result, state[i][numDays - 1]);
 		}
+		
+		Debug.printMatrix(state);
 		return result;
 	}
 	
@@ -368,10 +431,10 @@ public class Class8_DPI {
 	public static void test6_2() {
 		int[] array = {6, -3, -10, 0, 2};
 		System.out.println(task6_2_maxSubarrayProduct1(array));
-		System.out.println(task6_2maxSubarrayProduct2(array));
+		System.out.println(task6_2maxSubarrayProduct3(array));
 		int[] array2 = {1, -2, -3, 0, 7, -8, -2};
 		System.out.println(task6_2_maxSubarrayProduct1(array2));
-		System.out.println(task6_2maxSubarrayProduct2(array2));
+		System.out.println(task6_2maxSubarrayProduct3(array2));
 	}
 	
 	public static int task6_2_maxSubarrayProduct1(int[] array) {
@@ -396,39 +459,54 @@ public class Class8_DPI {
 		return max;
 	}
 	
-	// this doesn't work well
-	public static int task6_2maxSubarrayProduct2(int[] array) {
+	public static void t6_2_3(){
+		int[] array = {-2};
+		int rev = task6_2maxSubarrayProduct3(array);
+		System.out.println("rev = " + rev);
+	}
+	
+	/*
+	 * Time: O(n)
+	 * Space: O(1)
+	 */
+	public static int task6_2maxSubarrayProduct3(int[] array){
 		if (array == null || array.length == 0) {
 			return 0;
 		}
-		int max_end_here = 1;
-		int min_end_here = 1;
+		int prev_max = 1;
+		int prev_min = 1;
 		int max = Integer.MIN_VALUE;
-		
 		for(int i = 0; i < array.length; i ++) {
-			if (array[i] > 0) {
-				max_end_here = max_end_here * array[i];
-				min_end_here = Math.min(min_end_here* array[i], 1);
-			} else if (array[i] == 0) {
-				max_end_here = 1;
-				min_end_here = 1;
-			} else {
-				// array[i] < 0
-				int temp = max_end_here;
-				max_end_here = Math.max(min_end_here * array[i], 1);
-				min_end_here = temp * array[i];
+			int max_ending_here = task6_2_maxof3(prev_max * array[i], prev_min * array[i], array[i]);
+			int min_ending_here = task6_2_minof3(prev_max * array[i], prev_min * array[i], array[i]);
+			
+			prev_max = max_ending_here;
+			prev_min = min_ending_here;
+			
+			if (max < prev_max) {
+				max = prev_max;
 			}
-			if (max < max_end_here) {
-				max = max_end_here;
-			}
+		}
+		if (max < prev_max) {
+			max = prev_max;
 		}
 		return max;
 	}
 	
+	public static int task6_2_maxof3(int a, int b, int c) {
+		return Math.max(Math.max(a, b), c);
+	}
+	
+	public static int task6_2_minof3(int a, int b, int c) {
+		return Math.min(Math.min(a, b), c);
+	}
+	
+	
+	
 	/*
 	 * task6_3
 	 * largest submatrix product
-	 * 
+	 * !!!
 	 */
 	
 	
