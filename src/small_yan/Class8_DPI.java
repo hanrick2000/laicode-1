@@ -1,7 +1,6 @@
 package small_yan;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 
 import debug.Debug;
@@ -172,7 +171,6 @@ public class Class8_DPI {
 	/*
 	 * task3
 	 * page43 encoding 
-	 * 
 	 */
 	
 	
@@ -616,9 +614,7 @@ public class Class8_DPI {
 				}
 			}
 		}
-		
 		Debug.printMatrix(state);
 		return state[0][n - 1];
 	}
-	
 }

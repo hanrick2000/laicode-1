@@ -66,7 +66,7 @@ public class Ocean {
 		boolean[][] reachPacific = new boolean[rLen][cLen];
 		boolean[][] reachAltantic = new boolean[rLen][cLen];
 		
-		// initaizlie
+		// initialize
 		for(int i = 0; i <rLen; i ++) {
 			reachPacific[i][0] = true;
 			reachAltantic[i][cLen - 1] = true;

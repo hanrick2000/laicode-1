@@ -8,7 +8,8 @@ public class Class9_DP2 {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 //		test1();
-		test2_4();
+//		test2_4();
+		t4();
 	}
 	
 	/*
@@ -262,8 +263,61 @@ public class Class9_DP2 {
 	 * from right to left, 
 	 * from low to up
 	 * 
+	 * matrix
+	 * M[i][j] someting ending or start with (i, j)
+	 * 
+	 * http://www.geeksforgeeks.org/find-a-specific-pair-in-matrix/
+	 * this is easier
+	 * M[i][j] the maximum element in the submatrix [i][j] to (n - 1, m - 1)
+	 * 
 	 */
+	public static void t4() {
+		int[][] matrix = 
+			{ 
+				{ 1, 2, -1, -4, -20 },
+				{ -8, -3, 4, 2, 1 },
+				{ 3, 8, 6, 1, 3 },
+				{ -4, -1, 1, 7, -6 },
+				{ 0, -4, 10, -5, 1 }
+			};
+		int maxDiff = task4_maxDiff(matrix);
+		System.out.println("maxDif = " + maxDiff);
+		
+	}
+		
 	
+	public static int task4_maxDiff(int[][] matrix) {
+		int rLen = matrix.length;
+		int cLen = matrix[0].length;
+		int[][] M = new int[rLen][cLen];
+		
+		int maxDifVal = Integer.MIN_VALUE;
+		
+		M[rLen - 1][cLen - 1] = matrix[rLen - 1][cLen - 1];
+		// init the last row
+		for(int j = cLen - 2; j >= 0; j --) {
+			M[rLen - 1][j] = Math.max(matrix[rLen - 1][j], M[rLen - 1][j + 1]);
+		}
+		
+		// init the last column
+		for(int i = rLen - 2; i >= 0; i--) {
+			M[i][cLen - 1] = Math.max(matrix[i][cLen - 1], M[i + 1][cLen - 1]);
+		}
+		
+		// for all others element
+		for(int i = rLen - 2; i >= 0; i--) {
+			for(int j = cLen - 2; j >= 0; j--) {
+				if (M[i + 1][j + 1] - matrix[i][j] > maxDifVal) {
+					maxDifVal =  M[i + 1][j + 1] - matrix[i][j] ;
+				}
+				// set the M[i][j]
+				M[i][j] = Math.max(Math.max(M[i][j + 1], M[i + 1][j]), Math.max(M[i + 1][j + 1], matrix[i][j]));
+			}
+		}
+		Debug.printMatrix(M);
+		
+		return maxDifVal;
+	}
 	
 	
 	
@@ -272,6 +326,8 @@ public class Class9_DP2 {
 	 * Given a boolean expression consisting of the symbols 0,1, &, |, ^and a desired boolean result value result, 
 	 * implement a function to count the number of ways of parenthesizing the expression such that it evaluates to result.
 	 */
+	
+	
 	
 	
 	

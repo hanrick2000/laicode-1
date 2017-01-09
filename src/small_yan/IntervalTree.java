@@ -8,12 +8,14 @@ public class IntervalTree {
 	}
 	
 	/*
-	 * Consider a situation where we have a set of intervals and we need following operations to be implemented efficiently. 
+	 * Consider a situation where we have a set of intervals and 
+	 * we need following operations to be implemented efficiently. 
 	 * 1) Add an interval
 	 * 2) Remove an interval
 	 * 3) Given an interval x, find if x overlaps with any of the existing intervals.
 	 * 
-	 * Interval Tree: The idea is to augment a self-balancing Binary Search Tree (BST) like Red Black Tree, AVL Tree, etc 
+	 * Interval Tree: The idea is to augment a self-balancing Binary Search Tree (BST) like Red Black Tree, 
+	 * AVL Tree, etc 
 	 * to maintain set of intervals so that all operations can be done in O(Logn) time.
 	 * 
 	 * Every node of Interval Tree stores following information.
@@ -22,7 +24,6 @@ public class IntervalTree {
 	 * 
 	 * The low value of an interval is used as key to maintain order in BST. 
 	 * The insert and delete operations are same as insert and delete in self-balancing BST used.
-	 * 
 	 * 
 	 * The main operation is to search for an overlapping interval. 
 	 * Following is algorithm for searching an overlapping interval x in an Interval tree rooted with root.
@@ -47,9 +48,16 @@ public class IntervalTree {
 		int limit;
 		ITNode left;
 		ITNode right;
+		int range;
 		public ITNode(Interval interval, int limit) {
 			this.interval = interval;
 			this.limit = limit;
+		}
+		
+		public ITNode(Interval interval, int limit, int range) {
+			this.interval = interval;
+			this.limit = limit;
+			this.range = range;
 		}
 	}
 	
@@ -57,7 +65,6 @@ public class IntervalTree {
 		if (root == null) {
 			return new ITNode(interval, interval.end);
 		}
-		
 		// if interval.start < root.interval.start, then new interval goes to left subtree
 		if (interval.start < root.interval.start) {
 			root.left = insert(root.left, interval);
@@ -104,6 +111,15 @@ public class IntervalTree {
 		inorder(root.right);
 	}
 	
+	public static void preorder(ITNode root) {
+		if (root == null) {
+			return ;
+		}
+		System.out.println("[ "  + root.interval.start + " " + root.interval.end + " ]" + " limit= " + root.limit );
+		preorder(root.left);
+		preorder(root.right);
+	}
+	
 	public static void test() {
 		Interval[] ints = { new Interval(15, 20), new Interval(10, 30),
 				new Interval(17, 19), new Interval(5, 20),
@@ -113,6 +129,9 @@ public class IntervalTree {
 		for(int i = 0; i < ints.length; i ++ ) {
 			root = insert(root, ints[i]);
 		}
+		System.out.println("----");
+		preorder(root);
+		System.out.println("----");
 		inorder(root);
 		
 		Interval x = new Interval(6, 7);
@@ -123,9 +142,7 @@ public class IntervalTree {
 		} else {
 			System.out.println("Overlaps with [ " + result.start + " " + result.end + " ]");
 		}
-	}
-	
-	
+	}	
 	
 }
 

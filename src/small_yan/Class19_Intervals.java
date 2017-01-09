@@ -57,6 +57,7 @@ public class Class19_Intervals {
 		System.out.println("rev = " + rev);
 	}
 	
+	
 	/*
 	 * task1
 	 * merge intervals
@@ -76,8 +77,6 @@ public class Class19_Intervals {
 	};
 	
 	public static List<Interval> task1_merge(List<Interval> list) {
-		
-		
 		Collections.sort(list, myComp);
 		ArrayList<Interval> result = new ArrayList<Class19_Intervals.Interval>();
 		Interval last = list.get(0);
@@ -85,6 +84,7 @@ public class Class19_Intervals {
 			Interval cur = list.get(i);
 			if (cur.start <= last.end) {
 				//intersect cur.start <= last.end, there is intersection
+				// merge the cur and last by update last.end
 				last.end = Math.max(last.end, cur.end);
 			} else {
 				// there is no intersection, insert into result
@@ -111,6 +111,7 @@ public class Class19_Intervals {
 			Interval cur = list.get(i);
 			if (cur.start <= end) { 
 				// cur.start <= last.end, there is intersect
+				// update the end
 				end = Math.max(cur.end, end);
 			} else {
 				// update length 
@@ -121,9 +122,9 @@ public class Class19_Intervals {
 			}
 		}
 		length += end - start;
-		
 		return length;
 	}
+	
 	
 	/*
 	 * task1.2
@@ -305,7 +306,7 @@ public class Class19_Intervals {
 		
 		// merge
 		ArrayList<Interval> result = new ArrayList<Interval>();
-		if (position == -1) {
+		if (position == -1) { // interval in front of the list
 			Interval last = interval;
 			for(int i = 0; i < list.size(); i ++) {
 				Interval cur = list.get(i);
@@ -347,6 +348,8 @@ public class Class19_Intervals {
 		
 		return result;
 	}
+	
+	
 	
 	/*
 	 * task2.1 merge two interval list

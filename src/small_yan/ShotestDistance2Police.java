@@ -33,6 +33,10 @@ public class ShotestDistance2Police {
 	 * what if there is no Obstacle
 	 * 
 	 */
+	
+	/*
+	 * Time: O(p * n^2)
+	 */
 	public static void test() {
 		char[][] matrix = {
 				"OOOO".toCharArray(),
@@ -73,6 +77,7 @@ public class ShotestDistance2Police {
 		for(int i = 0; i < rLen; i ++) {
 			for(int j = 0; j < cLen; j ++) {
 				if (matrix[i][j] == 'P') {
+					// search from the 'P'
 					BFS(matrix, shortestPath, i, j);
 					Debug.printMatrix(shortestPath);
 				}
@@ -89,7 +94,7 @@ public class ShotestDistance2Police {
 		boolean[][] visited = new boolean[rLen][cLen];
 		Queue<Pair> q = new LinkedList<Pair>();
 		q.add(new Pair(i, j));
-//		visited[i][j] = true;
+
 		System.out.println(q.size());
 		int distance = 0;
 		while( !q.isEmpty()) {
@@ -99,11 +104,9 @@ public class ShotestDistance2Police {
 				Pair cur = q.poll();
 				visited[cur.x][cur.y] = true;
 				shortestPath[cur.x][cur.y] = Math.min(shortestPath[cur.x][cur.y], distance);
-				
 				ArrayList<Pair> neighbors = getNeighbors(matrix, visited, cur);
 				for(Pair nei: neighbors) {
 					q.offer(nei);
-//					visited[nei.x][nei.y] = true;
 				}
 			}
 			distance ++;
@@ -116,10 +119,7 @@ public class ShotestDistance2Police {
 	public static ArrayList<Pair> getNeighbors(char[][] matrix, boolean[][] visited, Pair cur) {
 		int rLen = matrix.length;
 		int cLen = matrix[0].length;
-		
 		ArrayList<Pair> neighbors = new ArrayList<ShotestDistance2Police.Pair>();
-		
-		
 		for(int i = 0;i < 4; i ++) {
 			int next_x = cur.x + dx[i];
 			int next_y = cur.y + dy[i];
@@ -127,10 +127,8 @@ public class ShotestDistance2Police {
 					&& matrix[next_x][next_y] != 'C' && !visited[next_x][next_y]) {
 				neighbors.add(new Pair(next_x, next_y));
 			}
-		}
-		
-		return neighbors;
-		
+		}	
+		return neighbors;	
 	}
 	
 

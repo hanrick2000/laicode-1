@@ -15,10 +15,10 @@ public class Class7_PriorityQueue {
 		// TODO Auto-generated method stub
 //		test4();
 //		test2();
-//		test1();
+		test1();
 //		test2_3();
 //		test4();
-		test5();
+//		test5();
 	}
 	
 	/*
@@ -113,6 +113,7 @@ public class Class7_PriorityQueue {
 		}
 		System.out.println();
 	}
+	
 	
 	public static class HeapElement {
 		public int val;
@@ -342,9 +343,7 @@ public class Class7_PriorityQueue {
 			}
 			k --;
 		}
-		
 		return minHeap.peek().val;
-		
 	}
 	
 	public static class Item2 implements Comparable<Item2>{
@@ -371,6 +370,7 @@ public class Class7_PriorityQueue {
 	 * task3 
 	 * the most k frequent visited urls
 	 */
+	
 	
 	/*
 	 * task4
@@ -551,6 +551,9 @@ public class Class7_PriorityQueue {
 		}
 		System.out.println();
 	}
+	
+	
+	//=======================================================================================================
 
 	
 	/*
@@ -559,6 +562,7 @@ public class Class7_PriorityQueue {
 	 * 5% percentile of stream data flow
 	 * 1 median = 50%, similar to median, maintain two heaps
 	 */
+	
 	
 	
 	/*

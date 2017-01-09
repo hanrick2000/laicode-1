@@ -1,6 +1,5 @@
 package small_yan;
 
-import java.beans.Visibility;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
