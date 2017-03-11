@@ -815,8 +815,6 @@ public class Class24 {
 		return false;
 	}
 
-	
-	
 	public static class Element{
 		private int sum;
 		private List<Integer> pair;
@@ -842,9 +840,6 @@ public class Class24 {
 			return pair;
 		}
 	}
-	
-	
-	
 	
 	
 	/*
