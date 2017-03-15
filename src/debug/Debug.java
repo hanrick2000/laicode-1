@@ -67,6 +67,16 @@ public class Debug {
 		inOrderBT(root.right);
 	}
 	
+	
+	public static void postOrder(TreeNode root) {
+		if (root == null) {
+			return ;
+		}
+		postOrder(root.left);
+		postOrder(root.right);
+		System.out.print(root.val + " ");
+	}
+	
 	public static ListNode createLinkedList(int n) {
 		ListNode head = new ListNode(1);
 		ListNode tail = head;
