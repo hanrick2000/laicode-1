@@ -6,5 +6,12 @@ public class Ch7_hash_string1 {
 		// TODO Auto-generated method stub
 
 	}
+	
+	
+	
+	
+	
+	
+	
 
 }

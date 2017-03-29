@@ -94,7 +94,6 @@ public class Ch3_queen_stack_linkedlist {
 	 * 4 middle node of linked list
 	 */
 	
-	
 	/*
 	 * 5 check if a list has cycle
 	 * if yes, find the start point of the cycle
@@ -111,6 +110,8 @@ public class Ch3_queen_stack_linkedlist {
 	/*
 	 * 8 reorder linked list
 	 */
+	
+	
 	
 	/*
 	 * 9 partition linked list

@@ -175,10 +175,14 @@ public class Ch4_binary_tree_binary_search_tree {
 	/*
 	 * 4 check if binary tree is balanced
 	 */
+	public static boolean t4_isbalanced(TreeNode root) {
+		return false;
+	}
 	
 	/*
 	 * 5 symmetric binary tree
 	 */
+	
 	
 	/*
 	 * 6 tweaked identical binary tree
@@ -187,9 +191,23 @@ public class Ch4_binary_tree_binary_search_tree {
 	/*
 	 * 7 is Binary Search or NOT
 	 */
+	public static boolean t7_isBinaryTree(TreeNode root) {
+		return t7_helper(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+	}
+	
+	public static boolean t7_helper(TreeNode node, int min, int max) {
+		if (node == null) {
+			return true;
+		}
+		if (node.val > max || node.val < min) {
+			return false;
+		}
+		return t7_helper(node.left, min, node.val) && t7_helper(node.right, node.val,  max);
+	}
 	
 	/*
 	 * 8 Get keys in binary search in Given Range
 	 */
+	
 
 }

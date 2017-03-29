@@ -12,8 +12,8 @@ public class Class10_Recursion2 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-//		test2();
-		tes3();
+		test2();
+//		tes3();
 		
 	}
 	

@@ -88,21 +88,21 @@ public class Class12_DP1 {
 	public static int task2_maxProduct(int n) {
 	    // write your solution here
 	    if (n <= 1) {
-				return 0;
+			return 0;
+		}
+		int[] M = new int[n + 1];
+		M[0] = 0;
+		M[1] = 0;
+		for (int i = 1; i <= n; i++) {
+			int curMax = 0;
+			for (int j = 1; j <= i/2; j++) {
+				curMax = Math.max(curMax,
+						Math.max(j, M[j]) * Math.max(i - j, M[i - j]));
 			}
-			int[] M = new int[n + 1];
-			M[0] = 0;
-			M[1] = 0;
-			for (int i = 1; i <= n; i++) {
-				int curMax = 0;
-				for (int j = 1; j <= i/2; j++) {
-					curMax = Math.max(curMax,
-							Math.max(j, M[j]) * Math.max(i - j, M[i - j]));
-				}
-				M[i] = curMax;
-			}
-			System.out.println(Arrays.toString(M));
-			return M[n];
+			M[i] = curMax;
+		}
+		System.out.println(Arrays.toString(M));
+		return M[n];
 	  }
 	
 	public static int task2_maxProduct_Rec(int n) {

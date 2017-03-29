@@ -350,10 +350,12 @@ public class Class13_DP2 {
 		return maxLen;
 	}
 	
+	
 	/*
 	 * task6 Largest Rectangle of 1s
+	 * 
+	 * follow up question of largest rectangle in histogram. 
 	 */
-	
 	public static int task6_maximumRectangle(char[][] matrix) {
 		// check
 		if (matrix == null || matrix.length == 0 || matrix[0] == null
@@ -384,7 +386,6 @@ public class Class13_DP2 {
 			int curArea = task6_largestRectangleArea(sumMatrix[i]);
 			maxArea = Math.max(maxArea, curArea);
 		}
-		
 		return maxArea;
 	}
 	
@@ -393,23 +394,24 @@ public class Class13_DP2 {
 			return 0;
 		}
 		LinkedList<Integer> stack = new LinkedList<Integer>();
+		
 		// increasing stack
 		int i = 0;
 		int maxArea = 0;
 		while(i <= height.length) {
 			int curHeight = i < height.length ? height[i] : -1;
 			while(!stack.isEmpty() &&  curHeight < height[stack.peekFirst()]) {
+				// calculate the poped element's largest area. left side is smaller than it. right side is 
+				// the rightmost side it can reach, which is i
 				int h = height[stack.pollFirst()];
-				int w = stack.isEmpty() ? i : i - stack.peekFirst() - 1;
+				int w = stack.isEmpty() ? (i - (-1) + 1) : i - stack.peekFirst() - 1;
 				int area = h * w;
 				maxArea = Math.max(maxArea, area);
 			}
 			stack.offerFirst(i);
 			i ++;
 		}
-		
 		return maxArea;
-		
 	}
 	
 

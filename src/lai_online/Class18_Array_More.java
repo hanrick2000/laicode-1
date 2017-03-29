@@ -469,7 +469,8 @@ public class Class18_Array_More {
 	 /*
 	  * task9
 	  * Largest And Second Largest 
-	  * Use the least number of comparisons to get the largest and 2nd largest number in the given integer array. Return the largest number and 2nd largest number.
+	  * Use the least number of comparisons to get the largest and 2nd largest number in the given integer array. 
+	  * Return the largest number and 2nd largest number.
 	  * Assumptions
 	  * The given array is not null and has length of at least 2
 	  * Examples
@@ -533,6 +534,7 @@ public class Class18_Array_More {
 		return new int[] { list.get(0).value, secondMax };
 	}
 
+	
 	public static int max(List<Integer> list) {
 		int max = list.get(0);
 		for (Integer i : list) {
@@ -821,7 +823,8 @@ public class Class18_Array_More {
 	/*
 	 * task16
 	 * 
-	 * Sort In Specified Order Fair Data Structure Given two integer
+	 * Sort In Specified Order Fair Data Structure 
+	 * Given two integer
 	 * arrays A1 and A2, sort A1 in such a way that the relative order among the
 	 * elements will be same as those are in A2. For the elements that are not
 	 * in A2, append them in the right end of the A1 in an ascending order.
