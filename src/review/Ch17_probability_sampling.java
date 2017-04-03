@@ -6,5 +6,7 @@ public class Ch17_probability_sampling {
 		// TODO Auto-generated method stub
 
 	}
+	
+	
 
 }
