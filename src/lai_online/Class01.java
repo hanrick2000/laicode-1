@@ -44,7 +44,7 @@ public class Class01 {
 	 * anything. What if the given array is of length zero? In this case, we do
 	 * not need to do anything.
 	 */
-	
+
 	/*
 	 * selection:
 	 * 5 8 9 1 4
@@ -301,6 +301,8 @@ public class Class01 {
 				rightBound --;
 			} else {
 				swap(array, leftBound, rightBound);
+				leftBound ++;
+				rightBound --;
 			}
 		}
 		// swap right with leftBound, i.e, put the pivot to its position. 

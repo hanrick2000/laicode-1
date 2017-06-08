@@ -17,7 +17,8 @@ public class Class07_Hash_String1 {
 	/*
 	 * task1
 	 * Top K Frequent Words
-	 * Given a composition with different kinds of words, return a list of the top K most frequent words in the composition.
+	 * Given a composition with different kinds of words, 
+	 * return a list of the top K most frequent words in the composition.
 	 * Assumptions
 	 * the composition is not null and is not guaranteed to be sorted
 	 * K >= 1 and K could be larger than the number of distinct words in the composition, 
@@ -79,6 +80,7 @@ public class Class07_Hash_String1 {
 				minHeap.offer(entry.getKey());
 			}
 		}
+		
 		System.out.println("minHeap.size = ");
 		System.out.println(minHeap.size());
 		
@@ -128,6 +130,7 @@ public class Class07_Hash_String1 {
 			}
 			f++;
 		}
+		// the new length of the string will be s + 1
 		String output = new String(str, 0, s + 1);
 		System.out.println(output);
 		return output;
@@ -137,8 +140,13 @@ public class Class07_Hash_String1 {
 	/*
 	 * task3.1
 	 * Remove Adjacent Repeated Characters II
-	 * Remove adjacent, repeated characters in a given string, leaving only two characters for each group of such characters. 
+	 * 
+	 * Remove adjacent, repeated characters in a given string,
+	 * leaving only two characters for each group of such characters. 
 	 * The characters in the string are sorted in ascending order.
+	 * 
+	 * Sorted
+	 * 
 	 * “aaaabbbc” is transferred to “aabbc”
 	 * 
 	 * two pointers
@@ -182,7 +190,7 @@ public class Class07_Hash_String1 {
 	 * we use a flag to check whether the candidate has duplicate
 	 * init:
 	 * 
-	 * s = 0, f = 1, flag = false
+	 * s = 0, f = 1, flag = false, whether the candidate has duplicate
 	 * 
 	 * [0, s) processed
 	 * [s, f) useless
@@ -249,6 +257,9 @@ public class Class07_Hash_String1 {
 		String input = "abbbaac";
 		String output = task3_4_deDup(input);
 		System.out.println(output);
+		System.out.println("------------------");
+		String output2 = task3_4_deDup_2(input);
+		System.out.println(output2);
 	}
 	
 	public static String task3_4_deDup(String input) {
@@ -256,30 +267,66 @@ public class Class07_Hash_String1 {
 			return input;
 		}
 		LinkedList<Character> stack = new LinkedList<Character>();
-	
+		
 		stack.offerFirst(input.charAt(0));
-		int n = 1;
-		while(!stack.isEmpty() && n < input.length()) {
-			char cur = stack.peekFirst();
-			if (n < input.length() && input.charAt(n) == cur) {
-				while(n < input.length() && input.charAt(n) == cur) {
-					n ++;
-				}
-				stack.pollFirst();
+		int f = 1;
+		while(f < input.length()) {
+			if (stack.isEmpty()) {
+				stack.offerFirst(input.charAt(f));
+			} else if (stack.peekFirst() != input.charAt(f)) {
+				stack.offerFirst(input.charAt(f));
 			} else {
-				stack.offerFirst(input.charAt(n));
-				n ++;
+				// stack is NOT empty && stack.peekFirst() == input[f]
+				stack.pollFirst();
+				while(f + 1 < input.length() && input.charAt(f) == input.charAt(f + 1)) {
+					f++;
+				} 
 			}
+			f++;
 		}
-		
-		
-		char[] str = new char[stack.size()];
-		for(int i = str.length - 1; i >=0; i --) {
-			str[i] = stack.pollFirst();
+		// so far, the stack contains the result. 
+		StringBuilder stb = new StringBuilder();
+		while(!stack.isEmpty()) {
+			stb.append(stack.pollFirst());
 		}
-		
-		return new String(str);
+		return stb.reverse().toString();
 	}
+	
+	public static String task3_4_deDup_2(String input) {
+		/*
+		 * try to convert the string to char array, and do it in place. Remove
+		 * all adjacent repeated characters repeatedly. “abbbaac” → “aaac” → “c”
+		 */
+		if (input == null || input.length() <= 1) {
+			return input;
+		}
+		char[] array = input.toCharArray();
+		int s = 0;
+		int f = 1;
+		while (f < input.length()) {
+			if (s == -1) {
+				// increase s
+				// we put an candidate into s
+				s++;
+				array[s] = array[f];
+			} else if (array[f] != array[s]) {
+				// increase s, and put an candidate into s
+				s++;
+				array[s] = array[f];
+			} else {
+				// s != -1 && array[f] == array[s]
+				// the candidate is no longer valid, so go back one step. 
+				s--;
+				// skip all the following same elements
+				while (f + 1 < array.length && array[f] == array[f + 1]) {
+					f++;
+				}
+			}
+			f++;
+		}
+		return new String(array, 0, s + 1);
+	}
+
 
 	/*
 	 * task4
@@ -325,7 +372,10 @@ public class Class07_Hash_String1 {
 	/*
 	 * task5
 	 * Remove Certain Characters
-	 * Remove given characters in input string, the relative order of other characters should be remained. Return the new string after deletion.
+	 * Remove given characters in input string, 
+	 * the relative order of other characters should be remained. 
+	 * Return the new string after deletion.
+	 * 
 	 * Assumptions
 	 * The given input string is not null.
 	 * The characters to be removed is given by another string, it is guranteed to be not null.
@@ -394,6 +444,7 @@ public class Class07_Hash_String1 {
 	    return result;
 	  }
 	
+	
 	/*
 	 * task6.1
 	 * 
@@ -402,6 +453,7 @@ public class Class07_Hash_String1 {
 	 * input: 1 2 4  
 	 * output: 3
 	 * 
+	 * Time: O(log n)
 	 *   
 	 */
 	

@@ -246,18 +246,19 @@ public class Class7 {
 		}
 		char[] array = str.toCharArray();
 		int s = 0, f = 1;
-		for(; f < array.length; f ++) {
+		while(f < array.length) {
 			if (s == -1) {
 				array[++s] = array[f];
 			} else if (array[s] != array[f]) {
-				array[++ s] = array[f];
+				array[++s] = array[f];
 			} else {
 				// s != -1 && array[s] == array[f]
 				s --;
 				while(f + 1 < array.length && array[f] == array[f + 1]) {
-					f ++;
+					f++;
 				}
 			}
+			f++;
 		}
 		return new String(array, 0, s + 1);
 	}

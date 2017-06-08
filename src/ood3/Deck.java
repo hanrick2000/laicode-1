@@ -9,10 +9,19 @@ public class Deck {
 	
 	private final List<Card> cards = new ArrayList<Card>();
 	private int dealtIndex = 0;
+
+	/*
+	 * 1 A
+	 * 2
+	 * ...
+	 * 11 J
+	 * 12 Q 
+	 * 13 K
+	 */
 	
 	public Deck() {
 		// constructor
-		for(int i = 0; i <= 13; i ++) {
+		for(int i = 1; i <= 13; i ++) {
 			for(Suit suit : Suit.values()) {
 				cards.add(new Card(i, suit));
 			}
@@ -24,16 +33,17 @@ public class Deck {
 			int j = random.nextInt(cards.size() - i) + i;
 			Card card1 = cards.get(i);
 			Card card2 = cards.get(j);
-			
 			cards.set(i, card2);
 			cards.set(j, card1);
 		}
 	}
 	
+	// get the number of remaining cards
 	private int remainingCards() {
 		return cards.size() - dealtIndex;
 	}
 	
+	//  发牌  number 张 
 	public Card[] dealHand(int number) {
 		if (remainingCards() < number) {
 			return null;
@@ -45,6 +55,7 @@ public class Deck {
 		return cards;
 	}
 	
+	// 发牌 1 张
 	public Card dealCard() {
 		return remainingCards() == 0 ? null : cards.get(dealtIndex ++);
 	}

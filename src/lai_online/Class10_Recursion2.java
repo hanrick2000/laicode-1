@@ -122,7 +122,9 @@ public class Class10_Recursion2 {
 				num = num * 10 + pattern.charAt(i) - '0';
 				i ++;
 			}
+			
 			if (num > input.length()) {
+				// if num is out of bound, return false
 				return false;
 			} else {
 				return match(input.substring(num), pattern.substring(i));

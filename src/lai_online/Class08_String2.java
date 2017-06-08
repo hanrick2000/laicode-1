@@ -10,6 +10,7 @@ import java.util.Set;
 public class Class08_String2 {
 
 	public static void main(String[] args) {
+		
 		// TODO Auto-generated method stub
 		// test();
 		// test2();
@@ -19,10 +20,10 @@ public class Class08_String2 {
 //		test9_1();
 //		test9_2();
 //		test10();
-//		test10_1();
+		test10_1();
 //		test11_1();
 //		test11();
-		test12();
+//		test12();
 	}
 
 	public static void test() {
@@ -33,8 +34,22 @@ public class Class08_String2 {
 	}
 
 	/*
-	 * task4 right shift by n characters Right shift a given string by n
-	 * characters.
+	 * task4 right shift by n characters 
+	 * Right shift a given string by n characters.
+	 * 
+	 * len = 7, n = 2
+	 * 0 1 2 3 4 5 6
+	 * a b c d e f g
+	 * 
+	 * reverse(0, len - n - 1)  // reverse the first part
+	 * e d c b a f g
+	 * 
+	 * reverse(len - n, len - 1) // reverse the second part
+	 * e d c b a g f
+	 * 
+	 * reverse(0, len - 1) // reverse the whole string
+	 * f g a b c d e 
+	 * 
 	 */
 	public static String rightShift(String input, int n) {
 		// Write your solution here.
@@ -66,10 +81,16 @@ public class Class08_String2 {
 	}
 
 	/*
-	 * task5 Reverse Words In A Sentence I Reverse the words in a sentence.
+	 * task5 Reverse Words In A Sentence I 
+	 * Reverse the words in a sentence.
+	 * 
 	 * Assumptions Words are separated by single space There are no heading or
-	 * tailing white spaces Examples “I love Google” → “Google love I” Corner
-	 * Cases If the given string is null, we do not need to do anything.
+	 * tailing white spaces
+	 *  
+	 * Examples “I love Google” → “Google love I”
+	 *  
+	 * Corner Cases 
+	 * If the given string is null, we do not need to do anything.
 	 */
 	public static void test5() {
 		String input = "an apple";
@@ -77,6 +98,9 @@ public class Class08_String2 {
 		System.out.println(output);
 	}
 
+	
+	// assume that there is no leading, tailing spaces and no duplicate spaces between each words.
+	// if there is, first, let's remove those spaces
 	public static String task5_reverseWords(String input) {
 		// write your solution here
 		if (input == null || input.length() == 0) {
@@ -88,7 +112,6 @@ public class Class08_String2 {
 
 		// reverse each word
 		while (f <= arr.length) {
-
 			if (f == arr.length || arr[f] == ' ') {
 				reverse(arr, s, f - 1);
 				f++;
@@ -106,11 +129,13 @@ public class Class08_String2 {
 	}
 
 	/*
-	 * task6 Longest Substring Without Repeating Characters Given a string, find
-	 * the length of the longest substring without repeating characters. For
-	 * example, the longest substring without repeating letters for "abcabcbb"
-	 * is "abc", which the length is 3. For "bbbbb" the longest substring is
-	 * "b", with the length of 1.
+	 * task6 Longest Substring Without Repeating Characters 
+	 * 
+	 * Given a string, find the length of the longest substring without repeating characters. 
+	 * For example, 
+	 * the longest substring without repeating letters for "abcabcbb" is "abc", 
+	 * which the length is 3. 
+	 * For "bbbbb" the longest substring is "b", with the length of 1.
 	 */
 
 	public static void test6() {
@@ -136,11 +161,15 @@ public class Class08_String2 {
 				map.put(cur, map.get(cur) + 1);
 			}
 
+			// if there is duplicates in the hashMap, let's narrow the sliding windows
+			// until the map.get(cur) == 1
 			while (map.get(cur) > 1 && slow <= fast) {
 				char slow_char = s.charAt(slow);
 				map.put(slow_char, map.get(slow_char) - 1);
 				slow++;
 			}
+			
+			// so far, we get an window whose all elements are unique
 			if (maxLen < fast - slow + 1) {
 				maxLen = fast - slow + 1;
 				start = slow;
@@ -172,13 +201,13 @@ public class Class08_String2 {
 	}
 
 	/*
-	 * task7 Find All Anagrams Of Short String In A Long String Find all
-	 * anagrams of String s in String l, return all the starting indices.
+	 * task7 Find All Anagrams Of Short String In A Long String 
+	 * Find all anagrams of String s in String l, return all the starting indices.
 	 */
 
 	public static void test7() {
 		String s = "abc";
-		String l = "abzadefcba";
+		String l = "abzabcbadefacb";
 		List<Integer> result = task7_allAnagrams(s, l);
 		System.out.println(result);
 	}
@@ -191,16 +220,20 @@ public class Class08_String2 {
 		if (s.length() > l.length()) {
 			return result;
 		}
+		// get the counter map for string s
 		Map<Character, Integer> map = countMap(s);
+		// print the map
 		mapIterator(map);
 
 		int match = 0;
+		// traverse the long string, l 
 		for (int i = 0; i < l.length(); i++) {
 			char temp = l.charAt(i);
 			Integer count = map.get(temp);
 			if (count != null) {
 				map.put(temp, count - 1);
-				// ???
+				// before decrease by 1, if the original count is 1, which means we already matches all the 
+				// temp. so, match ++
 				if (count == 1) {
 					match++;
 				}
@@ -210,6 +243,7 @@ public class Class08_String2 {
 			System.out.println("1: match = " + match);
 
 			if (i >= s.length()) {
+				// put back the elements the window already passed
 				temp = l.charAt(i - s.length());
 				count = map.get(temp);
 				if (count != null) {
@@ -223,10 +257,12 @@ public class Class08_String2 {
 			System.out.println("2: i = " + i + "  count = " + count);
 			System.out.println("2: match = " + match);
 
+			// if match == map.size(), which means we match all the elements in anagrams of short string s
 			if (match == map.size()) {
+				// add the index into result
 				result.add(i - s.length() + 1);
 			}
-
+			// for debug, print out the map
 			mapIterator(map);
 		}
 		return result;
@@ -269,7 +305,6 @@ public class Class08_String2 {
 	 * String Replace
 	 * Given an original string input, and two strings S and T, replace all occurrences of S in input with T.
 	 * 
-	 * 
 	 * Assumptions
 	 * input, S and T are not null, S is not empty string
 	 * Examples
@@ -283,7 +318,7 @@ public class Class08_String2 {
 	 *    we are done
 	 * 2) replace a shorter string with a longer string
 	 *    deal with extra spaces. 
-	 *    step1: counter how many teimes s1 show up in original string. e.g, twice 
+	 *    step1: counter how many times s1 show up in original string. e.g, twice 
 	 *    step2: 2 * (s2.size - s1.size)
 	 *    
 	 *    s: all letter to the right-hand of s are processed area. 
@@ -318,7 +353,7 @@ public class Class08_String2 {
 	}
 
 	public static String replaceWithLonger(String input, String s, String t) {
-		// first find all substring's ending index, which matches t
+		// first find all substring's ending index, which matches s
 		ArrayList<Integer> matches = new ArrayList<Integer>();
 		for (int i = 0; i <= input.length() - s.length();) {
 			if (equalSubArray(input, i, s)) {
@@ -329,8 +364,7 @@ public class Class08_String2 {
 			}
 		}
 
-		int newLength = input.length() + matches.size()
-				* (t.length() - s.length());
+		int newLength = input.length() + matches.size() * (t.length() - s.length());
 
 		// replace from the last
 		int lastIndex = matches.size() - 1;
@@ -396,10 +430,16 @@ public class Class08_String2 {
 	 */
 
 	public static void test9() {
-		String input = "abbcccdeee";
+		String input = "aaaabbbcdefff";
 		String output = task9_compress(input);
 		System.out.println(input);
 		System.out.println(output);
+		System.out.println("-----------------");
+		String output2 = task9_compress2(input);
+		System.out.println(output2);
+		System.out.println("-----------------");
+		String output3 = task9_compress3(input);
+		System.out.println(output3);
 	}
 
 	public static String task9_compress(String input) {
@@ -455,6 +495,81 @@ public class Class08_String2 {
 		}
 		System.out.println();
 	}
+	
+	
+	public static String task9_compress2(String input) {
+		if (input == null || input.length() <= 1) {
+			return input;
+		}
+		StringBuilder stb = new StringBuilder();
+		int s = 0, f = 1;
+		int count = 1;
+		while(f < input.length()) {
+			if (input.charAt(f) == input.charAt(s)) {
+				count ++;
+			} else {
+				// input[s] != input[f]
+				stb.append(input.charAt(s));
+				if (count > 1) {
+					stb.append(count);
+				}
+				// update s
+				s = f;
+				// reset count
+				count = 1;
+			}
+			f++;
+		}
+		stb.append(input.charAt(s));
+		if (count > 1) {
+			stb.append(count);
+		}
+		return stb.toString();
+	}
+	
+	
+	// do in place, in a char[] 
+	// this guarantee that the new generating string will be shorter than the original string. 
+	public static String task9_compress3(String input) {
+		if (input == null || input.length() <= 1) {
+			return input;
+		}
+		char[] a = input.toCharArray();
+		int s = 0, f = 1;
+		int count = 1;
+		while(f < a.length){
+			if (a[f] == a[s]) {
+				count ++;
+			} else {
+				// append 
+				s++;
+				if (count > 1) {
+					// if count > 1
+					String count_s = Integer.toString(count);
+					for(int k = 0; k < count_s.length(); k ++) {
+						a[s] = count_s.charAt(k);
+						s ++;
+					}
+				} 
+				// update a[s] and reset the count
+				a[s] = a[f];
+				count = 1;
+			}
+			f++;
+		}
+		// for the last element
+		s++;
+		if (count > 1) {
+			// 
+			String count_s = Integer.toString(count);
+			for(int k = 0; k < count_s.length(); k ++) {
+				a[s] = count_s.charAt(k);
+				s ++;
+			}
+		} 
+		return new String(a, 0, s);
+	}
+	
 	
 	
 	/*
@@ -579,7 +694,8 @@ public class Class08_String2 {
 	 * Decompress String I
 	 * Given a string in compressed form, decompress it to the original string. 
 	 * The adjacent repeated characters in the original string are compressed to 
-	 * have the character followed by the number of repeated occurrences. 
+	 * have the character followed by the number of repeated occurrences.
+	 *  
 	 * If the character does not have any adjacent repeated occurrences, it is not compressed.
 	 */
 	public static void test10() {
@@ -592,12 +708,18 @@ public class Class08_String2 {
 		System.out.println(i1);
 	}
 	public static void test10_1() {
-		String input = "a5b";  // abbbb cddee
+		String input = "a5b0c";  // abbbb cddee
 		
-		int counter = getNewLength(input);
-		System.out.println(counter);
+//		int counter = getNewLength(input);
+//		System.out.println(counter);
 		
 		String output = task10_decompress(input);
+		System.out.println(output);
+		System.out.println("--------------------");
+		String output2 = task10_decompress_1(input);
+		System.out.println(output2);
+		
+		
 	}
 	
 	public static String task10_decompress(String input) {
@@ -609,6 +731,7 @@ public class Class08_String2 {
 		char[] array = new char[newLen];
 		
 		int end = newLen - 1;
+		
 		for(int i = input.length() - 1; i >= 0; i --) {
 			if (isChar(input.charAt(i))) {
 				if (i == input.length() - 1) {
@@ -630,7 +753,7 @@ public class Class08_String2 {
 						array[end --] = input.charAt(i);
 					}
 				}
-			}
+			} 
 		}
 		
 		String rev = new String(array);
@@ -674,6 +797,42 @@ public class Class08_String2 {
 		return ch >= '0' && ch <= '9';
 	}
 	
+	
+	public static String task10_decompress_1(String input) {
+		if (input == null || input.length() == 0) {
+			return input;
+		}
+		StringBuilder stb = new StringBuilder();
+		int s = 0, f = 1;
+		
+		while(f < input.length()) {
+			if (Character.isDigit(input.charAt(f))) {
+				f++;
+			} else {
+				// f points to an char
+				// get the counter of the previous char, which pointed by s
+				String count_s = input.substring(s + 1, f);
+				int count = count_s.isEmpty() ? 1 : Integer.parseInt(count_s);
+				
+				while (count > 0) {
+					stb.append(input.charAt(s));
+					count --;
+				}
+				// update s
+				s = f;
+				f ++;
+			}
+		}
+		// for the last count
+		String count_s = input.substring(s + 1, f);
+		int count = count_s.isEmpty() ? 1 : Integer.parseInt(count_s);
+		
+		while (count > 0) {
+			stb.append(input.charAt(s));
+			count --;
+		}
+		return stb.toString();
+	}
 	
 	
 	/*
@@ -816,15 +975,4 @@ public class Class08_String2 {
 		
 		return new String(array);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
 }

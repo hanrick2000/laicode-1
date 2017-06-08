@@ -8,6 +8,7 @@ public class Card {
 		faceValue = c;
 		suit = s;
 	}
+	
 	public int value() {
 		return faceValue;
 	}
