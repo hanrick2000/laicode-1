@@ -24,6 +24,7 @@ public class Class17_Practice {
 		int res = task2_1_sum(a);
 		System.out.println(res);
 	}
+	
 	public static int task2_1_sum(int[] a) {
 		int lastMax = 0;
 		int result = Integer.MIN_VALUE;
