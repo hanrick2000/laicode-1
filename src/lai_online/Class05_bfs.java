@@ -1056,15 +1056,13 @@ public class Class05_bfs {
 		}
 
 		Comparator<Coordinate> myComp = new Comparator<Coordinate>() {
-
 			@Override
 			public int compare(Coordinate o1, Coordinate o2) {
 				// TODO Auto-generated method stub
 				return o1.level - o2.level;
 			}
 		};
-		PriorityQueue<Coordinate> minHeap = new PriorityQueue<Coordinate>(rLen
-				* cLen, myComp);
+		PriorityQueue<Coordinate> minHeap = new PriorityQueue<Coordinate>(rLen * cLen, myComp);
 
 		// visit the border of the matrix
 		for (int i = 0; i < rLen; i++) {

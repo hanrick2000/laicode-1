@@ -34,6 +34,7 @@ public class Ch11_recursion2 {
 	 * Given a string and an abbreviation, return if the string matches the abbreviation.  
 	 * Assume the original string only contains alphabetic characters. 
 	 * For example:  “s11d” matches “sophisticated”.
+	 * 
 	 */
 	public static void test3_1() {
 		String s1 = "book";
@@ -98,10 +99,24 @@ public class Ch11_recursion2 {
 	 *5.4: lowest common ancestor of given K nodes in binary tree
 	 * assumption: there is no parent pointer for the nodes in the binary tree
 	 *             The given K nodes are guaranteed to be in the binary tree
+	 *             
 	 */
+	/*
+	 * 1. What do you expect from your lchild / rchild?
+	 * 2. What do you want to do in the current layer?
+	 * 3. What do you want to report to your parent? (same as Q1 == Q3)
+	 *     it is usually the return type of the Recursion function
+	 * */
+	
 	public TreeNode t5_1_lowestCommonAncestor(TreeNode root, TreeNode one,
 			TreeNode two) {
 		// write your solution here
+		
+		/**
+		 * 1. What do you expect from your lchild / rchild?
+				whether there is a OR b in its left subtree, return a or b’ pointer if Yes
+				whether there is a OR b in its right subtree, return a or b’s pointer if Yes
+		 */
 		if (root == null) {
 			return null;
 		}
@@ -111,13 +126,22 @@ public class Ch11_recursion2 {
 		if (root == two) {
 			return root;
 		}
+		 
+		 /* 2. What do you want to do in the current layer?
+				determine whether the value from lchild is NULL or not the value from rchild is NULL or not
+				if both are not NULL, then we need to update the value to report to my parent
+		 */
 		TreeNode left = t5_1_lowestCommonAncestor(root.left, one, two);
 		TreeNode right = t5_1_lowestCommonAncestor(root.right, one, two);
 
 		if (left != null && right != null) {
 			return root;
 		}
-
+		
+		/*
+		3. What do you want to report to your parent? (same as Q1 == Q3)
+				it is usually the return type of the Recursion function
+		*/
 		return left != null ? left : right;
 	}
 

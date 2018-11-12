@@ -61,6 +61,19 @@ public class Class14_Trie_Suffix {
 		insert2(root.children.get(next), str.substring(1));
 	}
 	
+	public static void insert3(TrieNode root, String str) {
+		TrieNode node = root;
+		for (int i = 0; i < str.length(); i++) {
+			char ch = str.charAt(i);
+			if (!node.children.containsKey(ch)) {
+				node.children.put(ch, new TrieNode());
+			}
+			node.children.get(ch).visited ++;
+			node = node.children.get(ch);
+		}
+		node.isEnd = true;
+	}
+	
 	// search the str in Trie. return 
 	public static TrieNode search(TrieNode root, String str) {
 		TrieNode curNode = root;

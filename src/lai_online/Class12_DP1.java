@@ -32,7 +32,7 @@ public class Class12_DP1 {
 	 * 
 	 */
 	
-	public static int longest(int[] array) {
+	public static int task1_longest_ascending_subarray(int[] array) {
 	    // write your solution here
 	    if(array == null || array.length == 0) {
 	      return 0;

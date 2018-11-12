@@ -799,8 +799,6 @@ public class  Class5_Arrays2 {
 		}
 		System.out.println("3  global_max " + global_max);
 		return global_max;
-		
-		
 	}
 	
 	

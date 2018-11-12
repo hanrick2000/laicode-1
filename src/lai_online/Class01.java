@@ -68,8 +68,6 @@ public class Class01 {
 	 * 
 	 * {1} --> {1} 
 	 * {1, 0, 3, 0, 1} --> {1, 3, 1, 0, 0} or {1, 1, 3, 0, 0} or {3,1, 1, 0, 0}
-	 * 
-	 * 
 	 */
 	public static void test2() {
 		int[] array = {1,0,3,0,1};
@@ -153,7 +151,7 @@ public class Class01 {
 	 * p2 == 1, swap(array, p2, p3), p3 --;
 	 */
 	public static void test3() {
-		int[] array = {1,0, 0};
+		int[] array = {1,0, 0, -1 , 0, 1};
 		System.out.println(Arrays.toString(array));
 		task3_rainbow_sort(array);
 		System.out.println(Arrays.toString(array));

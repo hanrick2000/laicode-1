@@ -14,8 +14,8 @@ public class Class7_PriorityQueue {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 //		test4();
-//		test2();
-		test1();
+		test2();
+//		test1();
 //		test2_3();
 //		test4();
 //		test5();
@@ -46,12 +46,33 @@ public class Class7_PriorityQueue {
 	 * }  
 	 */
 	
+	public static void test1() {
+		int[][] matrix = {
+				{},
+				{1,5,7},
+				{4},
+				{2,3,5,11},
+				{2,4,4,6,8}
+		};
+//		int[] merge = task1_2MergeKSortedArray(matrix);
+		
+		List<int[]> listOfArrays = new ArrayList<int[]>();
+		for(int i = 0; i < matrix.length; i ++) {
+			listOfArrays.add(matrix[i]);
+		}
+		int[] merge = task1_1MergeKSortedArray(listOfArrays);
+		for(int i = 0; i < merge.length ; i ++) {
+			System.out.print(merge[i] + " ");
+		}
+		System.out.println();
+	}
+	
 	// binary reduction
-	public static int[] task1_1MergeKSortedArray(ArrayList<int[]> listOfArrays) {
+	public static int[] task1_1MergeKSortedArray(List<int[]> listOfArrays) {
 		return task1_1Helper(listOfArrays, 0, listOfArrays.size() - 1);
 	} 
 	
-	public static int[] task1_1Helper(ArrayList<int[]> listOfArrays, int left, int right) {
+	public static int[] task1_1Helper(List<int[]> listOfArrays, int left, int right) {
 		if (left == right) {
 			return listOfArrays.get(left);
 		}
@@ -93,28 +114,11 @@ public class Class7_PriorityQueue {
 		return mergedArray;
 	}
 	
-	public static void test1() {
-		int[][] matrix = {
-				{},
-				{1,5,7},
-				{4},
-				{2,3,5,11},
-				{2,4,4,6,8}
-		};
-//		int[] merge = task1_2MergeKSortedArray(matrix);
-		
-		ArrayList<int[]> listOfArrays = new ArrayList<int[]>();
-		for(int i = 0; i < matrix.length; i ++) {
-			listOfArrays.add(matrix[i]);
-		}
-		int[] merge = task1_1MergeKSortedArray(listOfArrays);
-		for(int i = 0; i < merge.length ; i ++) {
-			System.out.print(merge[i] + " ");
-		}
-		System.out.println();
-	}
+
 	
-	
+	/**
+	 * mimHeap
+	 */
 	public static class HeapElement {
 		public int val;
 		public int index;
@@ -126,12 +130,19 @@ public class Class7_PriorityQueue {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param arrayOfArrays
+	 * @return
+	 * 
+	 * heapSize: rows length of the 2D arrays
+	 */
 	public static int[] task1_2MergeKSortedArray(int[][] arrayOfArrays) {
 		if (arrayOfArrays == null || arrayOfArrays.length == 0 ) {
 			return null;
 		}
 		int rowLen = arrayOfArrays.length;
-		ArrayList<Integer> rev = new ArrayList<Integer>();
+		List<Integer> rev = new ArrayList<Integer>();
 		Comparator<HeapElement> myComp = new Comparator<HeapElement>() {
 			@Override
 			public int compare(HeapElement o1, HeapElement o2) {
@@ -142,6 +153,7 @@ public class Class7_PriorityQueue {
 				return o1.val < o2.val ? -1 : 1; 
 			}
 		};
+		
 		// create a minHeap
 		PriorityQueue<HeapElement> q = new PriorityQueue<HeapElement>(rowLen, myComp);
 		
@@ -165,6 +177,7 @@ public class Class7_PriorityQueue {
 			}
 		}
 		
+		// convert the result list to array
 		int[] result = new int[rev.size()];
 		for(int i = 0; i < rev.size(); i ++) {
 			result[i] = rev.get(i);
@@ -172,7 +185,7 @@ public class Class7_PriorityQueue {
 		return result;
 	}
 	
-	
+
 	/*
 	 * task2 How to merge k sorted LinkedList into one big Linked List. 
 	 * simpler. 
@@ -209,6 +222,7 @@ public class Class7_PriorityQueue {
 		System.out.println("------------------------");
 		Debug.printLinkedList(rev);
 	} 
+	
 	
 	// method 1: binary reduction
 	public static ListNode task2_1MergeKList(List<ListNode> listOfLists) {
@@ -265,11 +279,13 @@ public class Class7_PriorityQueue {
 		
 		// minHeap
 		PriorityQueue<ListNode> q = new PriorityQueue<ListNode>(size, new Comparator<ListNode>() {
-
 			@Override
 			public int compare(ListNode o1, ListNode o2) {
 				// TODO Auto-generated method stub
-				return o1.value - o2.value;
+				if (o1.value == o2.value) {
+					return 0;
+				}
+				return o1.value < o2.value ? -1 : 1;
 			}
 
 		});

@@ -57,15 +57,13 @@ public class Class4_Arrays1 {
 	
 	/*
 	 * task1.2 Majority Number -Enhanced
-	 * There are possibly some numbers in a sized N array that exists > N / ​3​times, how do you find the numbers?
+	 * There are possibly some numbers in a sized N array that exists > N / ​3​ times, how do you find the numbers?
 	 * Example: int[] array = {1, 2, 3, 1, 1, 2, 2, 3, 4, 1, 2}
 	 * return [1,2].  max # of result is 2. 
 	 * 
 	 * two candidates, with their counter
 	 * candidate1, count1
 	 * candidate2, count2
-	 * 
-	 * 
 	 */
 	 
 	 public static void majority2(int[] input) {

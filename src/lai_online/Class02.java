@@ -60,7 +60,25 @@ public class Class02 {
 	 * case.
 	 */
 	public static int task2_binary_search(int[] array, int target) {
-		return -1;
+		int l = 0, r = array.length - 1;
+		while (l < r - 1) {
+			int mid = l + (r - l)/2;
+			if (array[mid] == target) {
+				return mid;
+			} else if (target < array[mid]) {
+				// left
+				r = mid;
+			} else {
+				l = mid;
+			}
+		}
+		if (array[l] == target) {
+			return l;
+		} else if (array[r] == target) {
+			return r;
+		} else {
+			return -1;
+		}
 	}
 	
 
@@ -81,7 +99,10 @@ public class Class02 {
 	 * 
 	 * What if A is null or A of zero length? We should return -1 in this case.
 	 */
+	
 	public static int task3_first_occurence(int[] array, int target) {
+		int l = 0, r = array.length - 1;
+		
 		return -1;
 	}
 

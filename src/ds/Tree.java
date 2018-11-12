@@ -61,6 +61,7 @@ public class Tree {
 		System.out.println();
 	}
 	
+	
 	public static void preOrder2(TreeNode root) {
 		if (root == null) {
 			return ;
