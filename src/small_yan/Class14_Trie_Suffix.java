@@ -19,8 +19,8 @@ public class Class14_Trie_Suffix {
 //		test();
 //		test3();
 //		test5();
-		test6();
-//		test8();
+//		test6();
+		test8();
 	}
 	public static class TrieNode{
 		Map<Character, TrieNode> children;
@@ -86,6 +86,7 @@ public class Class14_Trie_Suffix {
 		}
 		return curNode;
 	}
+	
 	
 	public static void remove(TrieNode root, String str) {
 		TrieNode curNode = root;
@@ -321,7 +322,7 @@ public class Class14_Trie_Suffix {
 	}
 	
 	public static void task4_helper(List<String> result, TrieNode node, int allURLnum, StringBuilder stb) {
-		if (node.visited > allURLnum *3/4) {
+		if (node.visited > allURLnum * 3/4) {
 			String prefix = stb.toString();
 			result.add(prefix);
 			return ;
@@ -333,6 +334,7 @@ public class Class14_Trie_Suffix {
 			stb.deleteCharAt(stb.length() - 1);
 		}
 	}
+	
 	
 	
 	/*
@@ -596,13 +598,13 @@ public class Class14_Trie_Suffix {
 //		}
 		
 		// out of bound
-		if (trie == null || rowIndex < 0 || rowIndex >= board.length
-				|| colIndex < 0 || colIndex >= board[0].length) {
+		if (trie == null || 
+			rowIndex < 0 || rowIndex >= board.length || 
+			colIndex < 0 || colIndex >= board[0].length) {
 			return;
 		}
 		// 
-		if (trie.children.get(board[rowIndex][colIndex]) == null
-				|| visited[rowIndex][colIndex]) {
+		if (trie.children.get(board[rowIndex][colIndex]) == null || visited[rowIndex][colIndex]) {
 			return;
 		}
 
@@ -812,10 +814,6 @@ public class Class14_Trie_Suffix {
 	 *  an -> [1,3]
 	 *  an -> [1,3,5]
 	 */
-	
-	
-	
-	
 	
 	
 }

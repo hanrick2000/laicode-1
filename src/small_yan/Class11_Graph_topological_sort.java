@@ -181,6 +181,9 @@ public class Class11_Graph_topological_sort {
 //		graph.add(n5);
 		boolean rev = task4_directedGraphHasCycle(graph);
 		System.out.println("rev = " + rev);
+		
+		boolean rev2 = task4_directedGraphHasCycle2(graph);
+		System.out.println("rev2 = " + rev2);
 	}
 	
 	public static boolean directed_graph_has_cycle = false;
@@ -234,17 +237,64 @@ public class Class11_Graph_topological_sort {
 
 	
 	
+	public static boolean task4_directedGraphHasCycle2(List<GraphNode> graph) {
+		HashSet<GraphNode> visited = new HashSet<GraphNode>();
+		HashSet<GraphNode> visiting = new HashSet<GraphNode>();
+		
+		boolean result = false;
+		for(GraphNode node: graph) {
+			result = result | task4_directed_graph_has_cycle(node, visited, visiting);
+		}
+		return result;
 	
-	
-	public static boolean task4_determineDirectedGraphIsTree(List<GraphNode> graph) {
-		return false;
 	}
+	
+	public static boolean task4_directed_graph_has_cycle(GraphNode node, HashSet<GraphNode> visited, HashSet<GraphNode> visiting) {
+		// the node is already visited, exit
+		if (visited.contains(node)) {
+			return false;
+		}
+		// the node in visiting, which means it's being visited via another path. 
+		// if we come here again, from a new path, there must be a cycle. 
+		if (visiting.contains(node)) {
+			directed_graph_has_cycle = true;
+			return true;
+		}
+		// add the node to visiting set
+		visiting.add(node);
+		// visit its neighbors
+		boolean hasCycle = false;
+		for(GraphNode nei: node.neighbors) {
+			hasCycle = hasCycle | task4_directed_graph_has_cycle(nei, visited, visiting);
+		}
+		// if all neighbors finished, add to visited
+		visited.add(node);
+		// remove the node from visiting, since its already visited
+		visiting.remove(node);
+		return hasCycle;
+	}
+	
 	
 
 	
 	// this we use n node from 0..n-1 and the adjacentMatrix
+	
+	/**
+	 * 
+	 * @param n
+	 * @param adjacentMatrix
+	 * @return
+	 * 
+	 * 1. edge num: n - 1
+	 * 2: no cycle
+	 */
 	public static boolean task4_determineUndirectedGraphIsTree(int n, int[][] adjacentMatrix) {
-		return false;
+		for (int i = 0; i < n; i++) {
+			if (task4_undirectedGraphHasCycle(i, adjacentMatrix)) {
+				return false;
+			}
+		}
+		return adjacentMatrix.length == n - 1;
 	}
 	
 	
@@ -273,13 +323,13 @@ public class Class11_Graph_topological_sort {
 	
 	public static boolean task4_un_hasCycle_helper(int n, int[][] adjacentMatrix, boolean[] visited, int parent) {
 		visited[n] = true;
-		
 		for(int i = 0; i < adjacentMatrix[n].length; i ++) {
 			if (adjacentMatrix[n][i] == 1) { // i is n's neighbor
 				if (visited[i] == true) {
 					// here we need to introduce parent. 
 					// 1 -> 2, we visited 1, visited[1] = true
-					// when we visited 2, visited[1] = true, but i = 2 == parent, so, this is NOT cycle
+					// when we visited 2, visited[1] = true, but here, 1 is 2's parent 
+					// so, this is NOT cycle in this case
 					// if i != parent, which means there is a cycle
 					if (i != parent) {
 						return true;
@@ -342,7 +392,7 @@ public class Class11_Graph_topological_sort {
 		graph.add(n1);
 		graph.add(n2);
 		graph.add(n3);
-		ArrayList<GraphNode> topSort = topologicalSort(graph);
+		List<GraphNode> topSort = topologicalSort(graph);
 
 		System.out.println("==========top sort1 ===========");
 		for (GraphNode node : topSort) {
@@ -379,12 +429,13 @@ public class Class11_Graph_topological_sort {
 		n7.neighbors.add(n8);
 		
 		n5.neighbors.add(n11);
+		
 		n3.neighbors.add(n8);
 		n3.neighbors.add(n10);
 		
 		n11.neighbors.add(n2);
 		n11.neighbors.add(n9);
-		n11.neighbors.add(n10);
+//		n11.neighbors.add(n10);
 		
 		n8.neighbors.add(n9);
 		
@@ -400,7 +451,7 @@ public class Class11_Graph_topological_sort {
 		graph.add(n9);
 		graph.add(n10);
 		
-		ArrayList<GraphNode> topSort = topologicalSort(graph);
+		List<GraphNode> topSort = topologicalSort(graph);
 
 		System.out.println("==========top sort1 ===========");
 		for (GraphNode node : topSort) {
@@ -410,7 +461,7 @@ public class Class11_Graph_topological_sort {
 		
 		
 		System.out.println("==========top sort2 ===========");
-		ArrayList<GraphNode> topSort2 = topologicalSort2(graph);
+		List<GraphNode> topSort2 = topologicalSort2(graph);
 		for (GraphNode node : topSort2) {
 			System.out.print(node.key + "  ");
 		}
@@ -420,7 +471,7 @@ public class Class11_Graph_topological_sort {
 	
 	
 
-	public static ArrayList<GraphNode> topologicalSort(
+	public static List<GraphNode> topologicalSort(
 			ArrayList<GraphNode> graph) {
 		ArrayList<GraphNode> result = new ArrayList<GraphNode>();
 		HashMap<GraphNode, Integer> map = new HashMap<GraphNode, Integer>();
@@ -530,17 +581,33 @@ public class Class11_Graph_topological_sort {
 		}
 		
 		visiting.add(n);
+		
 		for(GraphNode neighbor : n.neighbors) {
 			visit(neighbor, visited, visiting, list);
 		}
+//		System.out.println("@@@@@@@@");
+//		System.out.println("!!!!! n: " + n.key);
 		visited.add(n);
 		visiting.remove(n);
+//		System.out.print("visited " );
+//		printSet(visited);
+		
+//		System.out.print("visiting ");
+//		printSet(visiting);
+		
 		list.add(n);
-		System.out.println("--------");
-		printList(list);
-		System.out.println("========");
+//		System.out.println("--------");
+//		printList(list);
+//		System.out.println("========");
 	}
 	
+	
+	public static void printSet(Set<GraphNode> set) {
+		for (GraphNode n: set) {
+			System.out.print(n.key + " ");
+		}
+		System.out.println();
+	}
 	public static void printList(ArrayList<GraphNode> list) {
 		for(GraphNode n: list) {
 			System.out.print(n.key + " ");
