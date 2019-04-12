@@ -1,7 +1,6 @@
 package small_yan;
 
-import java.util.ArrayList;
-import java.util.PriorityQueue;
+import java.util.*;
 
 
 public class Class10_Ocean {
@@ -21,11 +20,18 @@ public class Class10_Ocean {
 	};
 	
 	public static void test() {
-		ArrayList<Pair> result = continental_divide(matrix);
+		List<Pair> result = continental_divide(matrix);
 		
 		for(int i = 0; i < result.size(); i ++) {
 			System.out.println(result.get(i));
 		}
+		
+		
+		List<int[]> res = pacificAtantic(matrix);
+		for (int[] cell: res) {
+			System.out.println(cell[0] + " , " + cell[1]);
+		}
+		System.out.println();
 	}
 	
 	public static class Pair implements Comparable<Pair>{
@@ -56,8 +62,8 @@ public class Class10_Ocean {
 			return "x = " + this.x + " " +"y = " + this.y + " " + "height = " + this.height;
 		}
 	}
-	public static ArrayList<Pair> continental_divide (int[][] matrix) {
-		ArrayList<Pair> result = new ArrayList<Pair>();
+	public static List<Pair> continental_divide (int[][] matrix) {
+		List<Pair> result = new ArrayList<Pair>();
 		int rLen = matrix.length;
 		int cLen = matrix[0].length;
 		boolean[][] visited1 = new boolean[rLen][cLen];
@@ -188,5 +194,73 @@ public class Class10_Ocean {
 			System.out.println();
 		}
 	}
-
+	
+	
+	
+	public static int[][] dir = new int[][] {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+	public static List<int[]> pacificAtantic(int[][] matrix) {
+		List<int[]> result = new ArrayList<int[]>();
+		if (matrix == null || matrix.length == 0 || matrix[0] == null || matrix[0].length == 0) {
+			return result;
+		}
+		int m = matrix.length;
+		int n = matrix[0].length;
+		
+		boolean[][] pacific = new boolean[m][n];
+		boolean[][] atlantic = new boolean[m][n];
+		
+		Queue<int[]> pQueue = new LinkedList<int[]>();
+		Queue<int[]> aQueue = new LinkedList<int[]>();
+		
+		// vertical boarde
+		for (int i = 0; i < m; i++) {
+			 pQueue.offer(new int[]{i, 0});
+	         aQueue.offer(new int[]{i, n-1});
+	         pacific[i][0] = true;
+	         atlantic[i][m-1] = true;
+		}
+		
+		// horizonal boarder
+		for (int j = 0; j < n; j++) {
+			pQueue.offer(new int[]{0, j});
+            aQueue.offer(new int[]{m-1, j});
+            pacific[0][j] = true;
+            atlantic[n-1][j] = true;
+		}
+		
+		bfs(matrix, aQueue, atlantic);
+		bfs(matrix, pQueue, pacific);
+		
+		// find the overlap
+		for (int i = 0; i < m; i++) {
+			for (int j =0; j < n; j++) {
+				if (atlantic[i][j] && pacific[i][j]) {
+					result.add(new int[] {i, j});
+				}
+			}
+		}
+		
+		return result;
+	}
+	
+	private static void bfs(int[][] matrix, Queue<int[]> queue, boolean[][] visited) {
+		int m = visited.length;
+		int n = visited[0].length;
+		while (!queue.isEmpty()) {
+			int[] cur = queue.poll();
+			for (int[] d: dir) {
+				int x = cur[0] + d[0];
+				int y = cur[1] + d[1];
+				if (x < 0 || x >= m || y < 0 || y >= n || visited[x][y] || matrix[x][y] < matrix[cur[0]][cur[1]]) {
+					continue;
+				}
+				visited[x][y] = true;
+				queue.offer(new int[] {x, y});
+			}
+		}
+	}
+	
+	
+	
 }
+

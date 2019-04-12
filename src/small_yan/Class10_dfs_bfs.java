@@ -12,10 +12,10 @@ public class Class10_dfs_bfs {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 //		test1();
-//		test2();
+		test2();
 //		test3();
 //		test17();
-		test17_1();
+//		test17_1();
 //		test17_2();
 	}
 	
@@ -33,42 +33,19 @@ public class Class10_dfs_bfs {
 	 */
 	public static void test1() {
 		int num = 12;
-		ArrayList<ArrayList<Integer>> result = task1_divide(num);
+		List<List<Integer>> result = task1_divide(num);
 		System.out.println("result is ");
 		System.out.println(result);
 	}
 	
-	public static ArrayList<ArrayList<Integer>> task1_divide(int num) {
-		ArrayList<Integer> path = new ArrayList<Integer>();
-		ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
-		
+	public static List<List<Integer>> task1_divide(int num) {
+		List<Integer> path = new ArrayList<Integer>();
+		List<List<Integer>> result = new ArrayList<List<Integer>>(); 		
 //		task1_helper(num, path, result);
 		task1_helper_better(num, path, result);
 		return result;
 	}
 	
-	public static void task1_helper(int num, ArrayList<Integer> path, ArrayList<ArrayList<Integer>> result) {
-		if (num == 1) {
-			ArrayList<Integer> copy = new ArrayList<Integer>(path);
-			Collections.sort(copy);
-			Collections.reverse(copy);
-			if (!result.contains(copy)) {
-				result.add(copy);
-			}
-			return ;
-		}
-//		System.out.println("num = " + num);
-		for(int i = num; i > 1; i --) {
-			if (num %i == 0) {
-				path.add(i);
-				System.out.println(path);
-				task1_helper(num/i, path, result);
-				path.remove(path.size() - 1);
-			}
-		}
-	}
-	
-	// a better solution
 	/*
 	 * 只要保证你生成的每个序列都是严格非递增的就可以了，下一层最大可以选的数是上一层选的数
 	 * 比如6，
@@ -77,9 +54,10 @@ public class Class10_dfs_bfs {
 	 * 如果选2，下一层可选的最大数是2
 	 * 这样就不会有重复。
 	 */
-	public static void task1_helper_better(int num, 
-			ArrayList<Integer> path, 
-			ArrayList<ArrayList<Integer>> result) {
+	public static void task1_helper_better(
+			int num, 
+			List<Integer> path, 
+			List<List<Integer>> result) {
 		if (num == 1) {
 			result.add(new ArrayList<Integer>(path));
 			return ;
@@ -111,20 +89,20 @@ public class Class10_dfs_bfs {
 	
 	public static void test2() {
 		int n = 4;
-		ArrayList<ArrayList<Integer>> result = task2_uniqueComb(n);
+		List<List<Integer>> result = task2_uniqueComb(n);
 		System.out.println(result);
 	}
 	
-	public static ArrayList<ArrayList<Integer>> task2_uniqueComb(int n) {
-		ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
-		ArrayList<Integer> path = new ArrayList<Integer>();
+	public static List<List<Integer>> task2_uniqueComb(int n) {
+		List<List<Integer>> result = new ArrayList<List<Integer>>();
+		List<Integer> path = new ArrayList<Integer>();
 		task2_helper(n, result, path);
 		return result;
 	}
 	
 	// this is a helper function to get the result
 	// ArrayList<Integer> path is used to store temporary result
-	public static void task2_helper(int n, ArrayList<ArrayList<Integer>> result, ArrayList<Integer> path) {
+	public static void task2_helper(int n, List<List<Integer>> result, List<Integer> path) {
 		if (n < 0) {
 			return ;
 		}
